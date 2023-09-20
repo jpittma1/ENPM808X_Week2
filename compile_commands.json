@@ -1,0 +1,194 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/include",
+      "-I/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest",
+      "-Wall",
+      "-Wshadow",
+      "-Wundef",
+      "-Wno-error=dangling-else",
+      "-DGTEST_HAS_PTHREAD=1",
+      "-fexceptions",
+      "-Wextra",
+      "-Wno-unused-parameter",
+      "-Wno-missing-field-initializers",
+      "-std=c++14",
+      "-c",
+      "-o",
+      "CMakeFiles/gtest.dir/src/gtest-all.cc.o",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/src/gtest-all.cc"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googletest",
+    "file": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/src/gtest-all.cc",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock/include",
+      "-I/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/include",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest",
+      "-Wall",
+      "-Wshadow",
+      "-Wundef",
+      "-Wno-error=dangling-else",
+      "-DGTEST_HAS_PTHREAD=1",
+      "-fexceptions",
+      "-Wextra",
+      "-Wno-unused-parameter",
+      "-Wno-missing-field-initializers",
+      "-std=c++14",
+      "-c",
+      "-o",
+      "CMakeFiles/gmock.dir/src/gmock-all.cc.o",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock/src/gmock-all.cc"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googlemock",
+    "file": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock/src/gmock-all.cc",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock/include",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/include",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest",
+      "-Wall",
+      "-Wshadow",
+      "-Wundef",
+      "-Wno-error=dangling-else",
+      "-DGTEST_HAS_PTHREAD=1",
+      "-fexceptions",
+      "-Wextra",
+      "-Wno-unused-parameter",
+      "-Wno-missing-field-initializers",
+      "-std=c++14",
+      "-c",
+      "-o",
+      "CMakeFiles/gmock_main.dir/src/gmock_main.cc.o",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock/src/gmock_main.cc"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googlemock",
+    "file": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googlemock/src/gmock_main.cc",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/include",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest",
+      "-Wall",
+      "-Wshadow",
+      "-Wundef",
+      "-Wno-error=dangling-else",
+      "-DGTEST_HAS_PTHREAD=1",
+      "-fexceptions",
+      "-Wextra",
+      "-Wno-unused-parameter",
+      "-Wno-missing-field-initializers",
+      "-std=c++14",
+      "-c",
+      "-o",
+      "CMakeFiles/gtest_main.dir/src/gtest_main.cc.o",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/src/gtest_main.cc"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googletest",
+    "file": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/src/gtest_main.cc",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib1/.",
+      "-std=gnu++14",
+      "-c",
+      "-o",
+      "CMakeFiles/myLib1.dir/src.cpp.o",
+      "/home/jerry/cpp-boilerplate-v2/libs/lib1/src.cpp"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/libs/lib1",
+    "file": "/home/jerry/cpp-boilerplate-v2/libs/lib1/src.cpp",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/libs/lib1/CMakeFiles/myLib1.dir/src.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib2/.",
+      "-std=gnu++14",
+      "-c",
+      "-o",
+      "CMakeFiles/myLib2.dir/src.cpp.o",
+      "/home/jerry/cpp-boilerplate-v2/libs/lib2/src.cpp"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/libs/lib2",
+    "file": "/home/jerry/cpp-boilerplate-v2/libs/lib2/src.cpp",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/libs/lib2/CMakeFiles/myLib2.dir/src.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/include",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib1/.",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib2/.",
+      "-std=gnu++14",
+      "-c",
+      "-o",
+      "CMakeFiles/shell-app.dir/main.cpp.o",
+      "/home/jerry/cpp-boilerplate-v2/app/main.cpp"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/app",
+    "file": "/home/jerry/cpp-boilerplate-v2/app/main.cpp",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/app/CMakeFiles/shell-app.dir/main.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/include",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib1/.",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib2/.",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/include",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest",
+      "-std=gnu++14",
+      "-c",
+      "-o",
+      "CMakeFiles/cpp-test.dir/main.cpp.o",
+      "/home/jerry/cpp-boilerplate-v2/test/main.cpp"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/test",
+    "file": "/home/jerry/cpp-boilerplate-v2/test/main.cpp",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/test/CMakeFiles/cpp-test.dir/main.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/jerry/cpp-boilerplate-v2/include",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib1/.",
+      "-I/home/jerry/cpp-boilerplate-v2/libs/lib2/.",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest/include",
+      "-isystem",
+      "/home/jerry/cpp-boilerplate-v2/build/_deps/googletest-src/googletest",
+      "-std=gnu++14",
+      "-c",
+      "-o",
+      "CMakeFiles/cpp-test.dir/test.cpp.o",
+      "/home/jerry/cpp-boilerplate-v2/test/test.cpp"
+    ],
+    "directory": "/home/jerry/cpp-boilerplate-v2/build/test",
+    "file": "/home/jerry/cpp-boilerplate-v2/test/test.cpp",
+    "output": "/home/jerry/cpp-boilerplate-v2/build/test/CMakeFiles/cpp-test.dir/test.cpp.o"
+  }
+]
