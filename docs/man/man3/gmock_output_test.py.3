@@ -1,0 +1,84 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock_output_test.py" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock_output_test.py
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBgmock_output_test\&.GMockOutputTest\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBgmock_output_test\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBgmock_output_test\&.ToUnixLineEnding\fP (s)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.RemoveReportHeaderAndFooter\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.RemoveLocations\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.NormalizeErrorMarker\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.RemoveMemoryAddresses\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.RemoveTestNamesOfLeakedMocks\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.GetLeakyTests\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.GetNormalizedOutputAndLeakyTests\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.GetShellCommandOutput\fP (cmd)"
+.br
+.ti -1c
+.RI "def \fBgmock_output_test\&.GetNormalizedCommandOutputAndLeakyTests\fP (cmd)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "string \fBgmock_output_test\&.GENGOLDEN_FLAG\fP = '\-\-gengolden'"
+.br
+.ti -1c
+.RI "\fBgmock_output_test\&.PROGRAM_PATH\fP = \fBgmock_test_utils\&.GetTestExecutablePath\fP('gmock_output_test_')"
+.br
+.ti -1c
+.RI "list \fBgmock_output_test\&.COMMAND\fP = [PROGRAM_PATH, '\-\-gtest_stack_trace_depth=0', '\-\-gtest_print_time=0']"
+.br
+.ti -1c
+.RI "string \fBgmock_output_test\&.GOLDEN_NAME\fP = 'gmock_output_test_golden\&.txt'"
+.br
+.ti -1c
+.RI "\fBgmock_output_test\&.GOLDEN_PATH\fP = os\&.path\&.join(\fBgmock_test_utils\&.GetSourceDir\fP(), GOLDEN_NAME)"
+.br
+.ti -1c
+.RI "\fBgmock_output_test\&.output\fP"
+.br
+.ti -1c
+.RI "\fBgmock_output_test\&.golden_file\fP = open(GOLDEN_PATH, 'wb')"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

@@ -1,0 +1,26 @@
+.TH "ConvertibleGlobalType" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ConvertibleGlobalType
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class T , std::enable_if_t< false, std::enable_if_t< std::is_constructible< T >::value, int >>  = 0> \fBoperator T\fP () const"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 76 of file gtest_unittest\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class T , std::enable_if_t< false, std::enable_if_t< std::is_constructible< T >::value, int >>  = 0> ConvertibleGlobalType::operator T () const"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

@@ -1,0 +1,269 @@
+.TH "build/_deps/googletest-src/googlemock/include/gmock/internal/gmock-internal-utils.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/include/gmock/internal/gmock-internal-utils.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gmock/internal/gmock\-port\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::internal::KindOf< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::FailureReporterInterface\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::WithoutMatchers\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::StlContainerView< RawContainer >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::StlContainerView< Element[N]>\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::StlContainerView< ::std::tuple< ElementPointer, Size > >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveConstFromKey< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveConstFromKey< std::pair< const K, V > >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::Function< R(Args\&.\&.\&.)>\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_WARNING_PUSH\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_WARNING_CLANG\fP(Level,  Name)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_WARNING_POP\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_WCHAR_T_IS_NATIVE_\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DECLARE_KIND_\fP(type,  kind)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_KIND_OF_\fP(type)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "template<TypeKind kFromKind, typename From , TypeKind kToKind, typename To > using \fBtesting::internal::LosslessArithmeticConvertibleImpl\fP = std::integral_constant< bool,(kFromKind==kBool) ? true :(kFromKind !=kToKind) ? false :(kFromKind==kInteger &&(((sizeof(From)< sizeof(To)) &&!(std::is_signed< From >::\fBvalue\fP &&!std::is_signed< To >::\fBvalue\fP))||((sizeof(From)==sizeof(To)) &&(std::is_signed< From >::\fBvalue\fP==std::is_signed< To >::\fBvalue\fP)))) ? true :(kFromKind==kFloatingPoint &&(sizeof(From)<=sizeof(To))) ? true :false >"
+.br
+.ti -1c
+.RI "template<typename From , typename To > using \fBtesting::internal::LosslessArithmeticConvertible\fP = LosslessArithmeticConvertibleImpl< \fBGMOCK_KIND_OF_\fP(From), From, \fBGMOCK_KIND_OF_\fP(To), To >"
+.br
+.ti -1c
+.RI "template<size_t I, typename T > using \fBtesting::internal::TupleElement\fP = typename std::tuple_element< I, T >::type"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtesting::internal::TypeKind\fP { \fBtesting::internal::kBool\fP, \fBtesting::internal::kInteger\fP, \fBtesting::internal::kFloatingPoint\fP, \fBtesting::internal::kOther\fP }"
+.br
+.ti -1c
+.RI "enum \fBtesting::internal::LogSeverity\fP { \fBtesting::internal::kInfo\fP = 0, \fBtesting::internal::kWarning\fP = 1 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::JoinAsKeyValueTuple\fP (const std::vector< const char * > &names, const Strings &values)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::ConvertIdentifierNameToWords\fP (const char *id_name)"
+.br
+.ti -1c
+.RI "template<typename Pointer > const Pointer::element_type * \fBtesting::internal::GetRawPointer\fP (const Pointer &\fBp\fP)"
+.br
+.ti -1c
+.RI "template<typename Element > const Element * \fBtesting::internal::GetRawPointer\fP (const std::reference_wrapper< Element > &r)"
+.br
+.ti -1c
+.RI "template<typename Element > Element * \fBtesting::internal::GetRawPointer\fP (Element *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (bool, kBool)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (char, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (signed char, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (unsigned char, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (short, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (unsigned short, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (int, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (unsigned int, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (long, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (unsigned long, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (long long, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (unsigned long long, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (wchar_t, kInteger)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (float, kFloatingPoint)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (double, kFloatingPoint)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DECLARE_KIND_\fP (long double, kFloatingPoint)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP FailureReporterInterface * \fBtesting::internal::GetFailureReporter\fP ()"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::Assert\fP (bool condition, const char *file, int line, const std::string &msg)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::Assert\fP (bool condition, const char *file, int line)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::Expect\fP (bool condition, const char *file, int line, const std::string &msg)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::Expect\fP (bool condition, const char *file, int line)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::LogIsVisible\fP (LogSeverity severity)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::Log\fP (LogSeverity severity, const std::string &message, int stack_frames_to_skip)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP WithoutMatchers \fBtesting::internal::GetWithoutMatchers\fP ()"
+.br
+.ti -1c
+.RI "template<typename T > T \fBtesting::internal::Invalid\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::IllegalDoDefault\fP (const char *file, int line)"
+.br
+.ti -1c
+.RI "template<typename F , typename Tuple , size_t\&.\&.\&. Idx> auto \fBtesting::internal::ApplyImpl\fP (F &&f, Tuple &&args, IndexSequence< Idx\&.\&.\&. >) \-> decltype(std::forward< F >(f)(std::get< Idx >(std::forward< Tuple >(args))\&.\&.\&.))"
+.br
+.ti -1c
+.RI "template<typename F , typename Tuple > auto \fBtesting::internal::Apply\fP (F &&f, Tuple &&args) \-> decltype(ApplyImpl(std::forward< F >(f), std::forward< Tuple >(args), MakeIndexSequence< std::tuple_size< typename std::remove_reference< Tuple >::type >::\fBvalue\fP >()))"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::Base64Unescape\fP (const std::string &encoded, std::string *decoded)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const char \fBtesting::internal::kInfoVerbosity\fP [] = 'info'"
+.br
+.ti -1c
+.RI "const char \fBtesting::internal::kWarningVerbosity\fP [] = 'warning'"
+.br
+.ti -1c
+.RI "const char \fBtesting::internal::kErrorVerbosity\fP [] = 'error'"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GMOCK_DECLARE_KIND_(type, kind)"
+\fBValue:\fP
+.PP
+.nf
+  template <>                           \
+  struct KindOf<type> {                 \
+    enum { value = kind };              \
+  }
+.fi
+.PP
+Definition at line 136 of file gmock\-internal\-utils\&.h\&.
+.SS "#define GMOCK_INTERNAL_WARNING_CLANG(Level, Name)"
+
+.PP
+Definition at line 99 of file gmock\-internal\-utils\&.h\&.
+.SS "#define GMOCK_INTERNAL_WARNING_POP()"
+
+.PP
+Definition at line 100 of file gmock\-internal\-utils\&.h\&.
+.SS "#define GMOCK_INTERNAL_WARNING_PUSH()"
+
+.PP
+Definition at line 98 of file gmock\-internal\-utils\&.h\&.
+.SS "#define GMOCK_KIND_OF_(type)"
+\fBValue:\fP
+.PP
+.nf
+  static_cast< ::testing::internal::TypeKind>( \
+      ::testing::internal::KindOf<type>::value)
+.fi
+.PP
+Definition at line 169 of file gmock\-internal\-utils\&.h\&.
+.SS "#define GMOCK_WCHAR_T_IS_NATIVE_   1"
+
+.PP
+Definition at line 119 of file gmock\-internal\-utils\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

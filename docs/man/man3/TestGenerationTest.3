@@ -1,0 +1,120 @@
+.TH "TestGenerationTest" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TestGenerationTest
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBtesting::TestWithParam< int >\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum { \fBPARAMETER_COUNT\fP }"
+.br
+.ti -1c
+.RI "typedef \fBTestGenerationEnvironment\fP< \fBPARAMETER_COUNT\fP > \fBEnvironment\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTestGenerationTest\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetUp\fP () override"
+.br
+.ti -1c
+.RI "void \fBTearDown\fP () override"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBSetUpTestSuite\fP ()"
+.br
+.ti -1c
+.RI "static void \fBTearDownTestSuite\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBcurrent_parameter_\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static vector< int > \fBcollected_parameters_\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+Definition at line 668 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "typedef \fBTestGenerationEnvironment\fP<\fBPARAMETER_COUNT\fP> \fBTestGenerationTest::Environment\fP"
+
+.PP
+Definition at line 675 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "anonymous enum"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIPARAMETER_COUNT \fP\fP
+.PP
+Definition at line 670 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "TestGenerationTest::TestGenerationTest ()\fC [inline]\fP"
+
+.PP
+Definition at line 677 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void TestGenerationTest::SetUp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::Test\fP\&.
+.PP
+Definition at line 681 of file googletest\-param\-test\-test\&.cc\&.
+.SS "static void TestGenerationTest::SetUpTestSuite ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Definition at line 690 of file googletest\-param\-test\-test\&.cc\&.
+.SS "void TestGenerationTest::TearDown ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::Test\fP\&.
+.PP
+Definition at line 685 of file googletest\-param\-test\-test\&.cc\&.
+.SS "static void TestGenerationTest::TearDownTestSuite ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Definition at line 711 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "vector< int > TestGenerationTest::collected_parameters_\fC [static]\fP, \fC [protected]\fP"
+
+.PP
+Definition at line 725 of file googletest\-param\-test\-test\&.cc\&.
+.SS "int TestGenerationTest::current_parameter_\fC [protected]\fP"
+
+.PP
+Definition at line 724 of file googletest\-param\-test\-test\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

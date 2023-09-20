@@ -1,0 +1,126 @@
+.TH "md_build__deps_googletest_src_docs_reference_matchers" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src_docs_reference_matchers \- Matchers Reference 
+A \fBmatcher\fP matches a \fIsingle\fP argument\&. You can use it inside \fC\fBON_CALL()\fP\fP or \fC\fBEXPECT_CALL()\fP\fP, or use it to validate a value directly using two macros:
+.PP
+Macro   Description    \fC\fBEXPECT_THAT(actual_value, matcher)\fP\fP   Asserts that \fCactual_value\fP matches \fCmatcher\fP\&.    \fC\fBASSERT_THAT(actual_value, matcher)\fP\fP   The same as \fC\fBEXPECT_THAT(actual_value, matcher)\fP\fP, except that it generates a \fBfatal\fP failure\&.   
+.PP
+{: \&.callout \&.warning} \fBWARNING:\fP Equality matching via \fC\fBEXPECT_THAT(actual_value, expected_value)\fP\fP is supported, however note that implicit conversions can cause surprising results\&. For example, \fCEXPECT_THAT(some_bool, 'some string')\fP will compile and may pass unintentionally\&.
+.PP
+\fBBEST PRACTICE:\fP Prefer to make the comparison explicit via \fC\fBEXPECT_THAT(actual_value, Eq(expected_value))\fP\fP or \fCEXPECT_EQ(actual_value, expected_value)\fP\&.
+.PP
+Built-in matchers (where \fCargument\fP is the function argument, e\&.g\&. \fCactual_value\fP in the example above, or when used in the context of \fC\fBEXPECT_CALL(mock_object, method(matchers))\fP\fP, the arguments of \fCmethod\fP) are divided into several categories\&. All matchers are defined in the \fC\fBtesting\fP\fP namespace unless otherwise noted\&.
+.SH "Wildcard"
+.PP
+Matcher   Description    \fC_\fP   \fCargument\fP can be any value of the correct type\&.    \fCA<type>()\fP or \fCAn<type>()\fP   \fCargument\fP can be any value of type \fCtype\fP\&.   
+.SH "Generic Comparison"
+.PP
+Matcher   Description    \fCEq(value)\fP or \fCvalue\fP   \fCargument == value\fP    \fCGe(value)\fP   \fCargument >= value\fP    \fCGt(value)\fP   \fCargument > value\fP    \fCLe(value)\fP   \fCargument <= value\fP    \fCLt(value)\fP   \fCargument < value\fP    \fCNe(value)\fP   \fCargument != value\fP    \fCIsFalse()\fP   \fCargument\fP evaluates to \fCfalse\fP in a Boolean context\&.    \fC\fBIsTrue()\fP\fP   \fCargument\fP evaluates to \fCtrue\fP in a Boolean context\&.    \fC\fBIsNull()\fP\fP   \fCargument\fP is a \fCNULL\fP pointer (raw or smart)\&.    \fCNotNull()\fP   \fCargument\fP is a non-null pointer (raw or smart)\&.    \fCOptional(m)\fP   \fCargument\fP is \fCoptional<>\fP that contains a value matching \fCm\fP\&. (For testing whether an \fCoptional<>\fP is set, check for equality with \fCnullopt\fP\&. You may need to use \fCEq(nullopt)\fP if the inner type doesn't have \fC==\fP\&.)    \fCVariantWith<T>(m)\fP   \fCargument\fP is \fCvariant<>\fP that holds the alternative of type T with a value matching \fCm\fP\&.    \fCRef(variable)\fP   \fCargument\fP is a reference to \fCvariable\fP\&.    \fCTypedEq<type>(value)\fP   \fCargument\fP has type \fCtype\fP and is equal to \fCvalue\fP\&. You may need to use this instead of \fCEq(value)\fP when the mock function is overloaded\&.   
+.PP
+Except \fCRef()\fP, these matchers make a \fIcopy\fP of \fCvalue\fP in case it's modified or destructed later\&. If the compiler complains that \fCvalue\fP doesn't have a public copy constructor, try wrap it in \fCstd::ref()\fP, e\&.g\&. \fCEq(std::ref(non_copyable_value))\fP\&. If you do that, make sure \fCnon_copyable_value\fP is not changed afterwards, or the meaning of your matcher will be changed\&.
+.PP
+\fCIsTrue\fP and \fCIsFalse\fP are useful when you need to use a matcher, or for types that can be explicitly converted to Boolean, but are not implicitly converted to Boolean\&. In other cases, you can use the basic \fC\fCEXPECT_TRUE\fP and \fCEXPECT_FALSE\fP\fP assertions\&.
+.SH "Floating-Point Matchers"
+.PP
+Matcher   Description    \fCDoubleEq(a_double)\fP   \fCargument\fP is a \fCdouble\fP value approximately equal to \fCa_double\fP, treating two NaNs as unequal\&.    \fCFloatEq(a_float)\fP   \fCargument\fP is a \fCfloat\fP value approximately equal to \fCa_float\fP, treating two NaNs as unequal\&.    \fCNanSensitiveDoubleEq(a_double)\fP   \fCargument\fP is a \fCdouble\fP value approximately equal to \fCa_double\fP, treating two NaNs as equal\&.    \fCNanSensitiveFloatEq(a_float)\fP   \fCargument\fP is a \fCfloat\fP value approximately equal to \fCa_float\fP, treating two NaNs as equal\&.    \fCIsNan()\fP   \fCargument\fP is any floating-point type with a NaN value\&.   
+.PP
+The above matchers use ULP-based comparison (the same as used in googletest)\&. They automatically pick a reasonable error bound based on the absolute value of the expected value\&. \fCDoubleEq()\fP and \fCFloatEq()\fP conform to the IEEE standard, which requires comparing two NaNs for equality to return false\&. The \fCNanSensitive*\fP version instead treats two NaNs as equal, which is often what a user wants\&.
+.PP
+Matcher   Description    \fCDoubleNear(a_double, max_abs_error)\fP   \fCargument\fP is a \fCdouble\fP value close to \fCa_double\fP (absolute error <= \fCmax_abs_error\fP), treating two NaNs as unequal\&.    \fCFloatNear(a_float, max_abs_error)\fP   \fCargument\fP is a \fCfloat\fP value close to \fCa_float\fP (absolute error <= \fCmax_abs_error\fP), treating two NaNs as unequal\&.    \fCNanSensitiveDoubleNear(a_double, max_abs_error)\fP   \fCargument\fP is a \fCdouble\fP value close to \fCa_double\fP (absolute error <= \fCmax_abs_error\fP), treating two NaNs as equal\&.    \fCNanSensitiveFloatNear(a_float, max_abs_error)\fP   \fCargument\fP is a \fCfloat\fP value close to \fCa_float\fP (absolute error <= \fCmax_abs_error\fP), treating two NaNs as equal\&.   
+.SH "String Matchers"
+.PP
+The \fCargument\fP can be either a C string or a C++ string object:
+.PP
+Matcher   Description    \fCContainsRegex(string)\fP   \fCargument\fP matches the given regular expression\&.    \fCEndsWith(suffix)\fP   \fCargument\fP ends with string \fCsuffix\fP\&.    \fCHasSubstr(string)\fP   \fCargument\fP contains \fCstring\fP as a sub-string\&.    \fC\fBIsEmpty()\fP\fP   \fCargument\fP is an empty string\&.    \fCMatchesRegex(string)\fP   \fCargument\fP matches the given regular expression with the match starting at the first character and ending at the last character\&.    \fCStartsWith(prefix)\fP   \fCargument\fP starts with string \fCprefix\fP\&.    \fCStrCaseEq(string)\fP   \fCargument\fP is equal to \fCstring\fP, ignoring case\&.    \fCStrCaseNe(string)\fP   \fCargument\fP is not equal to \fCstring\fP, ignoring case\&.    \fCStrEq(string)\fP   \fCargument\fP is equal to \fCstring\fP\&.    \fCStrNe(string)\fP   \fCargument\fP is not equal to \fCstring\fP\&.    \fCWhenBase64Unescaped(m)\fP   \fCargument\fP is a base-64 escaped string whose unescaped string matches \fCm\fP\&. The web-safe format from \fCRFC 4648\fP is supported\&.   
+.PP
+\fCContainsRegex()\fP and \fCMatchesRegex()\fP take ownership of the \fCRE\fP object\&. They use the regular expression syntax defined \fChere\fP\&. All of these matchers, except \fCContainsRegex()\fP and \fCMatchesRegex()\fP work for wide strings as well\&.
+.SH "Container Matchers"
+.PP
+Most STL-style containers support \fC==\fP, so you can use \fCEq(expected_container)\fP or simply \fCexpected_container\fP to match a container exactly\&. If you want to write the elements in-line, match them more flexibly, or get more informative messages, you can use:
+.PP
+Matcher   Description    \fCBeginEndDistanceIs(m)\fP   \fCargument\fP is a container whose \fCbegin()\fP and \fCend()\fP iterators are separated by a number of increments matching \fCm\fP\&. E\&.g\&. \fCBeginEndDistanceIs(2)\fP or \fCBeginEndDistanceIs(Lt(2))\fP\&. For containers that define a \fCsize()\fP method, \fCSizeIs(m)\fP may be more efficient\&.    \fCContainerEq(container)\fP   The same as \fCEq(container)\fP except that the failure message also includes which elements are in one container but not the other\&.    \fCContains(e)\fP   \fCargument\fP contains an element that matches \fCe\fP, which can be either a value or a matcher\&.    \fCContains(e)\&.Times(n)\fP   \fCargument\fP contains elements that match \fCe\fP, which can be either a value or a matcher, and the number of matches is \fCn\fP, which can be either a value or a matcher\&. Unlike the plain \fCContains\fP and \fCEach\fP this allows to check for arbitrary occurrences including testing for absence with \fCContains(e)\&.Times(0)\fP\&.    \fCEach(e)\fP   \fCargument\fP is a container where \fIevery\fP element matches \fCe\fP, which can be either a value or a matcher\&.    \fCElementsAre(e0, e1, \&.\&.\&., en)\fP   \fCargument\fP has \fCn + 1\fP elements, where the \fIi\fP-th element matches \fCei\fP, which can be a value or a matcher\&.    \fCElementsAreArray({e0, e1, \&.\&.\&., en})\fP, \fCElementsAreArray(a_container)\fP, \fCElementsAreArray(begin, end)\fP, \fCElementsAreArray(array)\fP, or \fCElementsAreArray(array, count)\fP   The same as \fCElementsAre()\fP except that the expected element values/matchers come from an initializer list, STL-style container, iterator range, or C-style array\&.    \fC\fBIsEmpty()\fP\fP   \fCargument\fP is an empty container (\fCcontainer\&.empty()\fP)\&.    \fCIsSubsetOf({e0, e1, \&.\&.\&., en})\fP, \fCIsSubsetOf(a_container)\fP, \fCIsSubsetOf(begin, end)\fP, \fCIsSubsetOf(array)\fP, or \fCIsSubsetOf(array, count)\fP   \fCargument\fP matches \fCUnorderedElementsAre(x0, x1, \&.\&.\&., xk)\fP for some subset \fC{x0, x1, \&.\&.\&., xk}\fP of the expected matchers\&.    \fCIsSupersetOf({e0, e1, \&.\&.\&., en})\fP, \fCIsSupersetOf(a_container)\fP, \fCIsSupersetOf(begin, end)\fP, \fCIsSupersetOf(array)\fP, or \fCIsSupersetOf(array, count)\fP   Some subset of \fCargument\fP matches \fCUnorderedElementsAre(\fPexpected matchers\fC)\fP\&.    \fCPointwise(m, container)\fP, \fCPointwise(m, {e0, e1, \&.\&.\&., en})\fP   \fCargument\fP contains the same number of elements as in \fCcontainer\fP, and for all i, (the i-th element in \fCargument\fP, the i-th element in \fCcontainer\fP) match \fCm\fP, which is a matcher on 2-tuples\&. E\&.g\&. \fCPointwise(Le(), upper_bounds)\fP verifies that each element in \fCargument\fP doesn't exceed the corresponding element in \fCupper_bounds\fP\&. See more detail below\&.    \fCSizeIs(m)\fP   \fCargument\fP is a container whose size matches \fCm\fP\&. E\&.g\&. \fCSizeIs(2)\fP or \fCSizeIs(Lt(2))\fP\&.    \fCUnorderedElementsAre(e0, e1, \&.\&.\&., en)\fP   \fCargument\fP has \fCn + 1\fP elements, and under \fIsome\fP permutation of the elements, each element matches an \fCei\fP (for a different \fCi\fP), which can be a value or a matcher\&.    \fCUnorderedElementsAreArray({e0, e1, \&.\&.\&., en})\fP, \fCUnorderedElementsAreArray(a_container)\fP, \fCUnorderedElementsAreArray(begin, end)\fP, \fCUnorderedElementsAreArray(array)\fP, or \fCUnorderedElementsAreArray(array, count)\fP   The same as \fCUnorderedElementsAre()\fP except that the expected element values/matchers come from an initializer list, STL-style container, iterator range, or C-style array\&.    \fCUnorderedPointwise(m, container)\fP, \fCUnorderedPointwise(m, {e0, e1, \&.\&.\&., en})\fP   Like \fCPointwise(m, container)\fP, but ignores the order of elements\&.    \fCWhenSorted(m)\fP   When \fCargument\fP is sorted using the \fC<\fP operator, it matches container matcher \fCm\fP\&. E\&.g\&. \fCWhenSorted(ElementsAre(1, 2, 3))\fP verifies that \fCargument\fP contains elements 1, 2, and 3, ignoring order\&.    \fCWhenSortedBy(comparator, m)\fP   The same as \fCWhenSorted(m)\fP, except that the given comparator instead of \fC<\fP is used to sort \fCargument\fP\&. E\&.g\&. \fCWhenSortedBy(std::greater(), ElementsAre(3, 2, 1))\fP\&.   
+.PP
+\fBNotes:\fP
+.PP
+.IP "\(bu" 2
+These matchers can also match:
+.IP "  1." 6
+a native array passed by reference (e\&.g\&. in \fCFoo(const int (&a)[5])\fP), and
+.IP "  2." 6
+an array passed as a pointer and a count (e\&.g\&. in \fCBar(const T* buffer, int len)\fP -- see \fCMulti-argument Matchers\fP)\&.
+.PP
+
+.IP "\(bu" 2
+The array being matched may be multi-dimensional (i\&.e\&. its elements can be arrays)\&.
+.IP "\(bu" 2
+\fCm\fP in \fCPointwise(m, \&.\&.\&.)\fP and \fCUnorderedPointwise(m, \&.\&.\&.)\fP should be a matcher for \fC::std::tuple<T, U>\fP where \fCT\fP and \fCU\fP are the element type of the actual container and the expected container, respectively\&. For example, to compare two \fCFoo\fP containers where \fCFoo\fP doesn't support \fCoperator==\fP, one might write:
+.PP
+```cpp MATCHER(FooEq, '') { return std::get<0>(arg)\&.Equals(std::get<1>(arg)); } \&.\&.\&. EXPECT_THAT(actual_foos, Pointwise(FooEq(), expected_foos)); ```
+.PP
+.SH "Member Matchers"
+.PP
+Matcher   Description    \fCField(&class::field, m)\fP   \fCargument\&.field\fP (or \fCargument->field\fP when \fCargument\fP is a plain pointer) matches matcher \fCm\fP, where \fCargument\fP is an object of type \fIclass\fP\&.    \fCField(field_name, &class::field, m)\fP   The same as the two-parameter version, but provides a better error message\&.    \fCKey(e)\fP   \fCargument\&.first\fP matches \fCe\fP, which can be either a value or a matcher\&. E\&.g\&. \fCContains(Key(Le(5)))\fP can verify that a \fCmap\fP contains a key \fC<= 5\fP\&.    \fCPair(m1, m2)\fP   \fCargument\fP is an \fCstd::pair\fP whose \fCfirst\fP field matches \fCm1\fP and \fCsecond\fP field matches \fCm2\fP\&.    \fCFieldsAre(m\&.\&.\&.)\fP   \fCargument\fP is a compatible object where each field matches piecewise with the matchers \fCm\&.\&.\&.\fP\&. A compatible object is any that supports the \fCstd::tuple_size<Obj>\fP+\fCget<I>(obj)\fP protocol\&. In C++17 and up this also supports types compatible with structured bindings, like aggregates\&.    \fCProperty(&class::property, m)\fP   \fCargument\&.property()\fP (or \fCargument->property()\fP when \fCargument\fP is a plain pointer) matches matcher \fCm\fP, where \fCargument\fP is an object of type \fIclass\fP\&. The method \fCproperty()\fP must take no argument and be declared as \fCconst\fP\&.    \fCProperty(property_name, &class::property, m)\fP   The same as the two-parameter version, but provides a better error message\&.   
+.PP
+\fBNotes:\fP
+.PP
+.IP "\(bu" 2
+You can use \fCFieldsAre()\fP to match any type that supports structured bindings, such as \fCstd::tuple\fP, \fCstd::pair\fP, \fCstd::array\fP, and aggregate types\&. For example:
+.PP
+```cpp std::tuple<int, std::string> my_tuple{7, 'hello world'}; EXPECT_THAT(my_tuple, FieldsAre(Ge(0), HasSubstr('hello')));
+.PP
+struct MyStruct { int value = 42; std::string greeting = 'aloha'; }; MyStruct s; EXPECT_THAT(s, FieldsAre(42, 'aloha')); ```
+.IP "\(bu" 2
+Don't use \fCProperty()\fP against member functions that you do not own, because taking addresses of functions is fragile and generally not part of the contract of the function\&.
+.PP
+.SH "Matching the Result of a Function, Functor, or Callback"
+.PP
+Matcher   Description    \fCResultOf(f, m)\fP   \fCf(argument)\fP matches matcher \fCm\fP, where \fCf\fP is a function or functor\&.    \fCResultOf(result_description, f, m)\fP   The same as the two-parameter version, but provides a better error message\&.   
+.SH "Pointer Matchers"
+.PP
+Matcher   Description    \fCAddress(m)\fP   the result of \fCstd::addressof(argument)\fP matches \fCm\fP\&.    \fCPointee(m)\fP   \fCargument\fP (either a smart pointer or a raw pointer) points to a value that matches matcher \fCm\fP\&.    \fCPointer(m)\fP   \fCargument\fP (either a smart pointer or a raw pointer) contains a pointer that matches \fCm\fP\&. \fCm\fP will match against the raw pointer regardless of the type of \fCargument\fP\&.    \fCWhenDynamicCastTo<T>(m)\fP   when \fCargument\fP is passed through \fCdynamic_cast<T>()\fP, it matches matcher \fCm\fP\&.   
+.SH "Multi-argument Matchers"
+.PP
+Technically, all matchers match a \fIsingle\fP value\&. A 'multi-argument' matcher is just one that matches a \fItuple\fP\&. The following matchers can be used to match a tuple \fC(x, y)\fP:
+.PP
+Matcher   Description    \fCEq()\fP   \fCx == y\fP    \fCGe()\fP   \fCx >= y\fP    \fCGt()\fP   \fCx > y\fP    \fCLe()\fP   \fCx <= y\fP    \fCLt()\fP   \fCx < y\fP    \fCNe()\fP   \fCx != y\fP   
+.PP
+You can use the following selectors to pick a subset of the arguments (or reorder them) to participate in the matching:
+.PP
+Matcher   Description    \fCAllArgs(m)\fP   Equivalent to \fCm\fP\&. Useful as syntactic sugar in \fC\&.With(AllArgs(m))\fP\&.    \fCArgs<N1, N2, \&.\&.\&., Nk>(m)\fP   The tuple of the \fCk\fP selected (using 0-based indices) arguments matches \fCm\fP, e\&.g\&. \fCArgs<1, 2>(Eq())\fP\&.   
+.SH "Composite Matchers"
+.PP
+You can make a matcher from one or more other matchers:
+.PP
+Matcher   Description    \fCAllOf(m1, m2, \&.\&.\&., mn)\fP   \fCargument\fP matches all of the matchers \fCm1\fP to \fCmn\fP\&.    \fCAllOfArray({m0, m1, \&.\&.\&., mn})\fP, \fCAllOfArray(a_container)\fP, \fCAllOfArray(begin, end)\fP, \fCAllOfArray(array)\fP, or \fCAllOfArray(array, count)\fP   The same as \fCAllOf()\fP except that the matchers come from an initializer list, STL-style container, iterator range, or C-style array\&.    \fCAnyOf(m1, m2, \&.\&.\&., mn)\fP   \fCargument\fP matches at least one of the matchers \fCm1\fP to \fCmn\fP\&.    \fCAnyOfArray({m0, m1, \&.\&.\&., mn})\fP, \fCAnyOfArray(a_container)\fP, \fCAnyOfArray(begin, end)\fP, \fCAnyOfArray(array)\fP, or \fCAnyOfArray(array, count)\fP   The same as \fCAnyOf()\fP except that the matchers come from an initializer list, STL-style container, iterator range, or C-style array\&.    \fCNot(m)\fP   \fCargument\fP doesn't match matcher \fCm\fP\&.    \fCConditional(cond, m1, m2)\fP   Matches matcher \fCm1\fP if \fCcond\fP evaluates to true, else matches \fCm2\fP\&.   
+.SH "Adapters for Matchers"
+.PP
+Matcher   Description    \fCMatcherCast<T>(m)\fP   casts matcher \fCm\fP to type \fCMatcher<T>\fP\&.    \fCSafeMatcherCast<T>(m)\fP   \fCsafely casts\fP matcher \fCm\fP to type \fCMatcher<T>\fP\&.    \fCTruly(predicate)\fP   \fCpredicate(argument)\fP returns something considered by C++ to be true, where \fCpredicate\fP is a function or functor\&.   
+.PP
+\fCAddressSatisfies(callback)\fP and \fCTruly(callback)\fP take ownership of \fCcallback\fP, which must be a permanent callback\&.
+.SH "Using Matchers as Predicates"
+.PP
+Matcher   Description    \fCMatches(m)(value)\fP   evaluates to \fCtrue\fP if \fCvalue\fP matches \fCm\fP\&. You can use \fCMatches(m)\fP alone as a unary functor\&.    \fCExplainMatchResult(m, value, result_listener)\fP   evaluates to \fCtrue\fP if \fCvalue\fP matches \fCm\fP, explaining the result to \fCresult_listener\fP\&.    \fCValue(value, m)\fP   evaluates to \fCtrue\fP if \fCvalue\fP matches \fCm\fP\&.   
+.SH "Defining Matchers"
+.PP
+Macro   Description    \fCMATCHER(IsEven, '') { return (arg % 2) == 0; }\fP   Defines a matcher \fCIsEven()\fP to match an even number\&.    \fCMATCHER_P(IsDivisibleBy, n, '') { *result_listener << 'where the remainder is ' << (arg % n); return (arg % n) == 0; }\fP   Defines a matcher \fCIsDivisibleBy(n)\fP to match a number divisible by \fCn\fP\&.    \fCMATCHER_P2(IsBetween, a, b, absl::StrCat(negation ? 'isn't' : 'is', ' between ', PrintToString(a), ' and ', PrintToString(b))) { return a <= arg && arg <= b; }\fP   Defines a matcher \fCIsBetween(a, b)\fP to match a value in the range [\fCa\fP, \fCb\fP]\&.   
+.PP
+\fBNotes:\fP
+.PP
+.IP "1." 4
+The \fCMATCHER*\fP macros cannot be used inside a function or class\&.
+.IP "2." 4
+The matcher body must be \fIpurely functional\fP (i\&.e\&. it cannot have any side effect, and the result must not depend on anything other than the value being matched and the matcher parameters)\&.
+.IP "3." 4
+You can use \fCPrintToString(x)\fP to convert a value \fCx\fP of any type to a string\&.
+.IP "4." 4
+You can use \fCExplainMatchResult()\fP in a custom matcher to wrap another matcher, for example:
+.PP
+```cpp MATCHER_P(NestedPropertyMatches, matcher, '') { return ExplainMatchResult(matcher, arg\&.nested()\&.property(), result_listener); } ```
+.IP "5." 4
+You can use \fCDescribeMatcher<>\fP to describe another matcher\&. For example:
+.PP
+```cpp MATCHER_P(XAndYThat, matcher, 'X that ' + DescribeMatcher<int>(matcher, negation) + (negation ? ' or' : ' and') + ' Y that ' + DescribeMatcher<double>(matcher, negation)) { return ExplainMatchResult(matcher, arg\&.x(), result_listener) && ExplainMatchResult(matcher, arg\&.y(), result_listener); } ``` 
+.PP
+

@@ -1,0 +1,720 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-printers-test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-printers-test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <algorithm>\fP
+.br
+\fC#include <cctype>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <deque>\fP
+.br
+\fC#include <forward_list>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <tuple>\fP
+.br
+\fC#include <unordered_map>\fP
+.br
+\fC#include <unordered_set>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\-printers\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBBiggestIntConvertible\fP"
+.br
+.ti -1c
+.RI "class \fBParentClass\fP"
+.br
+.ti -1c
+.RI "class \fBChildClassWithStreamOperator\fP"
+.br
+.ti -1c
+.RI "class \fBChildClassWithoutStreamOperator\fP"
+.br
+.ti -1c
+.RI "class \fBUnprintableTemplateInGlobal< T >\fP"
+.br
+.ti -1c
+.RI "class \fBStreamableInGlobal\fP"
+.br
+.ti -1c
+.RI "class \fBfoo::UnprintableInFoo\fP"
+.br
+.ti -1c
+.RI "struct \fBfoo::PrintableViaPrintTo\fP"
+.br
+.ti -1c
+.RI "struct \fBfoo::PointerPrintable\fP"
+.br
+.ti -1c
+.RI "class \fBfoo::PrintableViaPrintToTemplate< T >\fP"
+.br
+.ti -1c
+.RI "class \fBfoo::StreamableTemplateInFoo< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBfoo::TemplatedStreamableInFoo\fP"
+.br
+.ti -1c
+.RI "struct \fBfoo::StreamableInLocal\fP"
+.br
+.ti -1c
+.RI "class \fBfoo::PathLike\fP"
+.br
+.ti -1c
+.RI "struct \fBfoo::PathLike::iterator\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::UniversalPrinter< Wrapper< T > >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gtest_printers_test::Foo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gtest_printers_test::AllowsGenericStreaming\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gtest_printers_test::AllowsGenericStreamingTemplate< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gtest_printers_test::AllowsGenericStreamingAndImplicitConversionTemplate< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gtest_printers_test::iterator\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gtest_printers_test::const_iterator\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gtest_printers_test::Big\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBfoo\fP"
+.br
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::gtest_printers_test\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEXPECT_PRINT_TO_STRING_\fP(\fBvalue\fP,  expected_string)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBAnonymousEnum\fP { \fBkAE1\fP = -1, \fBkAE2\fP = 1 }"
+.br
+.ti -1c
+.RI "enum \fBEnumWithoutPrinter\fP { \fBkEWP1\fP = -2, \fBkEWP2\fP = 42 }"
+.br
+.ti -1c
+.RI "enum \fBEnumWithStreaming\fP { \fBkEWS1\fP = 10 }"
+.br
+.ti -1c
+.RI "enum \fBEnumWithPrintTo\fP { \fBkEWPT1\fP = 1 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, \fBEnumWithStreaming\fP e)"
+.br
+.ti -1c
+.RI "void \fBPrintTo\fP (\fBEnumWithPrintTo\fP e, std::ostream *os)"
+.br
+.ti -1c
+.RI "void \fBoperator<<\fP (::std::ostream &os, const \fBStreamableInGlobal\fP &)"
+.br
+.ti -1c
+.RI "void \fBoperator<<\fP (::std::ostream &os, const \fBStreamableInGlobal\fP *)"
+.br
+.ti -1c
+.RI "void \fBfoo::PrintTo\fP (const PrintableViaPrintTo &\fBx\fP, ::std::ostream *os)"
+.br
+.ti -1c
+.RI "::std::ostream & \fBfoo::operator<<\fP (::std::ostream &os, const PointerPrintable *)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBfoo::PrintTo\fP (const PrintableViaPrintToTemplate< T > &\fBx\fP, ::std::ostream *os)"
+.br
+.ti -1c
+.RI "template<typename T > inline ::std::ostream & \fBfoo::operator<<\fP (::std::ostream &os, const StreamableTemplateInFoo< T > &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename OutputStream > OutputStream & \fBfoo::operator<<\fP (OutputStream &os, const TemplatedStreamableInFoo &)"
+.br
+.ti -1c
+.RI "void \fBfoo::operator<<\fP (::std::ostream &os, const StreamableInLocal &)"
+.br
+.ti -1c
+.RI "template<typename T > std::string \fBtesting::gtest_printers_test::Print\fP (const T &\fBvalue\fP)"
+.br
+.ti -1c
+.RI "template<typename T > std::string \fBtesting::gtest_printers_test::PrintByRef\fP (const T &\fBvalue\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintEnumTest, \fBAnonymousEnum\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintEnumTest, \fBEnumWithoutPrinter\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintEnumTest, \fBEnumWithStreaming\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintEnumTest, \fBEnumWithPrintTo\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintClassTest, \fBBiggestIntConvertible\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharTest, PlainChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharTest, SignedChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharTest, UnsignedChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharTest, Char16)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharTest, Char32)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintBuiltInTypeTest, \fBBool\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintBuiltInTypeTest, Wchar_t)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintTypeSizeTest, Wchar_t)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintBuiltInTypeTest, Integer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintBuiltInTypeTest, Size_t)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintBuiltInTypeTest, FloatingPoints)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCStringTest, Const)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCStringTest, NonConst)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCStringTest, Null)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCStringTest, EscapesProperly)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU16StringTest, Const)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU16StringTest, NonConst)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU16StringTest, Null)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU16StringTest, EscapesProperly)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU32StringTest, Const)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU32StringTest, NonConst)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU32StringTest, Null)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintU32StringTest, EscapesProperly)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintWideCStringTest, Const)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintWideCStringTest, NonConst)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintWideCStringTest, Null)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintWideCStringTest, EscapesProperly)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharPointerTest, SignedChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharPointerTest, ConstSignedChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharPointerTest, UnsignedChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintCharPointerTest, ConstUnsignedChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerToBuiltInTypeTest, \fBBool\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerToBuiltInTypeTest, Void)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerToBuiltInTypeTest, ConstVoid)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerToPointerTest, IntPointerPointer)"
+.br
+.ti -1c
+.RI "void \fBtesting::gtest_printers_test::MyFunction\fP (int)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerTest, NonMemberFunctionPointer)"
+.br
+.ti -1c
+.RI "template<typename StringType > AssertionResult \fBtesting::gtest_printers_test::HasPrefix\fP (const StringType &str, const StringType &prefix)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerTest, MemberVariablePointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPointerTest, MemberFunctionPointer)"
+.br
+.ti -1c
+.RI "template<typename T , size_t N> std::string \fBtesting::gtest_printers_test::PrintArrayHelper\fP (T(&a)[N])"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, OneDimensionalArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, TwoDimensionalArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, ConstArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, CharArrayWithNoTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, CharArrayWithTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, Char16ArrayWithNoTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, Char16ArrayWithTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, Char32ArrayWithNoTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, Char32ArrayWithTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, WCharArrayWithNoTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, WCharArrayWithTerminatingNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, ObjectArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintArrayTest, BigArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStringTest, StringInStdNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStringTest, StringAmbiguousHex)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStringTest, U16String)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStringTest, U32String)"
+.br
+.ti -1c
+.RI "template<typename Char , typename CharTraits > std::basic_ostream< Char, CharTraits > & \fBtesting::gtest_printers_test::operator<<\fP (std::basic_ostream< Char, CharTraits > &os, const AllowsGenericStreaming &)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintTypeWithGenericStreamingTest, NonTemplateType)"
+.br
+.ti -1c
+.RI "template<typename Char , typename CharTraits , typename T > std::basic_ostream< Char, CharTraits > & \fBtesting::gtest_printers_test::operator<<\fP (std::basic_ostream< Char, CharTraits > &os, const AllowsGenericStreamingTemplate< T > &)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintTypeWithGenericStreamingTest, TemplateType)"
+.br
+.ti -1c
+.RI "template<typename Char , typename CharTraits , typename T > std::basic_ostream< Char, CharTraits > & \fBtesting::gtest_printers_test::operator<<\fP (std::basic_ostream< Char, CharTraits > &os, const AllowsGenericStreamingAndImplicitConversionTemplate< T > &)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintTypeWithGenericStreamingTest, TypeImplicitlyConvertible)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, EmptyDeque)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, NonEmptyDeque)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, OneElementHashMap)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, HashMultiMap)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, HashSet)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, HashMultiSet)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, List)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, Map)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, MultiMap)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, Set)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, MultiSet)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, SinglyLinkedList)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, Pair)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, Vector)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, LongSequence)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, NestedContainer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, OneDimensionalNativeArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, TwoDimensionalNativeArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, Iterator)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStlContainerTest, ConstIterator)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStdTupleTest, VariousSizes)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStdTupleTest, NestedTuple)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintNullptrT, Basic)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintReferenceWrapper, Printable)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintReferenceWrapper, Unprintable)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintUnprintableTypeTest, InGlobalNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintUnprintableTypeTest, InUserNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintUnpritableTypeTest, BigObject)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStreamableTypeTest, InGlobalNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStreamableTypeTest, TemplateTypeInUserNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStreamableTypeTest, TypeInUserNamespaceWithTemplatedStreamOperator)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStreamableTypeTest, SubclassUsesSuperclassStreamOperator)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintStreamableTypeTest, PathLikeInUserNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPrintableTypeTest, InUserNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPrintableTypeTest, PointerInUserNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintPrintableTypeTest, TemplateInUserNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintReferenceTest, PrintsAddressAndValue)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintReferenceTest, HandlesFunctionPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintReferenceTest, HandlesMemberFunctionPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintReferenceTest, HandlesMemberVariablePointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForScalar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForNonCharPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, FormatsNonCharArrayAsPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForCharPointerVsPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForWCharPointerVsPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForCharPointerVsStdString)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForCharArrayVsPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForCharArrayVsCharArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForWCharArrayVsPointer)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForWCharArrayVsWCharArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (FormatForComparisonFailureMessageTest, WorksForCharArrayVsStdString)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, WorksForScalar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, WorksForPointerToConstChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, WorksForPointerToNonConstChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, EscapesForPointerToConstChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, EscapesForPointerToNonConstChar)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, WorksForArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, WorksForCharArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, WorksForCharArrayWithEmbeddedNul)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, ContainsNonLatin)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, PrintStreamableInLocal)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, PrintReferenceToStreamableInLocal)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (PrintToStringTest, PrintReferenceToStreamableInGlobal)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (IsValidUTF8Test, IllFormedUTF8)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTest, WorksForNonReference)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTest, WorksForReference)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTest, WorksForCString)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, WorksForNonReference)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, WorksForReference)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, WorksForPairWithConst)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, WorksForCString)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, WorksForCharArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, IncompleteType)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalPrintTest, SmartPointers)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTupleFieldsToStringsTestWithStd, PrintsEmptyTuple)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTupleFieldsToStringsTestWithStd, PrintsOneTuple)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTupleFieldsToStringsTestWithStd, PrintsTwoTuple)"
+.br
+.ti -1c
+.RI "\fBtesting::gtest_printers_test::TEST\fP (UniversalTersePrintTupleFieldsToStringsTestWithStd, PrintsTersely)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define EXPECT_PRINT_TO_STRING_(\fBvalue\fP, expected_string)"
+\fBValue:\fP
+.PP
+.nf
+  EXPECT_TRUE(PrintToString(value) == (expected_string)) \
+      << " where " #value " prints as " << (PrintToString(value))
+.fi
+.PP
+Definition at line 1586 of file googletest\-printers\-test\&.cc\&.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBAnonymousEnum\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIkAE1 \fP\fP
+.TP
+\fB\fIkAE2 \fP\fP
+.PP
+Definition at line 65 of file googletest\-printers\-test\&.cc\&.
+.SS "enum \fBEnumWithoutPrinter\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIkEWP1 \fP\fP
+.TP
+\fB\fIkEWP2 \fP\fP
+.PP
+Definition at line 68 of file googletest\-printers\-test\&.cc\&.
+.SS "enum \fBEnumWithPrintTo\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIkEWPT1 \fP\fP
+.PP
+Definition at line 78 of file googletest\-printers\-test\&.cc\&.
+.SS "enum \fBEnumWithStreaming\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIkEWS1 \fP\fP
+.PP
+Definition at line 71 of file googletest\-printers\-test\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "void operator<< (::std::ostream & os, const \fBStreamableInGlobal\fP &)\fC [inline]\fP"
+
+.PP
+Definition at line 118 of file googletest\-printers\-test\&.cc\&.
+.SS "void operator<< (::std::ostream & os, const \fBStreamableInGlobal\fP *)"
+
+.PP
+Definition at line 122 of file googletest\-printers\-test\&.cc\&.
+.SS "std::ostream& operator<< (std::ostream & os, \fBEnumWithStreaming\fP e)"
+
+.PP
+Definition at line 73 of file googletest\-printers\-test\&.cc\&.
+.SS "void PrintTo (\fBEnumWithPrintTo\fP e, std::ostream * os)"
+
+.PP
+Definition at line 80 of file googletest\-printers\-test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

@@ -1,0 +1,85 @@
+.TH "MyString" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MyString
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <sample2\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMyString\fP ()"
+.br
+.ti -1c
+.RI "\fBMyString\fP (const char *a_c_string)"
+.br
+.ti -1c
+.RI "\fBMyString\fP (const \fBMyString\fP &string)"
+.br
+.ti -1c
+.RI "\fB~MyString\fP ()"
+.br
+.ti -1c
+.RI "const char * \fBc_string\fP () const"
+.br
+.ti -1c
+.RI "size_t \fBLength\fP () const"
+.br
+.ti -1c
+.RI "void \fBSet\fP (const char *\fBc_string\fP)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBCloneCString\fP (const char *a_c_string)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 38 of file sample2\&.h\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MyString::MyString ()\fC [inline]\fP"
+
+.PP
+Definition at line 52 of file sample2\&.h\&.
+.SS "MyString::MyString (const char * a_c_string)\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Definition at line 55 of file sample2\&.h\&.
+.SS "MyString::MyString (const \fBMyString\fP & string)\fC [inline]\fP"
+
+.PP
+Definition at line 60 of file sample2\&.h\&.
+.SS "MyString::~MyString ()\fC [inline]\fP"
+
+.PP
+Definition at line 68 of file sample2\&.h\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "const char* MyString::c_string () const\fC [inline]\fP"
+
+.PP
+Definition at line 71 of file sample2\&.h\&.
+.SS "const char * MyString::CloneCString (const char * a_c_string)\fC [static]\fP"
+
+.PP
+Definition at line 37 of file sample2\&.cc\&.
+.SS "size_t MyString::Length () const\fC [inline]\fP"
+
+.PP
+Definition at line 73 of file sample2\&.h\&.
+.SS "void MyString::Set (const char * c_string)"
+
+.PP
+Definition at line 49 of file sample2\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

@@ -1,0 +1,142 @@
+.TH "build/_deps/googletest-src/googlemock/include/gmock/internal/gmock-port.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/include/gmock/internal/gmock-port.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include 'gmock/internal/custom/gmock\-port\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_FLAG_NAME_\fP(name)   gmock_##name"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_FLAG\fP(name)   FLAGS_gmock_##name"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DEFINE_bool_\fP(name,  default_val,  doc)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DEFINE_int32_\fP(name,  default_val,  doc)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DEFINE_string_\fP(name,  default_val,  doc)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DECLARE_bool_\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DECLARE_int32_\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_DECLARE_string_\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_FLAG_GET\fP(name)   ::\fBtesting::GMOCK_FLAG\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_FLAG_SET\fP(name,  \fBvalue\fP)   (void)(::\fBtesting::GMOCK_FLAG\fP(name) = \fBvalue\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GMOCK_DECLARE_bool_(name)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                      \
+  GTEST_API_ extern bool GMOCK_FLAG(name); \
+  }                                        \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 118 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_DECLARE_int32_(name)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                         \
+  GTEST_API_ extern int32_t GMOCK_FLAG(name); \
+  }                                           \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 123 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_DECLARE_string_(name)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                               \
+  GTEST_API_ extern ::std::string GMOCK_FLAG(name); \
+  }                                                 \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 128 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_DEFINE_bool_(name, default_val, doc)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                               \
+  GTEST_API_ bool GMOCK_FLAG(name) = (default_val); \
+  }                                                 \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 101 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_DEFINE_int32_(name, default_val, doc)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                                  \
+  GTEST_API_ int32_t GMOCK_FLAG(name) = (default_val); \
+  }                                                    \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 106 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_DEFINE_string_(name, default_val, doc)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                                        \
+  GTEST_API_ ::std::string GMOCK_FLAG(name) = (default_val); \
+  }                                                          \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 111 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_FLAG(name)   FLAGS_gmock_##name"
+
+.PP
+Definition at line 73 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_FLAG_GET(name)   ::\fBtesting::GMOCK_FLAG\fP(name)"
+
+.PP
+Definition at line 134 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_FLAG_NAME_(name)   gmock_##name"
+
+.PP
+Definition at line 72 of file gmock\-port\&.h\&.
+.SS "#define GMOCK_FLAG_SET(name, \fBvalue\fP)   (void)(::\fBtesting::GMOCK_FLAG\fP(name) = \fBvalue\fP)"
+
+.PP
+Definition at line 135 of file gmock\-port\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

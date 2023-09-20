@@ -1,0 +1,124 @@
+.TH "ConstructionCounting" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ConstructionCounting
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConstructionCounting\fP ()"
+.br
+.ti -1c
+.RI "\fB~ConstructionCounting\fP ()"
+.br
+.ti -1c
+.RI "\fBConstructionCounting\fP (const \fBConstructionCounting\fP &)"
+.br
+.ti -1c
+.RI "\fBConstructionCounting\fP (\fBConstructionCounting\fP &&) noexcept"
+.br
+.ti -1c
+.RI "\fBConstructionCounting\fP & \fBoperator=\fP (const \fBConstructionCounting\fP &)"
+.br
+.ti -1c
+.RI "\fBConstructionCounting\fP & \fBoperator=\fP (\fBConstructionCounting\fP &&) noexcept"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBReset\fP ()"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static int \fBdefault_ctor_calls\fP = 0"
+.br
+.ti -1c
+.RI "static int \fBdtor_calls\fP = 0"
+.br
+.ti -1c
+.RI "static int \fBcopy_ctor_calls\fP = 0"
+.br
+.ti -1c
+.RI "static int \fBmove_ctor_calls\fP = 0"
+.br
+.ti -1c
+.RI "static int \fBcopy_assignment_calls\fP = 0"
+.br
+.ti -1c
+.RI "static int \fBmove_assignment_calls\fP = 0"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 7556 of file gtest_unittest\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ConstructionCounting::ConstructionCounting ()\fC [inline]\fP"
+
+.PP
+Definition at line 7557 of file gtest_unittest\&.cc\&.
+.SS "ConstructionCounting::~ConstructionCounting ()\fC [inline]\fP"
+
+.PP
+Definition at line 7558 of file gtest_unittest\&.cc\&.
+.SS "ConstructionCounting::ConstructionCounting (const \fBConstructionCounting\fP &)\fC [inline]\fP"
+
+.PP
+Definition at line 7559 of file gtest_unittest\&.cc\&.
+.SS "ConstructionCounting::ConstructionCounting (\fBConstructionCounting\fP &&)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+Definition at line 7560 of file gtest_unittest\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBConstructionCounting\fP& ConstructionCounting::operator= (const \fBConstructionCounting\fP &)\fC [inline]\fP"
+
+.PP
+Definition at line 7561 of file gtest_unittest\&.cc\&.
+.SS "\fBConstructionCounting\fP& ConstructionCounting::operator= (\fBConstructionCounting\fP &&)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+Definition at line 7565 of file gtest_unittest\&.cc\&.
+.SS "static void ConstructionCounting::Reset ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Definition at line 7570 of file gtest_unittest\&.cc\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "int ConstructionCounting::copy_assignment_calls = 0\fC [static]\fP"
+
+.PP
+Definition at line 7583 of file gtest_unittest\&.cc\&.
+.SS "int ConstructionCounting::copy_ctor_calls = 0\fC [static]\fP"
+
+.PP
+Definition at line 7581 of file gtest_unittest\&.cc\&.
+.SS "int ConstructionCounting::default_ctor_calls = 0\fC [static]\fP"
+
+.PP
+Definition at line 7579 of file gtest_unittest\&.cc\&.
+.SS "int ConstructionCounting::dtor_calls = 0\fC [static]\fP"
+
+.PP
+Definition at line 7580 of file gtest_unittest\&.cc\&.
+.SS "int ConstructionCounting::move_assignment_calls = 0\fC [static]\fP"
+
+.PP
+Definition at line 7584 of file gtest_unittest\&.cc\&.
+.SS "int ConstructionCounting::move_ctor_calls = 0\fC [static]\fP"
+
+.PP
+Definition at line 7582 of file gtest_unittest\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

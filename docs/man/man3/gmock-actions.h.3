@@ -1,0 +1,658 @@
+.TH "build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <errno\&.h>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <tuple>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include 'gmock/internal/gmock\-internal\-utils\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-port\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-pp\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::internal::BuiltInDefaultValueGetter< T, kDefaultConstructible >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::BuiltInDefaultValueGetter< T, false >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::BuiltInDefaultValue< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::BuiltInDefaultValue< const T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::BuiltInDefaultValue< T * >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::negation< P >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::conjunction<\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::conjunction< P1 >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::conjunction< P1, Ps\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::disjunction<\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::disjunction< P1 >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::disjunction< P1, Ps\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::is_implicitly_convertible< From, To >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::is_callable_r_impl< Void, R, F, Args >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::is_callable_r_impl< void_t< call_result_t< F, Args\&.\&.\&. > >, R, F, Args\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::OnceAction< Result(Args\&.\&.\&.)>\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::OnceAction< Result(Args\&.\&.\&.)>::StdFunctionAdaptor< Callable >::CallableTag\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::DefaultValue< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::DefaultValue< T & >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::DefaultValue< void >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::ActionInterface< F >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::Action< R(Args\&.\&.\&.)>\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::PolymorphicAction< Impl >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ByMoveWrapper< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnAction< R >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnAction< ByMoveWrapper< T > >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnNullAction\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnVoidAction\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnRefAction< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnRefOfCopyAction< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ReturnRoundRobinAction< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::DoDefaultAction\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::AssignAction< T1, T2 >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::SetErrnoAndReturnAction< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::SetArgumentPointeeAction< N, A, typename >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::InvokeMethodAction< Class, MethodPtr >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::InvokeWithoutArgsAction< FunctionImpl >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::InvokeMethodWithoutArgsAction< Class, MethodPtr >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::IgnoreResultAction< A >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::WithArgsAction< InnerAction, I >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::DoAllAction< FinalAction >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::DoAllAction< FinalAction >::UserConstructorTag\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::DoAllAction< InitialAction, OtherActions\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::DoAllAction< InitialAction, OtherActions\&.\&.\&. >::UserConstructorTag\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ReturnNewAction< T, Params >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ReturnArgAction< k >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::SaveArgAction< k, Ptr >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::SaveArgPointeeAction< k, Ptr >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::SetArgRefereeAction< k, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::SetArrayArgumentAction< k, I1, I2 >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::DeleteArgAction< k >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ReturnPointeeAction< Ptr >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ExcessiveArg\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ImplBase< Impl >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ImplBase< Impl >::Holder\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ActionImpl< R(Args\&.\&.\&.), Impl >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP(type,  \fBvalue\fP)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_ARG_UNUSED\fP(\fBi\fP,  data,  el)     , const arg##\fBi\fP##_type& arg##\fBi\fP \fBGTEST_ATTRIBUTE_UNUSED_\fP"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_ARG_TYPES_AND_NAMES_UNUSED_\fP"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_ARG\fP(\fBi\fP,  data,  el)   , const arg##\fBi\fP##_type& arg##\fBi\fP"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_ARG_TYPES_AND_NAMES_\fP     const args_type& args \fBGMOCK_PP_REPEAT\fP(\fBGMOCK_INTERNAL_ARG\fP, , 10)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_TEMPLATE_ARG\fP(\fBi\fP,  data,  el)   , typename arg##\fBi\fP##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_TEMPLATE_ARGS_NAMES_\fP     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_REPEAT\fP(\fBGMOCK_INTERNAL_TEMPLATE_ARG\fP, , 10))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_TYPENAME_PARAM\fP(\fBi\fP,  data,  param)   , typename param##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_TYPENAME_PARAMS_\fP(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_TYPENAME_PARAM\fP, , params))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_TYPE_PARAM\fP(\fBi\fP,  data,  param)   , param##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_TYPE_PARAMS_\fP(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_TYPE_PARAM\fP, , params))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_TYPE_GVALUE_PARAM\fP(\fBi\fP,  data,  param)     , param##_type gmock_p##\fBi\fP"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_TYPE_GVALUE_PARAMS_\fP(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_TYPE_GVALUE_PARAM\fP, , params))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_GVALUE_PARAM\fP(\fBi\fP,  data,  param)     , std::forward<param##_type>(gmock_p##\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_GVALUE_PARAMS_\fP(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_GVALUE_PARAM\fP, , params))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_PARAM\fP(\fBi\fP,  data,  param)     , param(::std::forward<param##_type>(gmock_p##\fBi\fP))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_INIT_PARAMS_\fP(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_INIT_PARAM\fP, , params))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_FIELD_PARAM\fP(\fBi\fP,  data,  param)   param##_type param;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_FIELD_PARAMS_\fP(params)     \fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_FIELD_PARAM\fP, , params)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_ACTION\fP(name,  full_name,  params)"
+.br
+.ti -1c
+.RI "#define \fBACTION\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBACTION_P\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P2\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP2, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P3\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP3, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P4\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP4, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P5\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP5, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P6\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP6, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P7\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP7, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P8\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP8, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P9\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP9, (__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBACTION_P10\fP(name, \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP10, (__VA_ARGS__))"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "template<typename\&.\&.\&. > using \fBtesting::internal::void_t\fP = void"
+.br
+.ti -1c
+.RI "template<typename F , typename\&.\&.\&. Args> using \fBtesting::internal::call_result_t\fP = decltype(std::declval< F >()(std::declval< Args >()\&.\&.\&.))"
+.br
+.ti -1c
+.RI "template<typename R , typename F , typename\&.\&.\&. Args> using \fBtesting::internal::is_callable_r\fP = is_callable_r_impl< void, R, F, Args\&.\&.\&. >"
+.br
+.ti -1c
+.RI "typedef internal::IgnoredValue \fBtesting::Unused\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (void,)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (::std::string, '')"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (bool, false)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (unsigned char, '\\0')"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (signed char, '\\0')"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (char, '\\0')"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (unsigned short, 0U)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (signed short, 0)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (unsigned int, 0U)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (signed int, 0)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (unsigned long, 0UL)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (signed long, 0L)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (unsigned long long, 0)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (signed long long, 0)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (float, 0)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_\fP (double, 0)"
+.br
+.ti -1c
+.RI "template<typename T > std::add_const< T >::type & \fBtesting::internal::as_const\fP (T &t)"
+.br
+.ti -1c
+.RI "template<typename F > Action< F > \fBtesting::MakeAction\fP (ActionInterface< F > *impl)"
+.br
+.ti -1c
+.RI "template<typename Impl > PolymorphicAction< Impl > \fBtesting::MakePolymorphicAction\fP (const Impl &impl)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. Action> internal::DoAllAction< typename std::decay< Action >::type\&.\&.\&. > \fBtesting::DoAll\fP (Action &&\&.\&.\&. action)"
+.br
+.ti -1c
+.RI "template<size_t k, typename InnerAction > internal::WithArgsAction< typename std::decay< InnerAction >::type, k > \fBtesting::WithArg\fP (InnerAction &&action)"
+.br
+.ti -1c
+.RI "template<size_t k, size_t\&.\&.\&. ks, typename InnerAction > internal::WithArgsAction< typename std::decay< InnerAction >::type, k, ks\&.\&.\&. > \fBtesting::WithArgs\fP (InnerAction &&action)"
+.br
+.ti -1c
+.RI "template<typename InnerAction > internal::WithArgsAction< typename std::decay< InnerAction >::type > \fBtesting::WithoutArgs\fP (InnerAction &&action)"
+.br
+.ti -1c
+.RI "template<typename R > internal::ReturnAction< R > \fBtesting::Return\fP (R \fBvalue\fP)"
+.br
+.ti -1c
+.RI "PolymorphicAction< internal::ReturnNullAction > \fBtesting::ReturnNull\fP ()"
+.br
+.ti -1c
+.RI "PolymorphicAction< internal::ReturnVoidAction > \fBtesting::Return\fP ()"
+.br
+.ti -1c
+.RI "template<typename R > internal::ReturnRefAction< R > \fBtesting::ReturnRef\fP (R &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename R , R *  = nullptr> internal::ReturnRefAction< R > \fBtesting::ReturnRef\fP (R &&)=delete"
+.br
+.ti -1c
+.RI "template<typename R > internal::ReturnRefOfCopyAction< R > \fBtesting::ReturnRefOfCopy\fP (const R &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename R > internal::ByMoveWrapper< R > \fBtesting::ByMove\fP (R \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename T > internal::ReturnRoundRobinAction< T > \fBtesting::ReturnRoundRobin\fP (std::vector< T > vals)"
+.br
+.ti -1c
+.RI "template<typename T > internal::ReturnRoundRobinAction< T > \fBtesting::ReturnRoundRobin\fP (std::initializer_list< T > vals)"
+.br
+.ti -1c
+.RI "internal::DoDefaultAction \fBtesting::DoDefault\fP ()"
+.br
+.ti -1c
+.RI "template<size_t N, typename T > internal::SetArgumentPointeeAction< N, T > \fBtesting::SetArgPointee\fP (T \fBvalue\fP)"
+.br
+.ti -1c
+.RI "template<size_t N, typename T > internal::SetArgumentPointeeAction< N, T > \fBtesting::SetArgumentPointee\fP (T \fBvalue\fP)"
+.br
+.ti -1c
+.RI "template<typename T1 , typename T2 > PolymorphicAction< internal::AssignAction< T1, T2 > > \fBtesting::Assign\fP (T1 *ptr, T2 val)"
+.br
+.ti -1c
+.RI "template<typename T > PolymorphicAction< internal::SetErrnoAndReturnAction< T > > \fBtesting::SetErrnoAndReturn\fP (int errval, T result)"
+.br
+.ti -1c
+.RI "template<typename FunctionImpl > std::decay< FunctionImpl >::type \fBtesting::Invoke\fP (FunctionImpl &&function_impl)"
+.br
+.ti -1c
+.RI "template<class Class , typename MethodPtr > internal::InvokeMethodAction< Class, MethodPtr > \fBtesting::Invoke\fP (Class *obj_ptr, MethodPtr method_ptr)"
+.br
+.ti -1c
+.RI "template<typename FunctionImpl > internal::InvokeWithoutArgsAction< typename std::decay< FunctionImpl >::type > \fBtesting::InvokeWithoutArgs\fP (FunctionImpl function_impl)"
+.br
+.ti -1c
+.RI "template<class Class , typename MethodPtr > internal::InvokeMethodWithoutArgsAction< Class, MethodPtr > \fBtesting::InvokeWithoutArgs\fP (Class *obj_ptr, MethodPtr method_ptr)"
+.br
+.ti -1c
+.RI "template<typename A > internal::IgnoreResultAction< A > \fBtesting::IgnoreResult\fP (const A &an_action)"
+.br
+.ti -1c
+.RI "template<typename T > inline ::std::reference_wrapper< T > \fBtesting::ByRef\fP (T &l_value)"
+.br
+.ti -1c
+.RI "template<typename T , typename\&.\&.\&. Params> internal::ReturnNewAction< T, typename std::decay< Params >::type\&.\&.\&. > \fBtesting::ReturnNew\fP (Params &&\&.\&.\&. params)"
+.br
+.ti -1c
+.RI "template<size_t k> internal::ReturnArgAction< k > \fBtesting::ReturnArg\fP ()"
+.br
+.ti -1c
+.RI "template<size_t k, typename Ptr > internal::SaveArgAction< k, Ptr > \fBtesting::SaveArg\fP (Ptr pointer)"
+.br
+.ti -1c
+.RI "template<size_t k, typename Ptr > internal::SaveArgPointeeAction< k, Ptr > \fBtesting::SaveArgPointee\fP (Ptr pointer)"
+.br
+.ti -1c
+.RI "template<size_t k, typename T > internal::SetArgRefereeAction< k, typename std::decay< T >::type > \fBtesting::SetArgReferee\fP (T &&\fBvalue\fP)"
+.br
+.ti -1c
+.RI "template<size_t k, typename I1 , typename I2 > internal::SetArrayArgumentAction< k, I1, I2 > \fBtesting::SetArrayArgument\fP (I1 first, I2 last)"
+.br
+.ti -1c
+.RI "template<size_t k> internal::DeleteArgAction< k > \fBtesting::DeleteArg\fP ()"
+.br
+.ti -1c
+.RI "template<typename Ptr > internal::ReturnPointeeAction< Ptr > \fBtesting::ReturnPointee\fP (Ptr pointer)"
+.br
+.ti -1c
+.RI "template<typename F , typename Impl > ::\fBtesting::Action\fP< F > \fBtesting::internal::MakeAction\fP ()"
+.br
+.ti -1c
+.RI "template<typename F , typename Impl > ::\fBtesting::Action\fP< F > \fBtesting::internal::MakeAction\fP (std::shared_ptr< Impl > impl)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ACTION(name)"
+\fBValue:\fP
+.PP
+.nf
+  class name##Action {                                                        \
+   public:                                                                    \
+    explicit name##Action() noexcept {}                                       \
+    name##Action(const name##Action&) noexcept {}                             \
+    template <typename F>                                                     \
+    operator ::testing::Action<F>() const {                                   \
+      return ::testing::internal::MakeAction<F, gmock_Impl>();                \
+    }                                                                         \
+                                                                              \
+   private:                                                                   \
+    class gmock_Impl {                                                        \
+     public:                                                                  \
+      template <typename function_type, typename return_type,                 \
+                typename args_type, GMOCK_ACTION_TEMPLATE_ARGS_NAMES_>        \
+      return_type gmock_PerformImpl(GMOCK_ACTION_ARG_TYPES_AND_NAMES_) const; \
+    };                                                                        \
+  };                                                                          \
+  inline name##Action name() GTEST_MUST_USE_RESULT_;                          \
+  inline name##Action name() { return name##Action(); }                       \
+  template <typename function_type, typename return_type, typename args_type, \
+            GMOCK_ACTION_TEMPLATE_ARGS_NAMES_>                                \
+  return_type name##Action::gmock_Impl::gmock_PerformImpl(                    \
+      GMOCK_ACTION_ARG_TYPES_AND_NAMES_UNUSED_) const
+.fi
+.PP
+Definition at line 2238 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP, (__VA_ARGS__))"
+
+.PP
+Definition at line 2263 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P10(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP10, (__VA_ARGS__))"
+
+.PP
+Definition at line 2290 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P2(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP2, (__VA_ARGS__))"
+
+.PP
+Definition at line 2266 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P3(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP3, (__VA_ARGS__))"
+
+.PP
+Definition at line 2269 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P4(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP4, (__VA_ARGS__))"
+
+.PP
+Definition at line 2272 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P5(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP5, (__VA_ARGS__))"
+
+.PP
+Definition at line 2275 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P6(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP6, (__VA_ARGS__))"
+
+.PP
+Definition at line 2278 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P7(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP7, (__VA_ARGS__))"
+
+.PP
+Definition at line 2281 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P8(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP8, (__VA_ARGS__))"
+
+.PP
+Definition at line 2284 of file gmock\-actions\&.h\&.
+.SS "#define ACTION_P9(name,  \&.\&.\&.)     \fBGMOCK_INTERNAL_ACTION\fP(name, name##ActionP9, (__VA_ARGS__))"
+
+.PP
+Definition at line 2287 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_ARG_TYPES_AND_NAMES_     const args_type& args \fBGMOCK_PP_REPEAT\fP(\fBGMOCK_INTERNAL_ARG\fP, , 10)"
+
+.PP
+Definition at line 2159 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_ARG_TYPES_AND_NAMES_UNUSED_"
+\fBValue:\fP
+.PP
+.nf
+  const args_type& args GTEST_ATTRIBUTE_UNUSED_ GMOCK_PP_REPEAT( \
+      GMOCK_INTERNAL_ARG_UNUSED, , 10)
+.fi
+.PP
+Definition at line 2154 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_FIELD_PARAMS_(params)     \fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_FIELD_PARAM\fP, , params)"
+
+.PP
+Definition at line 2190 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_GVALUE_PARAMS_(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_GVALUE_PARAM\fP, , params))"
+
+.PP
+Definition at line 2181 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_INIT_PARAMS_(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_INIT_PARAM\fP, , params))"
+
+.PP
+Definition at line 2186 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_TEMPLATE_ARGS_NAMES_     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_REPEAT\fP(\fBGMOCK_INTERNAL_TEMPLATE_ARG\fP, , 10))"
+
+.PP
+Definition at line 2163 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_TYPE_GVALUE_PARAMS_(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_TYPE_GVALUE_PARAM\fP, , params))"
+
+.PP
+Definition at line 2176 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_TYPE_PARAMS_(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_TYPE_PARAM\fP, , params))"
+
+.PP
+Definition at line 2171 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_TYPENAME_PARAMS_(params)     \fBGMOCK_PP_TAIL\fP(\fBGMOCK_PP_FOR_EACH\fP(\fBGMOCK_INTERNAL_TYPENAME_PARAM\fP, , params))"
+
+.PP
+Definition at line 2167 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_DEFINE_DEFAULT_ACTION_FOR_RETURN_TYPE_(type, \fBvalue\fP)"
+\fBValue:\fP
+.PP
+.nf
+  template <>                                                     \
+  class BuiltInDefaultValue<type> {                               \
+   public:                                                        \
+    static bool Exists() { return true; }                         \
+    static type Get() { return value; }                           \
+  }
+.fi
+.PP
+Definition at line 224 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_ACTION(name, full_name, params)"
+
+.PP
+Definition at line 2193 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_ARG(\fBi\fP, data, el)   , const arg##\fBi\fP##_type& arg##\fBi\fP"
+
+.PP
+Definition at line 2158 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_ARG_UNUSED(\fBi\fP, data, el)     , const arg##\fBi\fP##_type& arg##\fBi\fP \fBGTEST_ATTRIBUTE_UNUSED_\fP"
+
+.PP
+Definition at line 2152 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_FIELD_PARAM(\fBi\fP, data, param)   param##_type param;"
+
+.PP
+Definition at line 2189 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_GVALUE_PARAM(\fBi\fP, data, param)     , std::forward<param##_type>(gmock_p##\fBi\fP)"
+
+.PP
+Definition at line 2179 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_PARAM(\fBi\fP, data, param)     , param(::std::forward<param##_type>(gmock_p##\fBi\fP))"
+
+.PP
+Definition at line 2184 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_TEMPLATE_ARG(\fBi\fP, data, el)   , typename arg##\fBi\fP##_type"
+
+.PP
+Definition at line 2162 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_TYPE_GVALUE_PARAM(\fBi\fP, data, param)     , param##_type gmock_p##\fBi\fP"
+
+.PP
+Definition at line 2174 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_TYPE_PARAM(\fBi\fP, data, param)   , param##_type"
+
+.PP
+Definition at line 2170 of file gmock\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_TYPENAME_PARAM(\fBi\fP, data, param)   , typename param##_type"
+
+.PP
+Definition at line 2166 of file gmock\-actions\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

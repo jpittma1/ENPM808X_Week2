@@ -1,0 +1,72 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/gtest-death-test.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/gtest-death-test.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/internal/gtest\-death\-test\-internal\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_UNSUPPORTED_DEATH_TEST\fP(statement,  regex,  terminator)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_DEATH_IF_SUPPORTED\fP(statement,  regex)     \fBGTEST_UNSUPPORTED_DEATH_TEST\fP(statement, regex, )"
+.br
+.ti -1c
+.RI "#define \fBASSERT_DEATH_IF_SUPPORTED\fP(statement,  regex)     \fBGTEST_UNSUPPORTED_DEATH_TEST\fP(statement, regex, return)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_DECLARE_string_\fP (death_test_style)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ASSERT_DEATH_IF_SUPPORTED(statement, regex)     \fBGTEST_UNSUPPORTED_DEATH_TEST\fP(statement, regex, return)"
+
+.PP
+Definition at line 339 of file gtest\-death\-test\&.h\&.
+.SS "#define EXPECT_DEATH_IF_SUPPORTED(statement, regex)     \fBGTEST_UNSUPPORTED_DEATH_TEST\fP(statement, regex, )"
+
+.PP
+Definition at line 337 of file gtest\-death\-test\&.h\&.
+.SS "#define GTEST_UNSUPPORTED_DEATH_TEST(statement, regex, terminator)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                                \
+  if (::testing::internal::AlwaysTrue()) {                                     \
+    GTEST_LOG_(WARNING) << "Death tests are not supported on this platform\&.\n" \
+                        << "Statement '" #statement "' cannot be verified\&.";   \
+  } else if (::testing::internal::AlwaysFalse()) {                             \
+    ::testing::internal::RE::PartialMatch("\&.*", (regex));                      \
+    GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement);                 \
+    terminator;                                                                \
+  } else                                                                       \
+    ::testing::Message()
+.fi
+.PP
+Definition at line 314 of file gtest\-death\-test\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "GTEST_DECLARE_string_ (death_test_style)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

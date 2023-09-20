@@ -1,0 +1,60 @@
+.TH "build/_deps/googletest-src/googletest/test/gtest_repeat_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/gtest_repeat_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_CHECK_INT_EQ_\fP(expected,  actual)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_CHECK_INT_EQ_(expected, actual)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                             \
+    const int expected_val = (expected);                           \
+    const int actual_val = (actual);                               \
+    if (::testing::internal::IsTrue(expected_val != actual_val)) { \
+      ::std::cout << "Value of: " #actual "\n"                     \
+                  << "  Actual: " << actual_val << "\n"            \
+                  << "Expected: " #expected "\n"                   \
+                  << "Which is: " << expected_val << "\n";         \\
+      ::testing::internal::posix::Abort();                         \
+    }                                                              \
+  } while (::testing::internal::AlwaysFalse())
+.fi
+.PP
+Definition at line 43 of file gtest_repeat_test\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 197 of file gtest_repeat_test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

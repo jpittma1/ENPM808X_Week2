@@ -1,0 +1,420 @@
+.TH "build/_deps/googletest-src/googletest/test/gtest-typed-test_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/gtest-typed-test_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'test/gtest\-typed\-test_test\&.h'\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCommonTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTest1< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTest2< T >\fP"
+.br
+.ti -1c
+.RI "class \fBlibrary1::NumericTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestWithNames< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestNames\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestSuitePStateTest\fP"
+.br
+.ti -1c
+.RI "class \fBDerivedTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypeParametrizedTestWithNames< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypeParametrizedTestNames\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestP1< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestP2< T >\fP"
+.br
+.ti -1c
+.RI "class \fBlibrary2::NumericTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBlibrary2::TrimmedTest< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBlibrary2::MyPair< T1, T2 >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBlibrary1\fP"
+.br
+.ti -1c
+.RI " \fBlibrary2\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef Types< char, int > \fBTwoTypes\fP"
+.br
+.ti -1c
+.RI "typedef Types< int, long > \fBlibrary1::NumericTypes\fP"
+.br
+.ti -1c
+.RI "using \fBTypedTestSuitePStateDeathTest\fP = \fBTypedTestSuitePStateTest\fP"
+.br
+.ti -1c
+.RI "typedef Types< short, long > \fBMyTwoTypes\fP"
+.br
+.ti -1c
+.RI "using \fBIntAfterTypedTestSuiteP\fP = int"
+.br
+.ti -1c
+.RI "using \fBIntBeforeRegisterTypedTestSuiteP\fP = int"
+.br
+.ti -1c
+.RI "typedef Types< std::vector< double >, std::set< char > > \fBMyContainers\fP"
+.br
+.ti -1c
+.RI "typedef Types< int, double > \fBlibrary2::NumericTypes\fP"
+.br
+.ti -1c
+.RI "typedef Types< int, double, MyPair< int, int > > \fBlibrary2::TrimTypes\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBCommonTest\fP, \fBTwoTypes\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBCommonTest\fP, ValuesAreCorrect)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBCommonTest\fP, ValuesAreStillCorrect)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTest1\fP, int)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest1\fP, A)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTest2\fP, Types< int >)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest2\fP, A)"
+.br
+.ti -1c
+.RI "\fBlibrary1::TYPED_TEST_SUITE\fP (NumericTest, NumericTypes)"
+.br
+.ti -1c
+.RI "\fBlibrary1::TYPED_TEST\fP (NumericTest, DefaultIsZero)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTestWithNames\fP, \fBTwoTypes\fP, \fBTypedTestNames\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTestWithNames\fP, TestSuiteName)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTypedTestSuitePStateTest\fP, SucceedsForMatchingList)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTypedTestSuitePStateTest\fP, IgnoresOrderAndSpaces)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTypedTestSuitePStateDeathTest\fP, DetectsDuplicates)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTypedTestSuitePStateDeathTest\fP, DetectsExtraTest)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTypedTestSuitePStateDeathTest\fP, DetectsMissedTest)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTypedTestSuitePStateDeathTest\fP, DetectsTestAfterRegistration)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBDerivedTest\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBDerivedTest\fP, ValuesAreCorrect)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBDerivedTest\fP, ValuesAreStillCorrect)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBDerivedTest\fP, ValuesAreCorrect, ValuesAreStillCorrect)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (My, \fBDerivedTest\fP, \fBMyTwoTypes\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypeParametrizedTestWithNames\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypeParametrizedTestWithNames\fP, TestSuiteName)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypeParametrizedTestWithNames\fP, TestSuiteName)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (CustomName, \fBTypeParametrizedTestWithNames\fP, \fBTwoTypes\fP, \fBTypeParametrizedTestNames\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypedTestP1\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypedTestP1\fP, A)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypedTestP1\fP, B)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypedTestP1\fP, A, B)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypedTestP2\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypedTestP2\fP, A)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypedTestP2\fP, A)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (Int, \fBTypedTestP1\fP, int)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (Int, \fBTypedTestP2\fP, Types< int >)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (Double, \fBTypedTestP2\fP, Types< double >)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (My, \fBContainerTest\fP, \fBMyContainers\fP)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_SUITE_P\fP (NumericTest)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (NumericTest, DefaultIsZero)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (NumericTest, ZeroIsLessThanOne)"
+.br
+.ti -1c
+.RI "\fBlibrary2::REGISTER_TYPED_TEST_SUITE_P\fP (NumericTest, DefaultIsZero, ZeroIsLessThanOne)"
+.br
+.ti -1c
+.RI "\fBlibrary2::INSTANTIATE_TYPED_TEST_SUITE_P\fP (My, NumericTest, NumericTypes)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_SUITE_P\fP (TrimmedTest)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (TrimmedTest, Test1)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (TrimmedTest, Test2)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (TrimmedTest, Test3)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (TrimmedTest, Test4)"
+.br
+.ti -1c
+.RI "\fBlibrary2::TYPED_TEST_P\fP (TrimmedTest, Test5)"
+.br
+.ti -1c
+.RI "\fBlibrary2::REGISTER_TYPED_TEST_SUITE_P\fP (TrimmedTest, Test1, Test2, Test3, Test4, Test5)"
+.br
+.ti -1c
+.RI "\fBlibrary2::INSTANTIATE_TYPED_TEST_SUITE_P\fP (My, TrimmedTest, TrimTypes)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBIntAfterTypedTestSuiteP\fP \fBafter\fP = 0"
+.br
+.ti -1c
+.RI "\fBIntBeforeRegisterTypedTestSuiteP\fP \fBbefore\fP = 0"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBIntAfterTypedTestSuiteP\fP =  int"
+
+.PP
+Definition at line 339 of file gtest\-typed\-test_test\&.cc\&.
+.SS "using \fBIntBeforeRegisterTypedTestSuiteP\fP =  int"
+
+.PP
+Definition at line 346 of file gtest\-typed\-test_test\&.cc\&.
+.SS "typedef Types<std::vector<double>, std::set<char> > \fBMyContainers\fP"
+
+.PP
+Definition at line 378 of file gtest\-typed\-test_test\&.cc\&.
+.SS "typedef Types<short, long> \fBMyTwoTypes\fP"
+
+.PP
+Definition at line 286 of file gtest\-typed\-test_test\&.cc\&.
+.SS "typedef Types<char, int> \fBTwoTypes\fP"
+
+.PP
+Definition at line 92 of file gtest\-typed\-test_test\&.cc\&.
+.SS "using \fBTypedTestSuitePStateDeathTest\fP =  \fBTypedTestSuitePStateTest\fP"
+
+.PP
+Definition at line 225 of file gtest\-typed\-test_test\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (CustomName, \fBTypeParametrizedTestWithNames\fP, \fBTwoTypes\fP, \fBTypeParametrizedTestNames\fP)"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (Double, \fBTypedTestP2\fP, Types< double >)"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (Int, \fBTypedTestP1\fP, int)"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (Int, \fBTypedTestP2\fP, Types< int >)"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (My, \fBContainerTest\fP, \fBMyContainers\fP)"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (My, \fBDerivedTest\fP, \fBMyTwoTypes\fP)"
+
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBDerivedTest\fP, ValuesAreCorrect, ValuesAreStillCorrect)"
+
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypedTestP1\fP, A, B)"
+
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypedTestP2\fP, A)"
+
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypeParametrizedTestWithNames\fP, TestSuiteName)"
+
+.SS "TEST_F (\fBTypedTestSuitePStateDeathTest\fP, DetectsDuplicates)"
+
+.PP
+Definition at line 227 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TEST_F (\fBTypedTestSuitePStateDeathTest\fP, DetectsExtraTest)"
+
+.PP
+Definition at line 233 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TEST_F (\fBTypedTestSuitePStateDeathTest\fP, DetectsMissedTest)"
+
+.PP
+Definition at line 239 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TEST_F (\fBTypedTestSuitePStateDeathTest\fP, DetectsTestAfterRegistration)"
+
+.PP
+Definition at line 247 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TEST_F (\fBTypedTestSuitePStateTest\fP, IgnoresOrderAndSpaces)"
+
+.PP
+Definition at line 219 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TEST_F (\fBTypedTestSuitePStateTest\fP, SucceedsForMatchingList)"
+
+.PP
+Definition at line 211 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST (\fBCommonTest\fP, ValuesAreCorrect)"
+
+.PP
+Definition at line 95 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST (\fBCommonTest\fP, ValuesAreStillCorrect)"
+
+.PP
+Definition at line 115 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest1\fP, A)"
+
+.PP
+Definition at line 134 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest2\fP, A)"
+
+.PP
+Definition at line 145 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTestWithNames\fP, TestSuiteName)"
+
+.PP
+Definition at line 180 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_P (\fBDerivedTest\fP, ValuesAreCorrect)"
+
+.PP
+Definition at line 263 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_P (\fBDerivedTest\fP, ValuesAreStillCorrect)"
+
+.PP
+Definition at line 275 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypedTestP1\fP, A)"
+
+.PP
+Definition at line 341 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypedTestP1\fP, B)"
+
+.PP
+Definition at line 342 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypedTestP2\fP, A)"
+
+.PP
+Definition at line 357 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypeParametrizedTestWithNames\fP, TestSuiteName)"
+
+.PP
+Definition at line 296 of file gtest\-typed\-test_test\&.cc\&.
+.SS "TYPED_TEST_SUITE (\fBCommonTest\fP, \fBTwoTypes\fP)"
+
+.SS "TYPED_TEST_SUITE (\fBTypedTest1\fP, int)"
+
+.SS "TYPED_TEST_SUITE (\fBTypedTest2\fP, Types< int >)"
+
+.SS "TYPED_TEST_SUITE (\fBTypedTestWithNames\fP, \fBTwoTypes\fP, \fBTypedTestNames\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBDerivedTest\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypedTestP1\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypedTestP2\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypeParametrizedTestWithNames\fP)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBIntAfterTypedTestSuiteP\fP after = 0"
+
+.PP
+Definition at line 363 of file gtest\-typed\-test_test\&.cc\&.
+.SS "\fBIntBeforeRegisterTypedTestSuiteP\fP before = 0"
+
+.PP
+Definition at line 364 of file gtest\-typed\-test_test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

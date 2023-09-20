@@ -1,0 +1,96 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock-pp_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock-pp_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/internal/gmock\-pp\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::internal::gmockpp::Test< Args >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal::gmockpp\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_TEST_REPLACE_comma_WITH_COMMA_I_comma\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_TEST_REPLACE_comma_WITH_COMMA\fP(\fBx\fP)     \fBGMOCK_PP_CAT\fP(GMOCK_TEST_REPLACE_comma_WITH_COMMA_I_, \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_TYPE_TEST\fP(_i,  _Data,  _element)     \fBGMOCK_PP_COMMA_IF\fP(_i) _element"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_VAR_TEST_1\fP(_x)   1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_VAR_TEST_2\fP(_x,  _y)   2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_VAR_TEST_3\fP(_x,  _y,  _z)   3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_VAR_TEST\fP(\&.\&.\&.)     \fBGMOCK_PP_VARIADIC_CALL\fP(GMOCK_PP_INTERNAL_VAR_TEST_, __VA_ARGS__)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IS_EMPTY_TEST_1\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GMOCK_PP_INTERNAL_IS_EMPTY_TEST_1"
+
+.PP
+Definition at line 74 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_PP_INTERNAL_TYPE_TEST(_i, _Data, _element)     \fBGMOCK_PP_COMMA_IF\fP(_i) _element"
+
+.PP
+Definition at line 58 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_PP_INTERNAL_VAR_TEST( \&.\&.\&.)     \fBGMOCK_PP_VARIADIC_CALL\fP(GMOCK_PP_INTERNAL_VAR_TEST_, __VA_ARGS__)"
+
+.PP
+Definition at line 67 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_PP_INTERNAL_VAR_TEST_1(_x)   1"
+
+.PP
+Definition at line 63 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_PP_INTERNAL_VAR_TEST_2(_x, _y)   2"
+
+.PP
+Definition at line 64 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_PP_INTERNAL_VAR_TEST_3(_x, _y, _z)   3"
+
+.PP
+Definition at line 65 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_TEST_REPLACE_comma_WITH_COMMA(\fBx\fP)     \fBGMOCK_PP_CAT\fP(GMOCK_TEST_REPLACE_comma_WITH_COMMA_I_, \fBx\fP)"
+
+.PP
+Definition at line 5 of file gmock\-pp_test\&.cc\&.
+.SS "#define GMOCK_TEST_REPLACE_comma_WITH_COMMA_I_comma   ,"
+
+.PP
+Definition at line 4 of file gmock\-pp_test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

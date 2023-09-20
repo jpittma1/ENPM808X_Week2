@@ -1,0 +1,862 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/internal/gtest-port.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/internal/gtest-port.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <cerrno>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <locale>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <tuple>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <sys/stat\&.h>\fP
+.br
+\fC#include <sys/types\&.h>\fP
+.br
+\fC#include 'gtest/internal/custom/gtest\-port\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\-arch\&.h'\fP
+.br
+\fC#include <strings\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <regex\&.h>\fP
+.br
+\fC#include <typeinfo>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::Secret\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::GTestLog\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ConstRef< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ConstRef< T & >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::Mutex\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::GTestMutexLock\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ThreadLocal< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeWithSize< size >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeWithSize< 4 >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeWithSize< 8 >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal::posix\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_HAS_MUTEX_AND_THREAD_LOCAL_\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_NOTIFICATION_\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DEV_EMAIL_\fP   'googletestframework@@googlegroups\&.com'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_PREFIX_\fP   'gtest_'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_PREFIX_DASH_\fP   'gtest\-'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_PREFIX_UPPER_\fP   'GTEST_'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_NAME_\fP   'Google Test'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PROJECT_URL_\fP   'https://github\&.com/google/googletest/'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INIT_GOOGLE_TEST_NAME_\fP   'testing::InitGoogleTest'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP(warnings)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP()"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DISABLE_MSC_DEPRECATED_PUSH_\fP()     \fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP(4996)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DISABLE_MSC_DEPRECATED_POP_\fP()   \fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP()"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_POSIX_RE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_USES_POSIX_RE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_EXCEPTIONS\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_STD_WSTRING\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_FILE_SYSTEM\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_RTTI\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_PTHREAD\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_CLONE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_STREAM_REDIRECTION\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_WIDE_STRING_USES_UTF16_\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_CAN_STREAM_RESULTS_\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_AMBIGUOUS_ELSE_BLOCKER_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAVE_ATTRIBUTE_\fP(\fBx\fP)   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAVE_FEATURE_\fP(\fBx\fP)   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ATTRIBUTE_UNUSED_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ATTRIBUTE_PRINTF_\fP(string_index,  first_to_check)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_MUST_USE_RESULT_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTENTIONAL_CONST_COND_PUSH_\fP()     \fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP(4127)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTENTIONAL_CONST_COND_POP_\fP()   \fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP()"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_SEH\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_API_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DEFAULT_DEATH_TEST_STYLE\fP   'fast'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_NO_INLINE_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_NO_TAIL_CALL_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_CXXABI_H_\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ATTRIBUTE_NO_SANITIZE_MEMORY_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ATTRIBUTE_NO_SANITIZE_HWADDRESS_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ATTRIBUTE_NO_SANITIZE_THREAD_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_LOG_\fP(severity)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_CHECK_\fP(condition)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_CHECK_POSIX_SUCCESS_\fP(posix_call)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REFERENCE_TO_CONST_\fP(T)     typename ::\fBtesting::internal::ConstRef\fP<T>::type"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DECLARE_STATIC_MUTEX_\fP(mutex)     extern ::\fBtesting::internal::Mutex\fP mutex"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DEFINE_STATIC_MUTEX_\fP(mutex)   ::\fBtesting::internal::Mutex\fP mutex"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PATH_SEP_\fP   '/'"
+.br
+.ti -1c
+.RI "#define \fBGTEST_HAS_ALT_PATH_SEP_\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_SNPRINTF_\fP   snprintf"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_NAME_\fP(name)   gtest_##name"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG\fP(name)   FLAGS_gtest_##name"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DEFINE_bool_\fP(name,  default_val,  doc)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DEFINE_int32_\fP(name,  default_val,  doc)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DEFINE_string_\fP(name,  default_val,  doc)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DECLARE_bool_\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DECLARE_int32_\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_DECLARE_string_\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_SAVER_\fP   ::\fBtesting::internal::GTestFlagSaver\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_GET\fP(name)   ::\fBtesting::GTEST_FLAG\fP(name)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAG_SET\fP(name,  \fBvalue\fP)   (void)(::\fBtesting::GTEST_FLAG\fP(name) = \fBvalue\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_USE_OWN_FLAGFILE_FLAG_\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_EXCLUSIVE_LOCK_REQUIRED_\fP(locks)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_LOCK_EXCLUDED_\fP(locks)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTERNAL_DEPRECATED\fP(message)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTERNAL_HAS_ANY\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTERNAL_HAS_OPTIONAL\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTERNAL_HAS_STRING_VIEW\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTERNAL_HAS_VARIANT\fP   0"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef GTestMutexLock \fBtesting::internal::MutexLock\fP"
+.br
+.ti -1c
+.RI "typedef struct stat \fBtesting::internal::posix::StatStruct\fP"
+.br
+.ti -1c
+.RI "using \fBtesting::internal::BiggestInt\fP = long long"
+.br
+.ti -1c
+.RI "using \fBtesting::internal::TimeInMillis\fP = int64_t"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtesting::internal::GTestLogSeverity\fP { \fBtesting::internal::GTEST_INFO\fP, \fBtesting::internal::GTEST_WARNING\fP, \fBtesting::internal::GTEST_ERROR\fP, \fBtesting::internal::GTEST_FATAL\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::IsTrue\fP (bool condition)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_DISABLE_MSC_WARNINGS_PUSH_\fP (4251) class \fBGTEST_API_\fP TypedTestSuitePState"
+.br
+.ti -1c
+.RI "\fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP() \fBGTEST_API_\fP \fBGTEST_API_\fP ::std::string \fBtesting::internal::FormatCompilerIndependentFileLocation\fP (const char *file, int line)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::LogToStderr\fP ()"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::FlushInfoLog\fP ()"
+.br
+.ti -1c
+.RI "template<typename To > To \fBtesting::internal::ImplicitCast_\fP (To \fBx\fP)"
+.br
+.ti -1c
+.RI "template<class Derived , class Base > Derived * \fBtesting::internal::CheckedDowncastToActualType\fP (\fBBase\fP *base)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::CaptureStdout\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetCapturedStdout\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::CaptureStderr\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetCapturedStderr\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP size_t \fBtesting::internal::GetFileSize\fP (FILE *file)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::ReadEntireFile\fP (FILE *file)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< std::string > \fBtesting::internal::GetArgvs\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP size_t \fBtesting::internal::GetThreadCount\fP ()"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsAlpha\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsAlNum\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsDigit\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsLower\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsSpace\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsUpper\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsXDigit\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsXDigit\fP (char16_t \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsXDigit\fP (char32_t \fBch\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsXDigit\fP (wchar_t \fBch\fP)"
+.br
+.ti -1c
+.RI "char \fBtesting::internal::ToLower\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "char \fBtesting::internal::ToUpper\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::internal::StripTrailingSpaces\fP (std::string str)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::FileNo\fP (FILE *file)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::Stat\fP (const char *path, StatStruct *buf)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::RmDir\fP (const char *dir)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::posix::IsDir\fP (const StatStruct &st)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::DoIsATTY\fP (int fd)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::StrCaseCmp\fP (const char *s1, const char *s2)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::IsATTY\fP (int fd)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::ChDir\fP (const char *dir)"
+.br
+.ti -1c
+.RI "FILE * \fBtesting::internal::posix::FOpen\fP (const char *path, const char *mode)"
+.br
+.ti -1c
+.RI "FILE * \fBtesting::internal::posix::FReopen\fP (const char *path, const char *mode, FILE *stream)"
+.br
+.ti -1c
+.RI "FILE * \fBtesting::internal::posix::FDOpen\fP (int fd, const char *mode)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::FClose\fP (FILE *fp)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::Read\fP (int fd, void *buf, unsigned int \fBcount\fP)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::Write\fP (int fd, const void *buf, unsigned int \fBcount\fP)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::posix::Close\fP (int fd)"
+.br
+.ti -1c
+.RI "const char * \fBtesting::internal::posix::StrError\fP (int errnum)"
+.br
+.ti -1c
+.RI "const char * \fBtesting::internal::posix::GetEnv\fP (const char *name)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::posix::Abort\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ParseInt32\fP (const Message &src_text, const char *str, int32_t *\fBvalue\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::BoolFromGTestEnv\fP (const char *flag, bool default_val)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP int32_t \fBtesting::internal::Int32FromGTestEnv\fP (const char *flag, int32_t default_val)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::internal::OutputFlagAlsoCheckEnvVar\fP ()"
+.br
+.ti -1c
+.RI "const char * \fBtesting::internal::StringFromGTestEnv\fP (const char *flag, const char *default_val)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "constexpr BiggestInt \fBtesting::internal::kMaxBiggestInt\fP = (std::numeric_limits<BiggestInt>::max)()"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_AMBIGUOUS_ELSE_BLOCKER_"
+\fBValue:\fP
+.PP
+.nf
+  switch (0)                          \
+  case 0:                             \
+  default:
+.fi
+.PP
+Definition at line 711 of file gtest\-port\&.h\&.
+.SS "#define GTEST_API_"
+
+.PP
+Definition at line 842 of file gtest\-port\&.h\&.
+.SS "#define GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_"
+
+.PP
+Definition at line 889 of file gtest\-port\&.h\&.
+.SS "#define GTEST_ATTRIBUTE_NO_SANITIZE_HWADDRESS_"
+
+.PP
+Definition at line 898 of file gtest\-port\&.h\&.
+.SS "#define GTEST_ATTRIBUTE_NO_SANITIZE_MEMORY_"
+
+.PP
+Definition at line 881 of file gtest\-port\&.h\&.
+.SS "#define GTEST_ATTRIBUTE_NO_SANITIZE_THREAD_"
+
+.PP
+Definition at line 905 of file gtest\-port\&.h\&.
+.SS "#define GTEST_ATTRIBUTE_PRINTF_(string_index, first_to_check)"
+
+.PP
+Definition at line 765 of file gtest\-port\&.h\&.
+.SS "static bool dummy2 GTEST_ATTRIBUTE_UNUSED_"
+\fBValue:\fP
+.PP
+.nf
+=
+    StaticAssertTypeEq<const int, const int>()
+.fi
+.PP
+Definition at line 751 of file gtest\-port\&.h\&.
+.SS "#define GTEST_CAN_STREAM_RESULTS_   0"
+
+.PP
+Definition at line 695 of file gtest\-port\&.h\&.
+.SS "#define GTEST_CHECK_(condition)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_               \
+  if (::testing::internal::IsTrue(condition)) \
+    ;                                         \\
+  else                                        \\
+    GTEST_LOG_(FATAL) << "Condition " #condition " failed\&. "
+.fi
+.PP
+Definition at line 1078 of file gtest\-port\&.h\&.
+.SS "#define GTEST_CHECK_POSIX_SUCCESS_(posix_call)"
+\fBValue:\fP
+.PP
+.nf
+  if (const int gtest_error = (posix_call))    \
+  GTEST_LOG_(FATAL) << #posix_call << "failed with error " << gtest_error
+.fi
+.PP
+Definition at line 1091 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DECLARE_bool_(name)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                      \
+  GTEST_API_ extern bool GTEST_FLAG(name); \
+  }                                        \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 2275 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DECLARE_int32_(name)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                              \
+  GTEST_API_ extern std::int32_t GTEST_FLAG(name); \
+  }                                                \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 2280 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DECLARE_STATIC_MUTEX_(mutex)     extern ::\fBtesting::internal::Mutex\fP mutex"
+
+.PP
+Definition at line 1877 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DECLARE_string_(name)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                               \
+  GTEST_API_ extern ::std::string GTEST_FLAG(name); \
+  }                                                 \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 2285 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DEFAULT_DEATH_TEST_STYLE   'fast'"
+
+.PP
+Definition at line 846 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DEFINE_bool_(name, default_val, doc)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                               \
+  GTEST_API_ bool GTEST_FLAG(name) = (default_val); \
+  }                                                 \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 2258 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DEFINE_int32_(name, default_val, doc)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                                       \
+  GTEST_API_ std::int32_t GTEST_FLAG(name) = (default_val); \
+  }                                                         \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 2263 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DEFINE_STATIC_MUTEX_(mutex)   ::\fBtesting::internal::Mutex\fP mutex"
+
+.PP
+Definition at line 1880 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DEFINE_string_(name, default_val, doc)"
+\fBValue:\fP
+.PP
+.nf
+  namespace testing {                                        \
+  GTEST_API_ ::std::string GTEST_FLAG(name) = (default_val); \
+  }                                                          \
+  static_assert(true, "no-op to require trailing semicolon")
+.fi
+.PP
+Definition at line 2268 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DEV_EMAIL_   'googletestframework@@googlegroups\&.com'"
+
+.PP
+Definition at line 330 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DISABLE_MSC_DEPRECATED_POP_()   \fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP()"
+
+.PP
+Definition at line 375 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DISABLE_MSC_DEPRECATED_PUSH_()     \fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP(4996)"
+
+.PP
+Definition at line 373 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DISABLE_MSC_WARNINGS_POP_()"
+
+.PP
+Definition at line 361 of file gtest\-port\&.h\&.
+.SS "#define GTEST_DISABLE_MSC_WARNINGS_PUSH_(warnings)"
+
+.PP
+Definition at line 360 of file gtest\-port\&.h\&.
+.SS "#define GTEST_EXCLUSIVE_LOCK_REQUIRED_(locks)"
+
+.PP
+Definition at line 2301 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG(name)   FLAGS_gtest_##name"
+
+.PP
+Definition at line 2226 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_GET(name)   ::\fBtesting::GTEST_FLAG\fP(name)"
+
+.PP
+Definition at line 2293 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_NAME_(name)   gtest_##name"
+
+.PP
+Definition at line 2225 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_PREFIX_   'gtest_'"
+
+.PP
+Definition at line 331 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_PREFIX_DASH_   'gtest\-'"
+
+.PP
+Definition at line 332 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_PREFIX_UPPER_   'GTEST_'"
+
+.PP
+Definition at line 333 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_SAVER_   ::\fBtesting::internal::GTestFlagSaver\fP"
+
+.PP
+Definition at line 2291 of file gtest\-port\&.h\&.
+.SS "#define GTEST_FLAG_SET(name, \fBvalue\fP)   (void)(::\fBtesting::GTEST_FLAG\fP(name) = \fBvalue\fP)"
+
+.PP
+Definition at line 2294 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_ALT_PATH_SEP_   0"
+
+.PP
+Definition at line 1919 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_CLONE   0"
+
+.PP
+Definition at line 631 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_CXXABI_H_   0"
+
+.PP
+Definition at line 872 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_EXCEPTIONS   0"
+
+.PP
+Definition at line 490 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_FILE_SYSTEM   1"
+
+.PP
+Definition at line 513 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_MUTEX_AND_THREAD_LOCAL_   0"
+
+.PP
+Definition at line 316 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_NOTIFICATION_   0"
+
+.PP
+Definition at line 320 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_POSIX_RE   1"
+
+.PP
+Definition at line 423 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_PTHREAD   0"
+
+.PP
+Definition at line 596 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_RTTI   1"
+
+.PP
+Definition at line 568 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_SEH   0"
+
+.PP
+Definition at line 802 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_STD_WSTRING   1"
+
+.PP
+Definition at line 505 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAS_STREAM_REDIRECTION   1"
+
+.PP
+Definition at line 648 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAVE_ATTRIBUTE_(\fBx\fP)   0"
+
+.PP
+Definition at line 730 of file gtest\-port\&.h\&.
+.SS "#define GTEST_HAVE_FEATURE_(\fBx\fP)   0"
+
+.PP
+Definition at line 740 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INIT_GOOGLE_TEST_NAME_   'testing::InitGoogleTest'"
+
+.PP
+Definition at line 339 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTENTIONAL_CONST_COND_POP_()   \fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP()"
+
+.PP
+Definition at line 789 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTENTIONAL_CONST_COND_PUSH_()     \fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP(4127)"
+
+.PP
+Definition at line 787 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTERNAL_DEPRECATED(message)"
+
+.PP
+Definition at line 2336 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTERNAL_HAS_ANY   0"
+
+.PP
+Definition at line 2371 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTERNAL_HAS_OPTIONAL   0"
+
+.PP
+Definition at line 2407 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTERNAL_HAS_STRING_VIEW   0"
+
+.PP
+Definition at line 2440 of file gtest\-port\&.h\&.
+.SS "#define GTEST_INTERNAL_HAS_VARIANT   0"
+
+.PP
+Definition at line 2473 of file gtest\-port\&.h\&.
+.SS "#define GTEST_LOCK_EXCLUDED_(locks)"
+
+.PP
+Definition at line 2302 of file gtest\-port\&.h\&.
+.SS "#define GTEST_LOG_(severity)"
+\fBValue:\fP
+.PP
+.nf
+  ::testing::internal::GTestLog(::testing::internal::GTEST_##severity, \
+                                __FILE__, __LINE__)                    \
+      \&.GetStream()
+.fi
+.PP
+Definition at line 1053 of file gtest\-port\&.h\&.
+.SS "#define GTEST_MUST_USE_RESULT_"
+
+.PP
+Definition at line 776 of file gtest\-port\&.h\&.
+.SS "#define GTEST_NAME_   'Google Test'"
+
+.PP
+Definition at line 334 of file gtest\-port\&.h\&.
+.SS "#define GTEST_NO_INLINE_"
+
+.PP
+Definition at line 853 of file gtest\-port\&.h\&.
+.SS "#define GTEST_NO_TAIL_CALL_"
+
+.PP
+Definition at line 864 of file gtest\-port\&.h\&.
+.SS "#define GTEST_PATH_SEP_   '/'"
+
+.PP
+Definition at line 1918 of file gtest\-port\&.h\&.
+.SS "#define GTEST_PROJECT_URL_   'https://github\&.com/google/googletest/'"
+
+.PP
+Definition at line 335 of file gtest\-port\&.h\&.
+.SS "#define GTEST_REFERENCE_TO_CONST_(T)     typename ::\fBtesting::internal::ConstRef\fP<T>::type"
+
+.PP
+Definition at line 1116 of file gtest\-port\&.h\&.
+.SS "#define GTEST_SNPRINTF_   snprintf"
+
+.PP
+Definition at line 2165 of file gtest\-port\&.h\&.
+.SS "#define GTEST_USE_OWN_FLAGFILE_FLAG_   1"
+
+.PP
+Definition at line 2295 of file gtest\-port\&.h\&.
+.SS "#define GTEST_USES_POSIX_RE   1"
+
+.PP
+Definition at line 438 of file gtest\-port\&.h\&.
+.SS "#define GTEST_WIDE_STRING_USES_UTF16_   0"
+
+.PP
+Definition at line 685 of file gtest\-port\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

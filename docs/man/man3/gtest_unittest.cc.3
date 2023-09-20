@@ -1,0 +1,1219 @@
+.TH "build/_deps/googletest-src/googletest/test/gtest_unittest.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/gtest_unittest.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include <limits\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <stdexcept>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <unordered_set>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBConvertibleGlobalType\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestEventListenersAccessor\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::UnitTestRecordPropertyTestHelper\fP"
+.br
+.ti -1c
+.RI "class \fBTestingVector\fP"
+.br
+.ti -1c
+.RI "struct \fBConvertibleToAssertionResult\fP"
+.br
+.ti -1c
+.RI "class \fBBase\fP"
+.br
+.ti -1c
+.RI "class \fBnamespace1::MyTypeInNameSpace1\fP"
+.br
+.ti -1c
+.RI "class \fBnamespace2::MyTypeInNameSpace2\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::TestInfoTest\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::CodeLocationForTESTF\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::CodeLocationForTESTP\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::CodeLocationForTYPEDTEST< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::CodeLocationForTYPEDTESTP< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::SetUpTestCaseTest\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::SetUpTestSuiteTest\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::Flags\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::ParseFlagsTest\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::CurrentTestInfoTest\fP"
+.br
+.ti -1c
+.RI "class \fBmy_namespace::testing::Test\fP"
+.br
+.ti -1c
+.RI "class \fBmy_namespace::testing::Message\fP"
+.br
+.ti -1c
+.RI "class \fBmy_namespace::testing::AssertionResult\fP"
+.br
+.ti -1c
+.RI "class \fBProtectedFixtureMethodsTest\fP"
+.br
+.ti -1c
+.RI "class \fBStaticAssertTypeEqTestHelper< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTestListener\fP"
+.br
+.ti -1c
+.RI "class \fBSequenceTestingListener\fP"
+.br
+.ti -1c
+.RI "class \fBConversionHelperBase\fP"
+.br
+.ti -1c
+.RI "class \fBConversionHelperDerived\fP"
+.br
+.ti -1c
+.RI "struct \fBHasDebugStringMethods\fP"
+.br
+.ti -1c
+.RI "struct \fBInheritsDebugStringMethods\fP"
+.br
+.ti -1c
+.RI "struct \fBWrongTypeDebugStringMethod\fP"
+.br
+.ti -1c
+.RI "struct \fBNotConstDebugStringMethod\fP"
+.br
+.ti -1c
+.RI "struct \fBMissingDebugStringMethod\fP"
+.br
+.ti -1c
+.RI "class \fBNonContainer\fP"
+.br
+.ti -1c
+.RI "struct \fBConstOnlyContainerWithPointerIterator\fP"
+.br
+.ti -1c
+.RI "struct \fBConstOnlyContainerWithClassIterator\fP"
+.br
+.ti -1c
+.RI "struct \fBConstOnlyContainerWithClassIterator::const_iterator\fP"
+.br
+.ti -1c
+.RI "struct \fBAHashTable\fP"
+.br
+.ti -1c
+.RI "struct \fBNotReallyAHashTable\fP"
+.br
+.ti -1c
+.RI "struct \fBConstructionCounting\fP"
+.br
+.ti -1c
+.RI "class \fBDynamicUnitTestFixture\fP"
+.br
+.ti -1c
+.RI "class \fBDynamicTest< Pass >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBnamespace1\fP"
+.br
+.ti -1c
+.RI " \fBnamespace2\fP"
+.br
+.ti -1c
+.RI " \fBmy_namespace\fP"
+.br
+.ti -1c
+.RI " \fBmy_namespace::testing\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_USE_UNPROTECTED_COMMA_\fP   global_var++, global_var++"
+.br
+.ti -1c
+.RI "#define \fBVERIFY_CODE_LOCATION\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_PARSING_FLAGS_\fP(argv1,  argv2,  expected,  should_print_help)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAT_TUPLE_INT8\fP   int, int, int, int, int, int, int, int,"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAT_TUPLE_INT16\fP   \fBGTEST_FLAT_TUPLE_INT8\fP \fBGTEST_FLAT_TUPLE_INT8\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAT_TUPLE_INT32\fP   \fBGTEST_FLAT_TUPLE_INT16\fP \fBGTEST_FLAT_TUPLE_INT16\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAT_TUPLE_INT64\fP   \fBGTEST_FLAT_TUPLE_INT32\fP \fBGTEST_FLAT_TUPLE_INT32\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAT_TUPLE_INT128\fP   \fBGTEST_FLAT_TUPLE_INT64\fP \fBGTEST_FLAT_TUPLE_INT64\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FLAT_TUPLE_INT256\fP   \fBGTEST_FLAT_TUPLE_INT128\fP \fBGTEST_FLAT_TUPLE_INT128\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int \fBIntAlias\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST\fP (CommandLineFlagsTest, CanBeAccessedInCodeOnceGTestHIsIncluded)"
+.br
+.ti -1c
+.RI "void \fBoperator<<\fP (\fBConvertibleGlobalType\fP &, int)"
+.br
+.ti -1c
+.RI "::std::ostream & \fBoperator<<\fP (::std::ostream &os, const \fBTestingVector\fP &vector)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST\fP (SuccessfulAssertionTest, \fBSUCCEED\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST\fP (SuccessfulAssertionTest, EXPECT)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST\fP (SuccessfulAssertionTest, EXPECT_STR)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST\fP (SuccessfulAssertionTest, ASSERT)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST\fP (SuccessfulAssertionTest, ASSERT_STR)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, CopyConstructorWorksWhenNotOptimied)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, ConstructionWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, NegationWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, StreamingWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, CanStreamOstreamManipulators)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, ConstructibleFromContextuallyConvertibleToBool)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AssertionResultTest, ConstructibleFromImplicitlyConvertible)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBBase\fP &val)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBBase\fP *pointer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MessageTest, CanStreamUserTypeInGlobalNameSpace)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MessageTest, CanStreamUserTypeInUnnamedNameSpace)"
+.br
+.ti -1c
+.RI "std::ostream & \fBnamespace1::operator<<\fP (std::ostream &os, const MyTypeInNameSpace1 &val)"
+.br
+.ti -1c
+.RI "std::ostream & \fBnamespace1::operator<<\fP (std::ostream &os, const MyTypeInNameSpace1 *pointer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MessageTest, CanStreamUserTypeInUserNameSpace)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBnamespace2::MyTypeInNameSpace2\fP &val)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBnamespace2::MyTypeInNameSpace2\fP *pointer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MessageTest, CanStreamUserTypeInUserNameSpaceWithStreamOperatorInGlobal)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MessageTest, NullPointers)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MessageTest, WideStrings)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (TestInfoTest, Names)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (TestInfoTest, result)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST\fP (CodeLocationForTEST, Verify)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (CodeLocationForTESTF, Verify)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_P\fP (CodeLocationForTESTP, Verify)"
+.br
+.ti -1c
+.RI "\fBtesting::INSTANTIATE_TEST_SUITE_P\fP (, CodeLocationForTESTP, Values(0))"
+.br
+.ti -1c
+.RI "\fBtesting::TYPED_TEST_SUITE\fP (CodeLocationForTYPEDTEST, int)"
+.br
+.ti -1c
+.RI "\fBtesting::TYPED_TEST\fP (CodeLocationForTYPEDTEST, Verify)"
+.br
+.ti -1c
+.RI "\fBtesting::TYPED_TEST_SUITE_P\fP (CodeLocationForTYPEDTESTP)"
+.br
+.ti -1c
+.RI "\fBtesting::TYPED_TEST_P\fP (CodeLocationForTYPEDTESTP, Verify)"
+.br
+.ti -1c
+.RI "\fBtesting::REGISTER_TYPED_TEST_SUITE_P\fP (CodeLocationForTYPEDTESTP, Verify)"
+.br
+.ti -1c
+.RI "\fBtesting::INSTANTIATE_TYPED_TEST_SUITE_P\fP (My, CodeLocationForTYPEDTESTP, int)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (SetUpTestCaseTest, Test1)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (SetUpTestCaseTest, Test2)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (SetUpTestSuiteTest, TestSetupTestSuite1)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (SetUpTestSuiteTest, TestSetupTestSuite2)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, Empty)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, NoFlag)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, FailFast)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, FilterEmpty)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, FilterNonEmpty)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BreakOnFailureWithoutValue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BreakOnFailureFalse_0)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BreakOnFailureFalse_f)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BreakOnFailureFalse_F)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BreakOnFailureTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, CatchExceptions)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, DeathTestUseFork)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, DuplicatedFlags)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, UnrecognizedFlag)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ListTestsFlag)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ListTestsTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ListTestsFalse)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ListTestsFalse_f)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ListTestsFalse_F)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, OutputXml)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, OutputXmlFile)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, OutputXmlDirectory)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BriefFlag)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BriefFlagTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, BriefFlagFalse)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, PrintTimeFlag)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, PrintTimeTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, PrintTimeFalse)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, PrintTimeFalse_f)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, PrintTimeFalse_F)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, RandomSeed)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, Repeat)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, RecreateEnvironmentsWhenRepeating)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, AlsoRunDisabledTestsFlag)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, AlsoRunDisabledTestsTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, AlsoRunDisabledTestsFalse)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ShuffleWithoutValue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ShuffleFalse_0)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ShuffleTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, StackTraceDepth)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, StreamResultTo)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ThrowOnFailureWithoutValue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ThrowOnFailureFalse_0)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, ThrowOnFailureTrue)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, FilterBad)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, OutputEmpty)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (ParseFlagsTest, UnrecognizedFlags)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (CurrentTestInfoTest, WorksForFirstTestInATestSuite)"
+.br
+.ti -1c
+.RI "\fBtesting::TEST_F\fP (CurrentTestInfoTest, WorksForSecondTestInATestSuite)"
+.br
+.ti -1c
+.RI "\fBmy_namespace::testing::TEST\fP (NestedTestingNamespaceTest, Success)"
+.br
+.ti -1c
+.RI "\fBmy_namespace::testing::TEST\fP (NestedTestingNamespaceTest, Failure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, Unconditional)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, Truth)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, Truth2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, IntegerEquals)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, IntegerLessThan)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, StringsEqual)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, StringsNotEqual)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, StringsEqualIgnoringCase)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, StringNotEqualIgnoringCase)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StreamingAssertionsTest, FloatingPointEquals)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ColoredOutputTest, UsesColorsWhenGTestColorFlagIsYes)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ColoredOutputTest, UsesColorsWhenGTestColorFlagIsAliasOfYes)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ColoredOutputTest, UsesNoColorWhenGTestColorFlagIsNo)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ColoredOutputTest, UsesNoColorWhenGTestColorFlagIsInvalid)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ColoredOutputTest, UsesColorsWhenStdoutIsTty)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ColoredOutputTest, UsesColorsWhenTermSupportsColors)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StaticAssertTypeEqTest, WorksInClass)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (StaticAssertTypeEqTest, CompilesForEqualTypes)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasNonfatalFailureTest, ReturnsFalseWhenThereIsNoFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasNonfatalFailureTest, ReturnsFalseWhenThereIsOnlyFatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasNonfatalFailureTest, ReturnsTrueWhenThereIsNonfatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasNonfatalFailureTest, ReturnsTrueWhenThereAreFatalAndNonfatalFailures)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasNonfatalFailureTest, WorksOutsideOfTestBody)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasNonfatalFailureTest, WorksOutsideOfTestBody2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasFailureTest, ReturnsFalseWhenThereIsNoFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasFailureTest, ReturnsTrueWhenThereIsFatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasFailureTest, ReturnsTrueWhenThereIsNonfatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasFailureTest, ReturnsTrueWhenThereAreFatalAndNonfatalFailures)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasFailureTest, WorksOutsideOfTestBody)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasFailureTest, WorksOutsideOfTestBody2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (TestEventListenersTest, ConstructionWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (TestEventListenersTest, DestructionWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (TestEventListenersTest, Append)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerTest, AppendKeepsOrder)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (TestEventListenersTest, Release)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerTest, SuppressEventForwarding)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerDeathTest, EventsNotForwardedInDeathTestSubprocesses)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerTest, default_result_printer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerTest, RemovingDefaultResultPrinterWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerTest, default_xml_generator)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (EventListenerTest, RemovingDefaultXmlGeneratorWorks)"
+.br
+.ti -1c
+.RI "\fBGTEST_TEST\fP (AlternativeNameTest, Works)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasDebugStringAndShortDebugStringTest, ValueIsCompileTimeConstant)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasDebugStringAndShortDebugStringTest, ValueIsTrueWhenTypeHasDebugStringAndShortDebugString)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (HasDebugStringAndShortDebugStringTest, ValueIsFalseWhenTypeIsNotAProtocolMessage)"
+.br
+.ti -1c
+.RI "template<typename T1 , typename T2 > void \fBTestGTestRemoveReferenceAndConst\fP ()"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RemoveReferenceToConstTest, Works)"
+.br
+.ti -1c
+.RI "template<typename T1 , typename T2 > void \fBTestGTestReferenceToConst\fP ()"
+.br
+.ti -1c
+.RI "\fBTEST\fP (GTestReferenceToConstTest, Works)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (IsContainerTestTest, WorksForNonContainer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (IsContainerTestTest, WorksForContainer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (IsContainerTestTest, ConstOnlyContainer)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (IsHashTable, Basic)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ArrayEqTest, WorksForDegeneratedArrays)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ArrayEqTest, WorksForOneDimensionalArrays)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ArrayEqTest, WorksForTwoDimensionalArrays)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ArrayAwareFindTest, WorksForOneDimensionalArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ArrayAwareFindTest, WorksForTwoDimensionalArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CopyArrayTest, WorksForDegeneratedArrays)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CopyArrayTest, WorksForOneDimensionalArrays)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CopyArrayTest, WorksForTwoDimensionalArrays)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NativeArrayTest, ConstructorFromArrayWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NativeArrayTest, CreatesAndDeletesCopyOfArrayWhenAskedTo)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NativeArrayTest, TypeMembersAreCorrect)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NativeArrayTest, MethodsWork)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NativeArrayTest, WorksForTwoDimensionalArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (IndexSequence, MakeIndexSequence)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ElemFromList, Basic)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FlatTuple, Basic)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FlatTuple, Apply)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FlatTuple, ConstructorCalls)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FlatTuple, ManyTypes)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SkipPrefixTest, SkipsWhenPrefixMatches)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SkipPrefixTest, DoesNotSkipWhenPrefixDoesNotMatch)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AdHocTestResultTest, AdHocTestResultForUnitTestDoesNotShowFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RegisterTest, WasRegistered)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (PatternGlobbingTest, MatchesFilterLinearRuntime)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (PatternGlobbingTest, MatchesFilterWithMultiplePatterns)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (PatternGlobbingTest, MatchesFilterEdgeCases)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "auto * \fBdynamic_test\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_FLAT_TUPLE_INT128   \fBGTEST_FLAT_TUPLE_INT64\fP \fBGTEST_FLAT_TUPLE_INT64\fP"
+
+.SS "#define GTEST_FLAT_TUPLE_INT16   \fBGTEST_FLAT_TUPLE_INT8\fP \fBGTEST_FLAT_TUPLE_INT8\fP"
+
+.SS "#define GTEST_FLAT_TUPLE_INT256   \fBGTEST_FLAT_TUPLE_INT128\fP \fBGTEST_FLAT_TUPLE_INT128\fP"
+
+.SS "#define GTEST_FLAT_TUPLE_INT32   \fBGTEST_FLAT_TUPLE_INT16\fP \fBGTEST_FLAT_TUPLE_INT16\fP"
+
+.SS "#define GTEST_FLAT_TUPLE_INT64   \fBGTEST_FLAT_TUPLE_INT32\fP \fBGTEST_FLAT_TUPLE_INT32\fP"
+
+.SS "#define GTEST_FLAT_TUPLE_INT8   int, int, int, int, int, int, int, int,"
+
+.SS "#define GTEST_TEST_PARSING_FLAGS_(argv1, argv2, expected, should_print_help)"
+\fBValue:\fP
+.PP
+.nf
+  TestParsingFlags(sizeof(argv1) / sizeof(*argv1) - 1, argv1,                \
+                   sizeof(argv2) / sizeof(*argv2) - 1, argv2, expected,      \
+                   should_print_help)
+.fi
+.PP
+Definition at line 5759 of file gtest_unittest\&.cc\&.
+.SS "#define GTEST_USE_UNPROTECTED_COMMA_   global_var++, global_var++"
+
+.PP
+Definition at line 1302 of file gtest_unittest\&.cc\&.
+.SS "#define VERIFY_CODE_LOCATION"
+\fBValue:\fP
+.PP
+.nf
+  const int expected_line = __LINE__ - 1;                                   \
+  const TestInfo* const test_info = GetUnitTestImpl()->current_test_info(); \
+  ASSERT_TRUE(test_info);                                                   \
+  EXPECT_STREQ(__FILE__, test_info->file());                                \
+  EXPECT_EQ(expected_line, test_info->line())
+.fi
+.PP
+Definition at line 5292 of file gtest_unittest\&.cc\&.
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef int \fBIntAlias\fP"
+
+.PP
+Definition at line 6719 of file gtest_unittest\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "GTEST_TEST (AlternativeNameTest, Works)"
+
+.PP
+Definition at line 7133 of file gtest_unittest\&.cc\&.
+.SS "::std::ostream& operator<< (::std::ostream & os, const \fBTestingVector\fP & vector)"
+
+.PP
+Definition at line 289 of file gtest_unittest\&.cc\&.
+.SS "void operator<< (\fBConvertibleGlobalType\fP &, int)"
+
+.SS "std::ostream& operator<< (std::ostream & os, const \fBBase\fP & val)"
+
+.PP
+Definition at line 5128 of file gtest_unittest\&.cc\&.
+.SS "std::ostream& operator<< (std::ostream & os, const \fBBase\fP * pointer)"
+
+.PP
+Definition at line 5131 of file gtest_unittest\&.cc\&.
+.SS "std::ostream& operator<< (std::ostream & os, const \fBnamespace2::MyTypeInNameSpace2\fP & val)"
+
+.PP
+Definition at line 5199 of file gtest_unittest\&.cc\&.
+.SS "std::ostream& operator<< (std::ostream & os, const \fBnamespace2::MyTypeInNameSpace2\fP * pointer)"
+
+.PP
+Definition at line 5203 of file gtest_unittest\&.cc\&.
+.SS "TEST (AdHocTestResultTest, AdHocTestResultForUnitTestDoesNotShowFailure)"
+
+.PP
+Definition at line 7720 of file gtest_unittest\&.cc\&.
+.SS "TEST (ArrayAwareFindTest, WorksForOneDimensionalArray)"
+
+.PP
+Definition at line 7364 of file gtest_unittest\&.cc\&.
+.SS "TEST (ArrayAwareFindTest, WorksForTwoDimensionalArray)"
+
+.PP
+Definition at line 7370 of file gtest_unittest\&.cc\&.
+.SS "TEST (ArrayEqTest, WorksForDegeneratedArrays)"
+
+.PP
+Definition at line 7333 of file gtest_unittest\&.cc\&.
+.SS "TEST (ArrayEqTest, WorksForOneDimensionalArrays)"
+
+.PP
+Definition at line 7338 of file gtest_unittest\&.cc\&.
+.SS "TEST (ArrayEqTest, WorksForTwoDimensionalArrays)"
+
+.PP
+Definition at line 7350 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, CanStreamOstreamManipulators)"
+
+.PP
+Definition at line 5090 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, ConstructibleFromContextuallyConvertibleToBool)"
+
+.PP
+Definition at line 5098 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, ConstructibleFromImplicitlyConvertible)"
+
+.PP
+Definition at line 5113 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, ConstructionWorks)"
+
+.PP
+Definition at line 5051 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, CopyConstructorWorksWhenNotOptimied)"
+
+.PP
+Definition at line 5035 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, NegationWorks)"
+
+.PP
+Definition at line 5074 of file gtest_unittest\&.cc\&.
+.SS "TEST (AssertionResultTest, StreamingWorks)"
+
+.PP
+Definition at line 5084 of file gtest_unittest\&.cc\&.
+.SS "TEST (ColoredOutputTest, UsesColorsWhenGTestColorFlagIsAliasOfYes)"
+
+.PP
+Definition at line 6585 of file gtest_unittest\&.cc\&.
+.SS "TEST (ColoredOutputTest, UsesColorsWhenGTestColorFlagIsYes)"
+
+.PP
+Definition at line 6573 of file gtest_unittest\&.cc\&.
+.SS "TEST (ColoredOutputTest, UsesColorsWhenStdoutIsTty)"
+
+.PP
+Definition at line 6623 of file gtest_unittest\&.cc\&.
+.SS "TEST (ColoredOutputTest, UsesColorsWhenTermSupportsColors)"
+
+.PP
+Definition at line 6631 of file gtest_unittest\&.cc\&.
+.SS "TEST (ColoredOutputTest, UsesNoColorWhenGTestColorFlagIsInvalid)"
+
+.PP
+Definition at line 6610 of file gtest_unittest\&.cc\&.
+.SS "TEST (ColoredOutputTest, UsesNoColorWhenGTestColorFlagIsNo)"
+
+.PP
+Definition at line 6598 of file gtest_unittest\&.cc\&.
+.SS "TEST (CommandLineFlagsTest, CanBeAccessedInCodeOnceGTestHIsIncluded)"
+
+.PP
+Definition at line 39 of file gtest_unittest\&.cc\&.
+.SS "TEST (CopyArrayTest, WorksForDegeneratedArrays)"
+
+.PP
+Definition at line 7381 of file gtest_unittest\&.cc\&.
+.SS "TEST (CopyArrayTest, WorksForOneDimensionalArrays)"
+
+.PP
+Definition at line 7387 of file gtest_unittest\&.cc\&.
+.SS "TEST (CopyArrayTest, WorksForTwoDimensionalArrays)"
+
+.PP
+Definition at line 7400 of file gtest_unittest\&.cc\&.
+.SS "TEST (ElemFromList, Basic)"
+
+.PP
+Definition at line 7495 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerDeathTest, EventsNotForwardedInDeathTestSubprocesses)"
+
+.PP
+Definition at line 7000 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerTest, AppendKeepsOrder)"
+
+.PP
+Definition at line 6922 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerTest, default_result_printer)"
+
+.PP
+Definition at line 7013 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerTest, default_xml_generator)"
+
+.PP
+Definition at line 7072 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerTest, RemovingDefaultResultPrinterWorks)"
+
+.PP
+Definition at line 7044 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerTest, RemovingDefaultXmlGeneratorWorks)"
+
+.PP
+Definition at line 7103 of file gtest_unittest\&.cc\&.
+.SS "TEST (EventListenerTest, SuppressEventForwarding)"
+
+.PP
+Definition at line 6984 of file gtest_unittest\&.cc\&.
+.SS "TEST (FlatTuple, Apply)"
+
+.PP
+Definition at line 7533 of file gtest_unittest\&.cc\&.
+.SS "TEST (FlatTuple, Basic)"
+
+.PP
+Definition at line 7509 of file gtest_unittest\&.cc\&.
+.SS "TEST (FlatTuple, ConstructorCalls)"
+
+.PP
+Definition at line 7594 of file gtest_unittest\&.cc\&.
+.SS "TEST (FlatTuple, ManyTypes)"
+
+.PP
+Definition at line 7668 of file gtest_unittest\&.cc\&.
+.SS "TEST (GTestReferenceToConstTest, Works)"
+
+.PP
+Definition at line 7271 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasDebugStringAndShortDebugStringTest, ValueIsCompileTimeConstant)"
+
+.PP
+Definition at line 7207 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasDebugStringAndShortDebugStringTest, ValueIsFalseWhenTypeIsNotAProtocolMessage)"
+
+.PP
+Definition at line 7240 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasDebugStringAndShortDebugStringTest, ValueIsTrueWhenTypeHasDebugStringAndShortDebugString)"
+
+.PP
+Definition at line 7232 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasFailureTest, ReturnsFalseWhenThereIsNoFailure)"
+
+.PP
+Definition at line 6770 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasFailureTest, ReturnsTrueWhenThereAreFatalAndNonfatalFailures)"
+
+.PP
+Definition at line 6788 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasFailureTest, ReturnsTrueWhenThereIsFatalFailure)"
+
+.PP
+Definition at line 6774 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasFailureTest, ReturnsTrueWhenThereIsNonfatalFailure)"
+
+.PP
+Definition at line 6781 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasFailureTest, WorksOutsideOfTestBody)"
+
+.PP
+Definition at line 6799 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasFailureTest, WorksOutsideOfTestBody2)"
+
+.PP
+Definition at line 6803 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasNonfatalFailureTest, ReturnsFalseWhenThereIsNoFailure)"
+
+.PP
+Definition at line 6726 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasNonfatalFailureTest, ReturnsFalseWhenThereIsOnlyFatalFailure)"
+
+.PP
+Definition at line 6732 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasNonfatalFailureTest, ReturnsTrueWhenThereAreFatalAndNonfatalFailures)"
+
+.PP
+Definition at line 6746 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasNonfatalFailureTest, ReturnsTrueWhenThereIsNonfatalFailure)"
+
+.PP
+Definition at line 6739 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasNonfatalFailureTest, WorksOutsideOfTestBody)"
+
+.PP
+Definition at line 6759 of file gtest_unittest\&.cc\&.
+.SS "TEST (HasNonfatalFailureTest, WorksOutsideOfTestBody2)"
+
+.PP
+Definition at line 6763 of file gtest_unittest\&.cc\&.
+.SS "TEST (IndexSequence, MakeIndexSequence)"
+
+.PP
+Definition at line 7479 of file gtest_unittest\&.cc\&.
+.SS "TEST (IsContainerTestTest, ConstOnlyContainer)"
+
+.PP
+Definition at line 7309 of file gtest_unittest\&.cc\&.
+.SS "TEST (IsContainerTestTest, WorksForContainer)"
+
+.PP
+Definition at line 7288 of file gtest_unittest\&.cc\&.
+.SS "TEST (IsContainerTestTest, WorksForNonContainer)"
+
+.PP
+Definition at line 7282 of file gtest_unittest\&.cc\&.
+.SS "TEST (IsHashTable, Basic)"
+
+.PP
+Definition at line 7324 of file gtest_unittest\&.cc\&.
+.SS "TEST (MessageTest, CanStreamUserTypeInGlobalNameSpace)"
+
+.PP
+Definition at line 5135 of file gtest_unittest\&.cc\&.
+.SS "TEST (MessageTest, CanStreamUserTypeInUnnamedNameSpace)"
+
+.PP
+Definition at line 5160 of file gtest_unittest\&.cc\&.
+.SS "TEST (MessageTest, CanStreamUserTypeInUserNameSpace)"
+
+.PP
+Definition at line 5183 of file gtest_unittest\&.cc\&.
+.SS "TEST (MessageTest, CanStreamUserTypeInUserNameSpaceWithStreamOperatorInGlobal)"
+
+.PP
+Definition at line 5208 of file gtest_unittest\&.cc\&.
+.SS "TEST (MessageTest, NullPointers)"
+
+.PP
+Definition at line 5217 of file gtest_unittest\&.cc\&.
+.SS "TEST (MessageTest, WideStrings)"
+
+.PP
+Definition at line 5231 of file gtest_unittest\&.cc\&.
+.SS "TEST (NativeArrayTest, ConstructorFromArrayWorks)"
+
+.PP
+Definition at line 7415 of file gtest_unittest\&.cc\&.
+.SS "TEST (NativeArrayTest, CreatesAndDeletesCopyOfArrayWhenAskedTo)"
+
+.PP
+Definition at line 7422 of file gtest_unittest\&.cc\&.
+.SS "TEST (NativeArrayTest, MethodsWork)"
+
+.PP
+Definition at line 7445 of file gtest_unittest\&.cc\&.
+.SS "TEST (NativeArrayTest, TypeMembersAreCorrect)"
+
+.PP
+Definition at line 7437 of file gtest_unittest\&.cc\&.
+.SS "TEST (NativeArrayTest, WorksForTwoDimensionalArray)"
+
+.PP
+Definition at line 7471 of file gtest_unittest\&.cc\&.
+.SS "TEST (PatternGlobbingTest, MatchesFilterEdgeCases)"
+
+.PP
+Definition at line 7778 of file gtest_unittest\&.cc\&.
+.SS "TEST (PatternGlobbingTest, MatchesFilterLinearRuntime)"
+
+.PP
+Definition at line 7755 of file gtest_unittest\&.cc\&.
+.SS "TEST (PatternGlobbingTest, MatchesFilterWithMultiplePatterns)"
+
+.PP
+Definition at line 7769 of file gtest_unittest\&.cc\&.
+.SS "TEST (RegisterTest, WasRegistered)"
+
+.PP
+Definition at line 7736 of file gtest_unittest\&.cc\&.
+.SS "TEST (RemoveReferenceToConstTest, Works)"
+
+.PP
+Definition at line 7255 of file gtest_unittest\&.cc\&.
+.SS "TEST (SkipPrefixTest, DoesNotSkipWhenPrefixDoesNotMatch)"
+
+.PP
+Definition at line 7707 of file gtest_unittest\&.cc\&.
+.SS "TEST (SkipPrefixTest, SkipsWhenPrefixMatches)"
+
+.PP
+Definition at line 7695 of file gtest_unittest\&.cc\&.
+.SS "TEST (StaticAssertTypeEqTest, CompilesForEqualTypes)"
+
+.PP
+Definition at line 6721 of file gtest_unittest\&.cc\&.
+.SS "TEST (StaticAssertTypeEqTest, WorksInClass)"
+
+.PP
+Definition at line 6713 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, FloatingPointEquals)"
+
+.PP
+Definition at line 6527 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, IntegerEquals)"
+
+.PP
+Definition at line 6473 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, IntegerLessThan)"
+
+.PP
+Definition at line 6482 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, StringNotEqualIgnoringCase)"
+
+.PP
+Definition at line 6518 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, StringsEqual)"
+
+.PP
+Definition at line 6491 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, StringsEqualIgnoringCase)"
+
+.PP
+Definition at line 6509 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, StringsNotEqual)"
+
+.PP
+Definition at line 6500 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, Truth)"
+
+.PP
+Definition at line 6450 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, Truth2)"
+
+.PP
+Definition at line 6459 of file gtest_unittest\&.cc\&.
+.SS "TEST (StreamingAssertionsTest, Unconditional)"
+
+.PP
+Definition at line 6438 of file gtest_unittest\&.cc\&.
+.SS "TEST (TestEventListenersTest, Append)"
+
+.PP
+Definition at line 6867 of file gtest_unittest\&.cc\&.
+.SS "TEST (TestEventListenersTest, ConstructionWorks)"
+
+.PP
+Definition at line 6831 of file gtest_unittest\&.cc\&.
+.SS "TEST (TestEventListenersTest, DestructionWorks)"
+
+.PP
+Definition at line 6841 of file gtest_unittest\&.cc\&.
+.SS "TEST (TestEventListenersTest, Release)"
+
+.PP
+Definition at line 6963 of file gtest_unittest\&.cc\&.
+.SS "template<typename T1 , typename T2 > void TestGTestReferenceToConst ()"
+
+.PP
+Definition at line 7266 of file gtest_unittest\&.cc\&.
+.SS "template<typename T1 , typename T2 > void TestGTestRemoveReferenceAndConst ()"
+
+.PP
+Definition at line 7250 of file gtest_unittest\&.cc\&.
+.SH "Variable Documentation"
+.PP 
+.SS "auto* dynamic_test"
+\fBInitial value:\fP
+.PP
+.nf
+= testing::RegisterTest(
+    "DynamicUnitTestFixture", "DynamicTest", "TYPE", "VALUE", __FILE__,
+    __LINE__, []() -> DynamicUnitTestFixture* { return new DynamicTest; })
+.fi
+.PP
+Definition at line 7732 of file gtest_unittest\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

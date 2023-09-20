@@ -1,0 +1,82 @@
+.TH "build/_deps/googletest-src/googlemock/src/gmock.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/src/gmock.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include 'gmock/internal/gmock\-port\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_PARSE_FLAG\fP(flag_name)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGMOCK_DEFINE_bool_\fP (catch_leaked_mocks, true, 'true if and only if Google \fBMock\fP should report leaked ' 'mock objects as failures\&.')"
+.br
+.ti -1c
+.RI "\fBGMOCK_DEFINE_string_\fP (verbose, \fBtesting::internal::kWarningVerbosity\fP, 'Controls how verbose Google \fBMock\fP's output is\&.' '  Valid values:\\n' '  info    \- prints all messages\&.\\n' '  warning \- prints warnings and errors\&.\\n' '  error   \- prints errors only\&.')"
+.br
+.ti -1c
+.RI "\fBGMOCK_DEFINE_int32_\fP (default_mock_behavior, 1, 'Controls the default behavior of mocks\&.' '  Valid values:\\n' '  0 \- by default, mocks act as NiceMocks\&.\\n' '  1 \- by default, mocks act as NaggyMocks\&.\\n' '  2 \- by default, mocks act as StrictMocks\&.')"
+.br
+.ti -1c
+.RI "template<typename CharType > void \fBtesting::internal::InitGoogleMockImpl\fP (int *argc, CharType **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleMock\fP (int *argc, char **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleMock\fP (int *argc, wchar_t **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleMock\fP ()"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GMOCK_INTERNAL_PARSE_FLAG(flag_name)"
+\fBValue:\fP
+.PP
+.nf
+  if (!found_gmock_flag) {                              \
+    auto value = GMOCK_FLAG_GET(flag_name);             \
+    if (ParseGoogleMockFlag(arg, #flag_name, &value)) { \
+      GMOCK_FLAG_SET(flag_name, value);                 \
+      found_gmock_flag = true;                          \
+    }                                                   \
+  }
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "GMOCK_DEFINE_bool_ (catch_leaked_mocks, true, 'true if and only if Google \fBMock\fP should report leaked ' 'mock objects as failures\&.')"
+
+.SS "GMOCK_DEFINE_int32_ (default_mock_behavior, 1, 'Controls the default behavior of mocks\&.' ' Valid values:\\n' ' 0 \- by default, mocks act as NiceMocks\&.\\n' ' 1 \- by default, mocks act as NaggyMocks\&.\\n' ' 2 \- by default, mocks act as StrictMocks\&.')"
+
+.SS "GMOCK_DEFINE_string_ (verbose, \fBtesting::internal::kWarningVerbosity\fP, 'Controls how verbose Google \fBMock\fP's output is\&.' ' Valid values:\\n' ' info \- prints all messages\&.\\n' ' warning \- prints warnings and errors\&.\\n' ' error \- prints errors only\&.')"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

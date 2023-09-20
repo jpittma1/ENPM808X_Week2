@@ -1,0 +1,138 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-output-test.py" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-output-test.py
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBgoogletest\-output\-test\&.GTestOutputTest\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBgoogletest\-output\-test\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.ToUnixLineEnding\fP (s)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveLocations\fP (test_output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveStackTraceDetails\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveStackTraces\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveTime\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveTypeInfoDetails\fP (test_output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.NormalizeToCurrentPlatform\fP (test_output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveTestCounts\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.RemoveMatchingTests\fP (test_output, pattern)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.NormalizeOutput\fP (output)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.GetShellCommandOutput\fP (env_cmd)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.GetCommandOutput\fP (env_cmd)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.GetOutputOfAllCommands\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.GENGOLDEN_FLAG\fP = '\-\-gengolden'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.CATCH_EXCEPTIONS_ENV_VAR_NAME\fP = 'GTEST_CATCH_EXCEPTIONS'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.NO_STACKTRACE_SUPPORT_FLAG\fP = '\-\-no_stacktrace_support'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.IS_LINUX\fP = 'Linux'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.IS_WINDOWS\fP = 'nt'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.GOLDEN_NAME\fP = 'googletest\-output\-test\-golden\-lin\&.txt'"
+.br
+.ti -1c
+.RI "\fBgoogletest\-output\-test\&.PROGRAM_PATH\fP = \fBgtest_test_utils\&.GetTestExecutablePath\fP('googletest\-output\-test_')"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-output\-test\&.COMMAND_LIST_TESTS\fP = ({}, [PROGRAM_PATH, '\-\-gtest_list_tests'])"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-output\-test\&.COMMAND_WITH_COLOR\fP = ({}, [PROGRAM_PATH, '\-\-gtest_color=yes'])"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-output\-test\&.COMMAND_WITH_TIME\fP"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-output\-test\&.COMMAND_WITH_DISABLED\fP"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-output\-test\&.COMMAND_WITH_SHARDING\fP"
+.br
+.ti -1c
+.RI "\fBgoogletest\-output\-test\&.GOLDEN_PATH\fP = os\&.path\&.join(\fBgtest_test_utils\&.GetSourceDir\fP(), GOLDEN_NAME)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.test_list\fP = GetShellCommandOutput(COMMAND_LIST_TESTS)"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.SUPPORTS_DEATH_TESTS\fP = 'DeathTest' in test_list"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.SUPPORTS_TYPED_TESTS\fP = '\fBTypedTest\fP' in test_list"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.SUPPORTS_THREADS\fP = 'ExpectFailureWithThreadsTest' in test_list"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.SUPPORTS_STACK_TRACES\fP = NO_STACKTRACE_SUPPORT_FLAG not in sys\&.argv"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-output\-test\&.CAN_GENERATE_GOLDEN_FILE\fP"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-output\-test\&.output\fP = GetOutputOfAllCommands()"
+.br
+.ti -1c
+.RI "\fBgoogletest\-output\-test\&.golden_file\fP = open(GOLDEN_PATH, 'wb')"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-output\-test\&.message\fP"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

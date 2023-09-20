@@ -1,0 +1,213 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-list-tests-unittest_.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-list-tests-unittest_.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <ostream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBFooTest\fP"
+.br
+.ti -1c
+.RI "class \fBMyType\fP"
+.br
+.ti -1c
+.RI "class \fBValueParamTest\fP"
+.br
+.ti -1c
+.RI "class \fBVeryLoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogName\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBMyArray< T, kSize >\fP"
+.br
+.ti -1c
+.RI "class \fBTypeParamTest< T >\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< \fBVeryLoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogName\fP, int *, \fBMyArray\fP< bool, 42 > > \fBMyTypes\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST\fP (Foo, Bar1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Foo, Bar2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Foo, DISABLED_Bar3)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Abc, Xyz)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Abc, Def)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FooBar, Baz)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFooTest\fP, Test1)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFooTest\fP, DISABLED_Test2)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFooTest\fP, Test3)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FooDeathTest, Test1)"
+.br
+.ti -1c
+.RI "void \fBPrintTo\fP (const \fBMyType\fP &\fBx\fP, std::ostream *os)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBValueParamTest\fP, TestA)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBValueParamTest\fP, TestB)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (MyInstantiation, \fBValueParamTest\fP, \fBtesting::Values\fP(\fBMyType\fP('one line'), MyType('two\\nlines'), MyType('a ' 'very\\nloooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooong line')))"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTest\fP, \fBMyTypes\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, TestA)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, TestB)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypeParamTest\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypeParamTest\fP, TestA)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypeParamTest\fP, TestB)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypeParamTest\fP, TestA, TestB)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (My, \fBTypeParamTest\fP, \fBMyTypes\fP)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBtesting::Types\fP< \fBVeryLoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogName\fP, int*, \fBMyArray\fP<bool, 42> > \fBMyTypes\fP"
+
+.PP
+Definition at line 116 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "INSTANTIATE_TEST_SUITE_P (MyInstantiation, \fBValueParamTest\fP, \fBtesting::Values\fP(\fBMyType\fP('one line'), MyType('two\\nlines'), MyType('a ' 'very\\nloooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo' 'ooooong line')))"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (My, \fBTypeParamTest\fP, \fBMyTypes\fP)"
+
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 139 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "void PrintTo (const \fBMyType\fP & x, std::ostream * os)"
+
+.PP
+Definition at line 80 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypeParamTest\fP, TestA, TestB)"
+
+.SS "TEST (Abc, Def)"
+
+.PP
+Definition at line 53 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST (Abc, Xyz)"
+
+.PP
+Definition at line 51 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST (Foo, Bar1)"
+
+.PP
+Definition at line 45 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST (Foo, Bar2)"
+
+.PP
+Definition at line 47 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST (Foo, DISABLED_Bar3)"
+
+.PP
+Definition at line 49 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST (FooBar, Baz)"
+
+.PP
+Definition at line 55 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST (FooDeathTest, Test1)"
+
+.PP
+Definition at line 65 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST_F (\fBFooTest\fP, DISABLED_Test2)"
+
+.PP
+Definition at line 61 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST_F (\fBFooTest\fP, Test1)"
+
+.PP
+Definition at line 59 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST_F (\fBFooTest\fP, Test3)"
+
+.PP
+Definition at line 63 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST_P (\fBValueParamTest\fP, TestA)"
+
+.PP
+Definition at line 84 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TEST_P (\fBValueParamTest\fP, TestB)"
+
+.PP
+Definition at line 86 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, TestA)"
+
+.PP
+Definition at line 120 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, TestB)"
+
+.PP
+Definition at line 122 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypeParamTest\fP, TestA)"
+
+.PP
+Definition at line 131 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypeParamTest\fP, TestB)"
+
+.PP
+Definition at line 133 of file googletest\-list\-tests\-unittest_\&.cc\&.
+.SS "TYPED_TEST_SUITE (\fBTypedTest\fP, \fBMyTypes\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypeParamTest\fP)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

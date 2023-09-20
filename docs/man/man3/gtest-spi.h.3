@@ -1,0 +1,127 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/gtest-spi.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/gtest-spi.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEXPECT_FATAL_FAILURE\fP(statement,  substr)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_FATAL_FAILURE_ON_ALL_THREADS\fP(statement,  substr)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_NONFATAL_FAILURE\fP(statement,  substr)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_NONFATAL_FAILURE_ON_ALL_THREADS\fP(statement,  substr)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP (4251) namespace testing"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define EXPECT_FATAL_FAILURE(statement, substr)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                                        \
+    class GTestExpectFatalFailureHelper {                                     \
+     public:                                                                  \
+      static void Execute() { statement; }                                    \
+    };                                                                        \
+    ::testing::TestPartResultArray gtest_failures;                            \
+    ::testing::internal::SingleFailureChecker gtest_checker(                  \
+        &gtest_failures, ::testing::TestPartResult::kFatalFailure, (substr)); \
+    {                                                                         \
+      ::testing::ScopedFakeTestPartResultReporter gtest_reporter(             \
+          ::testing::ScopedFakeTestPartResultReporter::                       \
+              INTERCEPT_ONLY_CURRENT_THREAD,                                  \
+          &gtest_failures);                                                   \
+      GTestExpectFatalFailureHelper::Execute();                               \
+    }                                                                         \
+  } while (::testing::internal::AlwaysFalse())
+.fi
+.SS "#define EXPECT_FATAL_FAILURE_ON_ALL_THREADS(statement, substr)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                                        \
+    class GTestExpectFatalFailureHelper {                                     \
+     public:                                                                  \
+      static void Execute() { statement; }                                    \
+    };                                                                        \
+    ::testing::TestPartResultArray gtest_failures;                            \
+    ::testing::internal::SingleFailureChecker gtest_checker(                  \
+        &gtest_failures, ::testing::TestPartResult::kFatalFailure, (substr)); \
+    {                                                                         \
+      ::testing::ScopedFakeTestPartResultReporter gtest_reporter(             \
+          ::testing::ScopedFakeTestPartResultReporter::INTERCEPT_ALL_THREADS, \
+          &gtest_failures);                                                   \
+      GTestExpectFatalFailureHelper::Execute();                               \
+    }                                                                         \
+  } while (::testing::internal::AlwaysFalse())
+.fi
+.SS "#define EXPECT_NONFATAL_FAILURE(statement, substr)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                                \
+    ::testing::TestPartResultArray gtest_failures;                    \
+    ::testing::internal::SingleFailureChecker gtest_checker(          \
+        &gtest_failures, ::testing::TestPartResult::kNonFatalFailure, \
+        (substr));                                                    \
+    {                                                                 \
+      ::testing::ScopedFakeTestPartResultReporter gtest_reporter(     \
+          ::testing::ScopedFakeTestPartResultReporter::               \
+              INTERCEPT_ONLY_CURRENT_THREAD,                          \
+          &gtest_failures);                                           \
+      if (::testing::internal::AlwaysTrue()) {                        \
+        statement;                                                    \
+      }                                                               \
+    }                                                                 \
+  } while (::testing::internal::AlwaysFalse())
+.fi
+.SS "#define EXPECT_NONFATAL_FAILURE_ON_ALL_THREADS(statement, substr)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                                        \
+    ::testing::TestPartResultArray gtest_failures;                            \
+    ::testing::internal::SingleFailureChecker gtest_checker(                  \
+        &gtest_failures, ::testing::TestPartResult::kNonFatalFailure,         \
+        (substr));                                                            \
+    {                                                                         \
+      ::testing::ScopedFakeTestPartResultReporter gtest_reporter(             \
+          ::testing::ScopedFakeTestPartResultReporter::INTERCEPT_ALL_THREADS, \
+          &gtest_failures);                                                   \
+      if (::testing::internal::AlwaysTrue()) {                                \
+        statement;                                                            \
+      }                                                                       \
+    }                                                                         \
+  } while (::testing::internal::AlwaysFalse())
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "GTEST_DISABLE_MSC_WARNINGS_PUSH_ (4251 GMOCK_MAYBE_5046_)"
+
+.PP
+Definition at line 40 of file gtest\-spi\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

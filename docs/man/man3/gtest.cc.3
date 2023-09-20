@@ -1,0 +1,478 @@
+.TH "build/_deps/googletest-src/googletest/src/gtest.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/src/gtest.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <stdarg\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include <wchar\&.h>\fP
+.br
+\fC#include <wctype\&.h>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <chrono>\fP
+.br
+\fC#include <cmath>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <cstdlib>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <initializer_list>\fP
+.br
+\fC#include <iomanip>\fP
+.br
+\fC#include <ios>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <iterator>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <unordered_set>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\-assertion\-result\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'gtest/internal/custom/gtest\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include <sys/time\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::Timer\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::PrettyUnitTestResultPrinter\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::BriefUnitTestResultPrinter\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestEventRepeater\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestSuiteNameIs\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal::edit_distance\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_HAS_BUILTIN\fP(\fBx\fP)   0"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REPEATER_METHOD_\fP(Name,  Type)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REVERSE_REPEATER_METHOD_\fP(Name,  Type)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_INTERNAL_PARSE_FLAG\fP(flag_name)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (fail_fast, \fBtesting::internal::BoolFromGTestEnv\fP('fail_fast', testing::GetDefaultFailFast()), 'True if and only if a test failure should stop further test execution\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (also_run_disabled_tests, \fBtesting::internal::BoolFromGTestEnv\fP('also_run_disabled_tests', false), 'Run disabled tests too, in addition to the tests normally being run\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (break_on_failure, \fBtesting::internal::BoolFromGTestEnv\fP('break_on_failure', false), 'True if and only if a failed assertion should be a debugger ' 'break\-point\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (catch_exceptions, \fBtesting::internal::BoolFromGTestEnv\fP('catch_exceptions', true), 'True if and only if ' GTEST_NAME_ ' should catch exceptions and treat them as test failures\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_string_\fP (color, \fBtesting::internal::StringFromGTestEnv\fP('color', 'auto'), 'Whether to use colors in the output\&.  Valid values: yes, no, ' 'and auto\&.  'auto' means to use colors if the output is ' 'being sent to a terminal and the TERM environment variable ' 'is set to a terminal type that supports colors\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_string_\fP (filter, \fBtesting::internal::StringFromGTestEnv\fP('filter', testing::GetDefaultFilter()), 'A colon\-separated list of glob (not regex) patterns ' 'for filtering the tests to run, optionally followed by a ' ''\-' and a : separated list of negative patterns (tests to ' 'exclude)\&.  A test is run if it matches one of the positive ' 'patterns and does not match any of the negative patterns\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (install_failure_signal_handler, \fBtesting::internal::BoolFromGTestEnv\fP('install_failure_signal_handler', false), 'If true and supported on the current platform, ' GTEST_NAME_ ' should ' 'install a signal handler that dumps debugging information when fatal ' 'signals are raised\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (list_tests, false, 'List all tests without running them\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_string_\fP (output, \fBtesting::internal::StringFromGTestEnv\fP('output', testing::internal::OutputFlagAlsoCheckEnvVar()\&.c_str()), 'A format (defaults to \\'xml\\' but can be specified to be \\'json\\'), ' 'optionally followed by a colon and an output file name or directory\&. ' 'A directory is indicated by a trailing pathname separator\&. ' 'Examples: \\'xml:filename\&.xml\\', \\'xml::directoryname/\\'\&. ' 'If a directory is specified, output files will be created ' 'within that directory, with file\-names based on the test ' 'executable's name and, if necessary, made unique by adding ' 'digits\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (brief, \fBtesting::internal::BoolFromGTestEnv\fP('brief', false), 'True if only test failures should be displayed in text output\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (print_time, \fBtesting::internal::BoolFromGTestEnv\fP('print_time', true), 'True if and only if ' GTEST_NAME_ ' should display elapsed time in text output\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (print_utf8, \fBtesting::internal::BoolFromGTestEnv\fP('print_utf8', true), 'True if and only if ' GTEST_NAME_ ' prints UTF8 characters as text\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_int32_\fP (random_seed, \fBtesting::internal::Int32FromGTestEnv\fP('random_seed', 0), 'Random number seed to use when shuffling test orders\&.  Must be in range ' '[1, 99999], or 0 to use a seed based on the current time\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_int32_\fP (repeat, \fBtesting::internal::Int32FromGTestEnv\fP('repeat', 1), 'How many times to repeat each test\&.  Specify a negative number ' 'for repeating forever\&.  Useful for shaking out flaky tests\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (recreate_environments_when_repeating, \fBtesting::internal::BoolFromGTestEnv\fP('recreate_environments_when_repeating', false), 'Controls whether global test environments are recreated for each repeat ' 'of the tests\&. If set to false the global test environments are only set ' 'up once, for the first iteration, and only torn down once, for the last\&. ' 'Useful for shaking out flaky tests with stable, expensive test ' 'environments\&. If \-\-gtest_repeat is set to a negative number, meaning ' 'there is no last run, the environments will always be recreated to avoid ' 'leaks\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (show_internal_stack_frames, false, 'True if and only if ' GTEST_NAME_ ' should include internal stack frames when ' 'printing test failure stack traces\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (shuffle, \fBtesting::internal::BoolFromGTestEnv\fP('shuffle', false), 'True if and only if ' GTEST_NAME_ ' should randomize tests' order on every run\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_int32_\fP (stack_trace_depth, \fBtesting::internal::Int32FromGTestEnv\fP('stack_trace_depth', testing::kMaxStackTraceDepth), 'The maximum number of stack frames to print when an ' 'assertion fails\&.  The valid range is 0 through 100, inclusive\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_string_\fP (stream_result_to, \fBtesting::internal::StringFromGTestEnv\fP('stream_result_to', ''), 'This flag specifies the host name and the port number on which to stream ' 'test results\&. Example: \\'localhost:555\\'\&. The flag is effective only on ' 'Linux\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_DEFINE_bool_\fP (throw_on_failure, \fBtesting::internal::BoolFromGTestEnv\fP('throw_on_failure', false), 'When this flag is specified, a failed assertion will throw an exception ' 'if exceptions are enabled or exit the program with a non\-zero code ' 'otherwise\&. For use with an external test framework\&.')"
+.br
+.ti -1c
+.RI "std::set< std::string > * \fBtesting::internal::GetIgnoredParameterizedTestSuites\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::InsertSyntheticTestCase\fP (const std::string &name, CodeLocation location, bool has_test_p)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::RegisterTypeParameterizedTestSuite\fP (const char *test_suite_name, CodeLocation code_location)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::RegisterTypeParameterizedTestSuiteInstantiation\fP (const char *case_name)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< std::string > \fBtesting::internal::GetArgvs\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TypeId \fBtesting::internal::GetTestTypeId\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TimeInMillis \fBtesting::internal::GetTimeInMillis\fP ()"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::SplitString\fP (const ::std::string &str, char delimiter, ::std::vector< ::std::string > *dest)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (const std::vector< size_t > &left, const std::vector< size_t > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (const std::vector< std::string > &left, const std::vector< std::string > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::edit_distance::CreateUnifiedDiff\fP (const std::vector< std::string > &left, const std::vector< std::string > &right, size_t context=2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::EqFailure\fP (const char *expected_expression, const char *actual_expression, const std::string &expected_value, const std::string &actual_value, bool ignoring_case)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetBoolAssertionFailureMessage\fP (const AssertionResult &assertion_result, const char *expression_text, const char *actual_predicate_value, const char *expected_predicate_value)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::DoubleNearPredFormat\fP (const char *expr1, const char *expr2, const char *abs_error_expr, double val1, double val2, double abs_error)"
+.br
+.ti -1c
+.RI "template<typename RawType > AssertionResult \fBtesting::internal::FloatingPointLE\fP (const char *expr1, const char *expr2, RawType val1, RawType val2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::FloatLE\fP (const char *expr1, const char *expr2, float val1, float val2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::DoubleLE\fP (const char *expr1, const char *expr2, double val1, double val2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTREQ\fP (const char *s1_expression, const char *s2_expression, const char *s1, const char *s2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRCASEEQ\fP (const char *s1_expression, const char *s2_expression, const char *s1, const char *s2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRNE\fP (const char *s1_expression, const char *s2_expression, const char *s1, const char *s2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRCASENE\fP (const char *s1_expression, const char *s2_expression, const char *s1, const char *s2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsSubstring\fP (const char *needle_expr, const char *haystack_expr, const char *needle, const char *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsSubstring\fP (const char *needle_expr, const char *haystack_expr, const wchar_t *needle, const wchar_t *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsNotSubstring\fP (const char *needle_expr, const char *haystack_expr, const char *needle, const char *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsNotSubstring\fP (const char *needle_expr, const char *haystack_expr, const wchar_t *needle, const wchar_t *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsSubstring\fP (const char *needle_expr, const char *haystack_expr, const ::std::string &needle, const ::std::string &haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsNotSubstring\fP (const char *needle_expr, const char *haystack_expr, const ::std::string &needle, const ::std::string &haystack)"
+.br
+.ti -1c
+.RI "uint32_t \fBtesting::internal::ChopLowBits\fP (uint32_t *bits, int n)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::CodePointToUtf8\fP (uint32_t code_point)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsUtf16SurrogatePair\fP (wchar_t first, wchar_t second)"
+.br
+.ti -1c
+.RI "uint32_t \fBtesting::internal::CreateCodePointFromUtf16SurrogatePair\fP (wchar_t first, wchar_t second)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::WideStringToUtf8\fP (const wchar_t *str, int num_chars)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTREQ\fP (const char *s1_expression, const char *s2_expression, const wchar_t *s1, const wchar_t *s2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRNE\fP (const char *s1_expression, const char *s2_expression, const wchar_t *s1, const wchar_t *s2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::StringStreamToString\fP (::std::stringstream *stream)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::AppendUserMessage\fP (const std::string &gtest_msg, const Message &user_msg)"
+.br
+.ti -1c
+.RI "template<size_t kSize> std::vector< std::string > \fBtesting::ArrayAsVector\fP (const char *const (&array)[kSize])"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::ReportFailureInUnknownLocation\fP (TestPartResult::Type result_type, const std::string &message)"
+.br
+.ti -1c
+.RI "template<class T , typename Result > Result \fBtesting::internal::HandleSehExceptionsInMethodIfSupported\fP (T *object, Result(T::*method)(), const char *location)"
+.br
+.ti -1c
+.RI "template<class T , typename Result > Result \fBtesting::internal::HandleExceptionsInMethodIfSupported\fP (T *object, Result(T::*method)(), const char *location)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TestInfo * \fBtesting::internal::MakeAndRegisterTestInfo\fP (const char *test_suite_name, const char *name, const char *type_param, const char *value_param, CodeLocation code_location, TypeId fixture_class_id, SetUpTestSuiteFunc set_up_tc, TearDownTestSuiteFunc tear_down_tc, TestFactoryBase *factory)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ReportInvalidTestSuiteType\fP (const char *test_suite_name, CodeLocation code_location)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldUseColor\fP (bool stdout_is_tty)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldShard\fP (const char *total_shards_str, const char *shard_index_str, bool in_subprocess_for_death_test)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP int32_t \fBtesting::internal::Int32FromEnvOrDie\fP (const char *env_var, int32_t default_val)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldRunTestOnShard\fP (int total_shards, int shard_index, int test_id)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetCurrentOsStackTraceExceptTop\fP (int skip_count)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::IsTrue\fP (bool condition)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::AlwaysTrue\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::SkipPrefix\fP (const char *prefix, const char **pstr)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ParseFlag\fP (const char *str, const char *flag, int32_t *\fBvalue\fP)"
+.br
+.ti -1c
+.RI "template<typename CharType > void \fBtesting::internal::ParseGoogleTestFlagsOnlyImpl\fP (int *argc, CharType **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ParseGoogleTestFlagsOnly\fP (int *argc, char **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ParseGoogleTestFlagsOnly\fP (int *argc, wchar_t **argv)"
+.br
+.ti -1c
+.RI "template<typename CharType > void \fBtesting::internal::InitGoogleTestImpl\fP (int *argc, CharType **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleTest\fP (int *argc, char **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleTest\fP (int *argc, wchar_t **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleTest\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::TempDir\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static ::std::vector< std::string > \fBtesting::internal::g_argvs\fP"
+.br
+.ti -1c
+.RI "constexpr uint32_t \fBtesting::internal::kMaxCodePoint1\fP = (static_cast<uint32_t>(1) << 7) \- 1"
+.br
+.ti -1c
+.RI "constexpr uint32_t \fBtesting::internal::kMaxCodePoint2\fP = (static_cast<uint32_t>(1) << (5 + 6)) \- 1"
+.br
+.ti -1c
+.RI "constexpr uint32_t \fBtesting::internal::kMaxCodePoint3\fP"
+.br
+.ti -1c
+.RI "constexpr uint32_t \fBtesting::internal::kMaxCodePoint4\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_HAS_BUILTIN(\fBx\fP)   0"
+
+.PP
+Definition at line 161 of file gtest\&.cc\&.
+.SS "#define GTEST_INTERNAL_PARSE_FLAG(flag_name)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                        \
+    auto value = GTEST_FLAG_GET(flag_name);   \
+    if (ParseFlag(arg, #flag_name, &value)) { \
+      GTEST_FLAG_SET(flag_name, value);       \
+      return true;                            \
+    }                                         \
+  } while (false)
+.fi
+.SS "#define GTEST_REPEATER_METHOD_(Name, Type)"
+\fBValue:\fP
+.PP
+.nf
+  void TestEventRepeater::Name(const Type& parameter) { \
+    if (forwarding_enabled_) {                          \
+      for (size_t i = 0; i < listeners_\&.size(); i++) {  \
+        listeners_[i]->Name(parameter);                 \
+      }                                                 \
+    }                                                   \
+  }
+.fi
+.PP
+Definition at line 3832 of file gtest\&.cc\&.
+.SS "#define GTEST_REVERSE_REPEATER_METHOD_(Name, Type)"
+\fBValue:\fP
+.PP
+.nf
+  void TestEventRepeater::Name(const Type& parameter) { \
+    if (forwarding_enabled_) {                          \
+      for (size_t i = listeners_\&.size(); i != 0; i--) { \
+        listeners_[i - 1]->Name(parameter);             \
+      }                                                 \
+    }                                                   \
+  }
+.fi
+.PP
+Definition at line 3842 of file gtest\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "GTEST_DEFINE_bool_ (also_run_disabled_tests, \fBtesting::internal::BoolFromGTestEnv\fP('also_run_disabled_tests', false), 'Run disabled tests too, in addition to the tests normally being run\&.')"
+
+.SS "GTEST_DEFINE_bool_ (break_on_failure, \fBtesting::internal::BoolFromGTestEnv\fP('break_on_failure', false), 'True if and only if a failed assertion should be a debugger ' 'break\-point\&.')"
+
+.SS "GTEST_DEFINE_bool_ (brief, \fBtesting::internal::BoolFromGTestEnv\fP('brief', false), 'True if only test failures should be displayed in text output\&.')"
+
+.SS "GTEST_DEFINE_bool_ (catch_exceptions, \fBtesting::internal::BoolFromGTestEnv\fP('catch_exceptions', true), 'True if and only if ' GTEST_NAME_ ' should catch exceptions and treat them as test failures\&.')"
+
+.SS "GTEST_DEFINE_bool_ (fail_fast, \fBtesting::internal::BoolFromGTestEnv\fP('fail_fast', testing::GetDefaultFailFast()), 'True if and only if a test failure should stop further test execution\&.')"
+
+.SS "GTEST_DEFINE_bool_ (install_failure_signal_handler, \fBtesting::internal::BoolFromGTestEnv\fP('install_failure_signal_handler', false), 'If true and supported on the current platform, ' GTEST_NAME_ ' should ' 'install a signal handler that dumps debugging information when fatal ' 'signals are raised\&.')"
+
+.SS "GTEST_DEFINE_bool_ (list_tests, false, 'List all tests without running them\&.')"
+
+.SS "GTEST_DEFINE_bool_ (print_time, \fBtesting::internal::BoolFromGTestEnv\fP('print_time', true), 'True if and only if ' GTEST_NAME_ ' should display elapsed time in text output\&.')"
+
+.SS "GTEST_DEFINE_bool_ (print_utf8, \fBtesting::internal::BoolFromGTestEnv\fP('print_utf8', true), 'True if and only if ' GTEST_NAME_ ' prints UTF8 characters as text\&.')"
+
+.SS "GTEST_DEFINE_bool_ (recreate_environments_when_repeating, \fBtesting::internal::BoolFromGTestEnv\fP('recreate_environments_when_repeating', false), 'Controls whether global test environments are recreated for each repeat ' 'of the tests\&. If set to false the global test environments are only set ' 'up once, for the first iteration, and only torn down once, for the last\&. ' 'Useful for shaking out flaky tests with stable, expensive test ' 'environments\&. If \-\-gtest_repeat is set to a negative number, meaning ' 'there is no last run, the environments will always be recreated to avoid ' 'leaks\&.')"
+
+.SS "GTEST_DEFINE_bool_ (show_internal_stack_frames, false, 'True if and only if ' GTEST_NAME_ ' should include internal stack frames when ' 'printing test failure stack traces\&.')"
+
+.SS "GTEST_DEFINE_bool_ (shuffle, \fBtesting::internal::BoolFromGTestEnv\fP('shuffle', false), 'True if and only if ' GTEST_NAME_ ' should randomize tests' order on every run\&.')"
+
+.SS "GTEST_DEFINE_bool_ (throw_on_failure, \fBtesting::internal::BoolFromGTestEnv\fP('throw_on_failure', false), 'When this flag is specified, a failed assertion will throw an exception ' 'if exceptions are enabled or exit the program with a non\-zero code ' 'otherwise\&. For use with an external test framework\&.')"
+
+.SS "GTEST_DEFINE_int32_ (random_seed, \fBtesting::internal::Int32FromGTestEnv\fP('random_seed', 0), 'Random number seed to use when shuffling test orders\&. Must be in range ' '[1, 99999], or 0 to use a seed based on the current time\&.')"
+
+.SS "GTEST_DEFINE_int32_ (repeat, \fBtesting::internal::Int32FromGTestEnv\fP('repeat', 1), 'How many times to repeat each test\&. Specify a negative number ' 'for repeating forever\&. Useful for shaking out flaky tests\&.')"
+
+.SS "GTEST_DEFINE_int32_ (stack_trace_depth, \fBtesting::internal::Int32FromGTestEnv\fP('stack_trace_depth', testing::kMaxStackTraceDepth), 'The maximum number of stack frames to print when an ' 'assertion fails\&. The valid range is 0 through 100, inclusive\&.')"
+
+.SS "GTEST_DEFINE_string_ (color, \fBtesting::internal::StringFromGTestEnv\fP('color', 'auto'), 'Whether to use colors in the output\&. Valid values: yes, no, ' 'and auto\&. 'auto' means to use colors if the output is ' 'being sent to a terminal and the TERM environment variable ' 'is set to a terminal type that supports colors\&.')"
+
+.SS "GTEST_DEFINE_string_ (filter, \fBtesting::internal::StringFromGTestEnv\fP('filter', testing::GetDefaultFilter()), 'A colon\-separated list of glob (not regex) patterns ' 'for filtering the tests to run, optionally followed by a ' ''\-' and a :separated list of negative patterns(tests to ' 'exclude)\&. A test is run if it matches one of the positive ' 'patterns and does not match any of the negative patterns\&.')"
+
+.SS "GTEST_DEFINE_string_ (output, \fBtesting::internal::StringFromGTestEnv\fP('output', testing::internal::OutputFlagAlsoCheckEnvVar()\&.c_str()), 'A format defaults to \\'xml\\' but can be specified to be \\'json\\', ' 'optionally followed by a colon and an output file name or directory\&. ' 'A directory is indicated by a trailing pathname separator\&. ' 'Examples:\\'xml:filename\&.xml\\', \\'xml::directoryname/\\'\&. ' 'If a directory is specified, output files will be created ' 'within that directory, with file\-names based on the test ' 'executable 's name and, if necessary, made unique by adding ' 'digits\&.')"
+
+.SS "GTEST_DEFINE_string_ (stream_result_to, \fBtesting::internal::StringFromGTestEnv\fP('stream_result_to', ''), 'This flag specifies the host name and the port number on which to stream ' 'test results\&. Example: \\'localhost:555\\'\&. The flag is effective only on ' 'Linux\&.')"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

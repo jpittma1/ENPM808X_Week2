@@ -1,0 +1,51 @@
+.TH "md__r_e_a_d_m_e" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md__r_e_a_d_m_e \- Standard install via command-line 
+
+.PP
+.nf
+# Download the code:
+  git clone https://github\&.com/TommyChangUMD/cpp-boilerplate-v2 
+  cd cpp-boilerplate-v2 
+# Create make files:
+  cmake -S \&./ -B build/
+# Compile and build the code:
+  # rebuild only files that are modified since the last build
+  cmake --build build/
+  # or rebuild everything from scracth
+  cmake --build build/ --clean-first
+# Run program: 
+  \&./build/app/shell-app
+# Run tests: 
+  ctest --test-dir build/
+# Run clean and start over: 
+  rm -rf build/
+
+.fi
+.PP
+.PP
+Pittman, Jerry (117077120) UMD-CP PMRO ENPM808X Fall 2024 
+.SH "--&mdash;How to Run--&mdash;"
+.PP
+.SH "Problem 1-1"
+.PP
+cd Week2/Problem1-1 cmake -S \&./ -B build/ cmake --build build/ \&./build/app/shell-app
+.SH "Problem 1-2"
+.PP
+cd Week2/Problem1-2 cmake -S \&./ -B build/ cmake --build build/ \&./build/app/shell-app
+.SH "Problem 1-3"
+.PP
+cd Week2/Problem1-3 cmake -S \&./ -B build/ cmake --build build/ \&./build/app/shell-app
+.SH "Problem 1-4"
+.PP
+cd Week2/Problem1-4 cmake -S \&./ -B build/ cmake --build build/ \&./build/app/shell-app File Name I created: test\&.csv
+.SH "Problem 1-5"
+.PP
+cd Week2/Problem1-5 cmake -S \&./ -B build/ cmake --build build/ \&./build/app/shell-app
+.SH "-------------------------&mdash;"
+.PP
+.SH "Problem 1-3 Question"
+.PP
+Problem 1-3 How do you terminate this particular program using the command-line? Answer: Ctrl-Z 

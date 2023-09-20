@@ -1,0 +1,57 @@
+.TH "ConstructFromT< T >" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ConstructFromT< T >
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConstructFromT\fP (const T &t)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. Args, typename std::enable_if< sizeof\&.\&.\&.(Args) !=1, int >::type  = 0> \fBConstructFromT\fP (Args &&\&.\&.\&. args)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBConstructFromT\fP &other) const"
+.br
+.ti -1c
+.RI "const T & \fBget\fP () const"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>
+.br
+class ConstructFromT< T >"
+
+.PP
+Definition at line 529 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T > \fBConstructFromT\fP< T >::\fBConstructFromT\fP (const T & t)\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Definition at line 531 of file googletest\-param\-test\-test\&.cc\&.
+.SS "template<typename T > template<typename\&.\&.\&. Args, typename std::enable_if< sizeof\&.\&.\&.(Args) !=1, int >::type  = 0> \fBConstructFromT\fP< T >::\fBConstructFromT\fP (Args &&\&.\&.\&. args)\fC [inline]\fP"
+
+.PP
+Definition at line 534 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > const T& \fBConstructFromT\fP< T >::get () const\fC [inline]\fP"
+
+.PP
+Definition at line 538 of file googletest\-param\-test\-test\&.cc\&.
+.SS "template<typename T > bool \fBConstructFromT\fP< T >::operator== (const \fBConstructFromT\fP< T > & other) const\fC [inline]\fP"
+
+.PP
+Definition at line 536 of file googletest\-param\-test\-test\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

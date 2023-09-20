@@ -1,0 +1,59 @@
+.TH "TestListener" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TestListener
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBtesting::EmptyTestEventListener\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTestListener\fP ()"
+.br
+.ti -1c
+.RI "\fBTestListener\fP (int *on_start_counter, bool *is_destroyed)"
+.br
+.ti -1c
+.RI "\fB~TestListener\fP () override"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBOnTestProgramStart\fP (const \fBUnitTest\fP &) override"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 6810 of file gtest_unittest\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "TestListener::TestListener ()\fC [inline]\fP"
+
+.PP
+Definition at line 6812 of file gtest_unittest\&.cc\&.
+.SS "TestListener::TestListener (int * on_start_counter, bool * is_destroyed)\fC [inline]\fP"
+
+.PP
+Definition at line 6813 of file gtest_unittest\&.cc\&.
+.SS "TestListener::~TestListener ()\fC [inline]\fP, \fC [override]\fP"
+
+.PP
+Definition at line 6816 of file gtest_unittest\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void TestListener::OnTestProgramStart (const \fBUnitTest\fP &)\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::EmptyTestEventListener\fP\&.
+.PP
+Definition at line 6821 of file gtest_unittest\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

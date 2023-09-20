@@ -1,0 +1,1107 @@
+.TH "build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <memory>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include 'gmock/gmock\-actions\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-port\&.h'\fP
+.br
+\fC#include 'gmock/internal/custom/gmock\-generated\-actions\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::internal::InvokeArgumentAction< index, Params >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_1_TEMPLATE_PARAMS\fP(kind0,  name0)   kind0 name0"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_2_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1)     kind0 name0, kind1 name1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_3_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1,  kind2,  name2)     kind0 name0, kind1 name1, kind2 name2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_4_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3)     kind0 name0, kind1 name1, kind2 name2, kind3 name3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_5_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4)     kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_6_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5)     kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4, kind5 name5"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_7_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_8_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6,  kind7,  name7)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_9_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6,  kind7,  name7,  kind8,  name8)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_HAS_10_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6,  kind7,  name7,  kind8,  name8,  kind9,  name9)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_1_TEMPLATE_PARAMS\fP(kind0,  name0)   name0"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_2_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1)     name0, name1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_3_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1,  kind2,  name2)     name0, name1, name2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_4_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3)     name0, name1, name2, name3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_5_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4)     name0, name1, name2, name3, name4"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_6_TEMPLATE_PARAMS\fP(kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5)     name0, name1, name2, name3, name4, name5"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_7_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6)     name0, name1, name2, name3, name4, name5, name6"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_8_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6,  kind7,  name7)     name0, name1, name2, name3, name4, name5, name6, name7"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_9_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6,  kind7,  name7,  kind8,  name8)     name0, name1, name2, name3, name4, name5, name6, name7, name8"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_HAS_10_TEMPLATE_PARAMS\fP( kind0,  name0,  kind1,  name1,  kind2,  name2,  kind3,  name3,  kind4,  name4,  kind5,  name5,  kind6,  name6,  kind7,  name7,  kind8,  name8,  kind9,  name9)     name0, name1, name2, name3, name4, name5, name6, name7, name8, name9"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_0_VALUE_PARAMS\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_1_VALUE_PARAMS\fP(p0)   , typename p0##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_2_VALUE_PARAMS\fP(p0,  p1)     , typename p0##_type, typename p1##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)     , typename p0##_type, typename p1##_type, typename p2##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_TYPE_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_0_VALUE_PARAMS\fP()   ()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_1_VALUE_PARAMS\fP(p0)     (p0##_type gmock_p0) : p0(::std::move(gmock_p0))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_2_VALUE_PARAMS\fP(p0,  p1)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_INIT_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_0_VALUE_PARAMS\fP()     {}"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_1_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_2_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_3_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_4_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_5_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_6_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_7_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_8_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_9_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_COPY_AND_10_VALUE_PARAMS\fP(\&.\&.\&.)   = default;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_0_VALUE_PARAMS\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_1_VALUE_PARAMS\fP(p0)   p0##_type p0;"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_2_VALUE_PARAMS\fP(p0,  p1)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DEFN_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_0_VALUE_PARAMS\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_1_VALUE_PARAMS\fP(p0)   p0"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_2_VALUE_PARAMS\fP(p0,  p1)   p0, p1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)   p0, p1, p2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)   p0, p1, p2, p3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)     p0, p1, p2, p3, p4"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)     p0, p1, p2, p3, p4, p5"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)     p0, p1, p2, p3, p4, p5, p6"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)     p0, p1, p2, p3, p4, p5, p6, p7"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)     p0, p1, p2, p3, p4, p5, p6, p7, p8"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)     p0, p1, p2, p3, p4, p5, p6, p7, p8, p9"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_0_VALUE_PARAMS\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_1_VALUE_PARAMS\fP(p0)   , p0##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_2_VALUE_PARAMS\fP(p0,  p1)     , p0##_type, p1##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)     , p0##_type, p1##_type, p2##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)     , p0##_type, p1##_type, p2##_type, p3##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)     , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)     , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)     , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type, p6##_type"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_LIST_TYPE_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_0_VALUE_PARAMS\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_1_VALUE_PARAMS\fP(p0)   p0##_type p0"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_2_VALUE_PARAMS\fP(p0,  p1)     p0##_type p0, p1##_type p1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)     p0##_type p0, p1##_type p1, p2##_type p2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)     p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)     p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_DECL_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_0_VALUE_PARAMS\fP()"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_1_VALUE_PARAMS\fP(p0)   P"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_2_VALUE_PARAMS\fP(p0,  p1)   P2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_3_VALUE_PARAMS\fP(p0,  p1,  p2)   P3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_4_VALUE_PARAMS\fP(p0,  p1,  p2,  p3)   P4"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_5_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4)   P5"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_6_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5)   P6"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_7_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6)   P7"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_8_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7)     P8"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_9_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8)     P9"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_INTERNAL_COUNT_AND_10_VALUE_PARAMS\fP(p0,  p1,  p2,  p3,  p4,  p5,  p6,  p7,  p8,  p9)     P10"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_ACTION_CLASS_\fP(name,  value_params)     \fBGTEST_CONCAT_TOKEN_\fP(name##Action, GMOCK_INTERNAL_COUNT_##value_params)"
+.br
+.ti -1c
+.RI "#define \fBACTION_TEMPLATE\fP(name,  template_params,  value_params)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename F , typename\&.\&.\&. Args> auto \fBtesting::internal::InvokeArgument\fP (F f, Args\&.\&.\&. args) \-> decltype(f(args\&.\&.\&.))"
+.br
+.ti -1c
+.RI "template<std::size_t index, typename\&.\&.\&. Params> internal::InvokeArgumentAction< index, typename std::decay< Params >::type\&.\&.\&. > \fBtesting::InvokeArgument\fP (Params &&\&.\&.\&.params)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ACTION_TEMPLATE(name, template_params, value_params)"
+
+.PP
+Definition at line 515 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_ACTION_CLASS_(name, value_params)     \fBGTEST_CONCAT_TOKEN_\fP(name##Action, GMOCK_INTERNAL_COUNT_##value_params)"
+
+.PP
+Definition at line 512 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_0_VALUE_PARAMS()"
+
+.PP
+Definition at line 493 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)     P10"
+
+.PP
+Definition at line 507 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_1_VALUE_PARAMS(p0)   P"
+
+.PP
+Definition at line 494 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_2_VALUE_PARAMS(p0, p1)   P2"
+
+.PP
+Definition at line 495 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_3_VALUE_PARAMS(p0, p1, p2)   P3"
+
+.PP
+Definition at line 496 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_4_VALUE_PARAMS(p0, p1, p2, p3)   P4"
+
+.PP
+Definition at line 497 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)   P5"
+
+.PP
+Definition at line 498 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)   P6"
+
+.PP
+Definition at line 499 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)   P7"
+
+.PP
+Definition at line 500 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)     P8"
+
+.PP
+Definition at line 501 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_COUNT_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)     P9"
+
+.PP
+Definition at line 504 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_0_VALUE_PARAMS()"
+
+.PP
+Definition at line 464 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4,     \
+      p5##_type p5, p6##_type p6, p7##_type p7, p8##_type p8, p9##_type p9
+.fi
+.PP
+Definition at line 487 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_1_VALUE_PARAMS(p0)   p0##_type p0"
+
+.PP
+Definition at line 465 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_2_VALUE_PARAMS(p0, p1)     p0##_type p0, p1##_type p1"
+
+.PP
+Definition at line 466 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_3_VALUE_PARAMS(p0, p1, p2)     p0##_type p0, p1##_type p1, p2##_type p2"
+
+.PP
+Definition at line 468 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_4_VALUE_PARAMS(p0, p1, p2, p3)     p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3"
+
+.PP
+Definition at line 470 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)     p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4"
+
+.PP
+Definition at line 472 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4, \
+      p5##_type p5
+.fi
+.PP
+Definition at line 474 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4,    \
+      p5##_type p5, p6##_type p6
+.fi
+.PP
+Definition at line 477 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4,        \
+      p5##_type p5, p6##_type p6, p7##_type p7
+.fi
+.PP
+Definition at line 480 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0, p1##_type p1, p2##_type p2, p3##_type p3, p4##_type p4,        \
+      p5##_type p5, p6##_type p6, p7##_type p7, p8##_type p8
+.fi
+.PP
+Definition at line 483 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_10_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6, kind7, name7, kind8, name8, kind9, name9)"
+\fBValue:\fP
+.PP
+.nf
+  kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4,        \
+      kind5 name5, kind6 name6, kind7 name7, kind8 name8, kind9 name9
+.fi
+.PP
+Definition at line 162 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_1_TEMPLATE_PARAMS(kind0, name0)   kind0 name0"
+
+.PP
+Definition at line 131 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_2_TEMPLATE_PARAMS(kind0, name0, kind1, name1)     kind0 name0, kind1 name1"
+
+.PP
+Definition at line 132 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_3_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2)     kind0 name0, kind1 name1, kind2 name2"
+
+.PP
+Definition at line 134 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_4_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3)     kind0 name0, kind1 name1, kind2 name2, kind3 name3"
+
+.PP
+Definition at line 137 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_5_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4)     kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4"
+
+.PP
+Definition at line 140 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_6_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5)     kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4, kind5 name5"
+
+.PP
+Definition at line 143 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_7_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6)"
+\fBValue:\fP
+.PP
+.nf
+  kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4,        \
+      kind5 name5, kind6 name6
+.fi
+.PP
+Definition at line 147 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_8_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6, kind7, name7)"
+\fBValue:\fP
+.PP
+.nf
+  kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4,        \
+      kind5 name5, kind6 name6, kind7 name7
+.fi
+.PP
+Definition at line 152 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_HAS_9_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6, kind7, name7, kind8, name8)"
+\fBValue:\fP
+.PP
+.nf
+  kind0 name0, kind1 name1, kind2 name2, kind3 name3, kind4 name4,        \
+      kind5 name5, kind6 name6, kind7 name7, kind8 name8
+.fi
+.PP
+Definition at line 157 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_0_VALUE_PARAMS()"
+
+.PP
+Definition at line 203 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,              \
+      typename p3##_type, typename p4##_type, typename p5##_type,            \
+      typename p6##_type, typename p7##_type, typename p8##_type,            \
+      typename p9##_type
+.fi
+.PP
+Definition at line 233 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_1_VALUE_PARAMS(p0)   , typename p0##_type"
+
+.PP
+Definition at line 204 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_2_VALUE_PARAMS(p0, p1)     , typename p0##_type, typename p1##_type"
+
+.PP
+Definition at line 205 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_3_VALUE_PARAMS(p0, p1, p2)     , typename p0##_type, typename p1##_type, typename p2##_type"
+
+.PP
+Definition at line 207 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_4_VALUE_PARAMS(p0, p1, p2, p3)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,     \
+      typename p3##_type
+.fi
+.PP
+Definition at line 209 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,         \
+      typename p3##_type, typename p4##_type
+.fi
+.PP
+Definition at line 212 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,             \
+      typename p3##_type, typename p4##_type, typename p5##_type
+.fi
+.PP
+Definition at line 215 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,             \
+      typename p3##_type, typename p4##_type, typename p5##_type,           \
+      typename p6##_type
+.fi
+.PP
+Definition at line 218 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,             \
+      typename p3##_type, typename p4##_type, typename p5##_type,           \
+      typename p6##_type, typename p7##_type
+.fi
+.PP
+Definition at line 223 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DECL_TYPE_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)"
+\fBValue:\fP
+.PP
+.nf
+  , typename p0##_type, typename p1##_type, typename p2##_type,             \
+      typename p3##_type, typename p4##_type, typename p5##_type,           \
+      typename p6##_type, typename p7##_type, typename p8##_type
+.fi
+.PP
+Definition at line 228 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_0_VALUE_PARAMS()"
+
+.PP
+Definition at line 345 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                             \
+  p1##_type p1;                                                             \
+  p2##_type p2;                                                             \
+  p3##_type p3;                                                             \
+  p4##_type p4;                                                             \
+  p5##_type p5;                                                             \
+  p6##_type p6;                                                             \
+  p7##_type p7;                                                             \
+  p8##_type p8;                                                             \
+  p9##_type p9;
+.fi
+.PP
+Definition at line 400 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_1_VALUE_PARAMS(p0)   p0##_type p0;"
+
+.PP
+Definition at line 346 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_2_VALUE_PARAMS(p0, p1)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                        \
+  p1##_type p1;
+.fi
+.PP
+Definition at line 347 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_3_VALUE_PARAMS(p0, p1, p2)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                            \
+  p1##_type p1;                                            \
+  p2##_type p2;
+.fi
+.PP
+Definition at line 350 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_4_VALUE_PARAMS(p0, p1, p2, p3)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                \
+  p1##_type p1;                                                \
+  p2##_type p2;                                                \
+  p3##_type p3;
+.fi
+.PP
+Definition at line 354 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                    \
+  p1##_type p1;                                                    \
+  p2##_type p2;                                                    \
+  p3##_type p3;                                                    \
+  p4##_type p4;
+.fi
+.PP
+Definition at line 359 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                        \
+  p1##_type p1;                                                        \
+  p2##_type p2;                                                        \
+  p3##_type p3;                                                        \
+  p4##_type p4;                                                        \
+  p5##_type p5;
+.fi
+.PP
+Definition at line 365 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                            \
+  p1##_type p1;                                                            \
+  p2##_type p2;                                                            \
+  p3##_type p3;                                                            \
+  p4##_type p4;                                                            \
+  p5##_type p5;                                                            \
+  p6##_type p6;
+.fi
+.PP
+Definition at line 372 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                                \
+  p1##_type p1;                                                                \
+  p2##_type p2;                                                                \
+  p3##_type p3;                                                                \
+  p4##_type p4;                                                                \
+  p5##_type p5;                                                                \
+  p6##_type p6;                                                                \
+  p7##_type p7;
+.fi
+.PP
+Definition at line 380 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)"
+\fBValue:\fP
+.PP
+.nf
+  p0##_type p0;                                                                \
+  p1##_type p1;                                                                \
+  p2##_type p2;                                                                \
+  p3##_type p3;                                                                \
+  p4##_type p4;                                                                \
+  p5##_type p5;                                                                \
+  p6##_type p6;                                                                \
+  p7##_type p7;                                                                \
+  p8##_type p8;
+.fi
+.PP
+Definition at line 389 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_0_VALUE_PARAMS()     {}"
+
+.PP
+Definition at line 331 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_10_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 342 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_1_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 333 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_2_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 334 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_3_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 335 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_4_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 336 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_5_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 337 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_6_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 338 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_7_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 339 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_8_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 340 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_DEFN_COPY_AND_9_VALUE_PARAMS( \&.\&.\&.)   = default;"
+
+.PP
+Definition at line 341 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_0_VALUE_PARAMS()   ()"
+
+.PP
+Definition at line 241 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2,              \
+   p3##_type gmock_p3, p4##_type gmock_p4, p5##_type gmock_p5,              \
+   p6##_type gmock_p6, p7##_type gmock_p7, p8##_type gmock_p8,              \
+   p9##_type gmock_p9)                                                      \
+      : p0(::std::move(gmock_p0)),                                          \
+        p1(::std::move(gmock_p1)),                                          \
+        p2(::std::move(gmock_p2)),                                          \
+        p3(::std::move(gmock_p3)),                                          \
+        p4(::std::move(gmock_p4)),                                          \
+        p5(::std::move(gmock_p5)),                                          \
+        p6(::std::move(gmock_p6)),                                          \
+        p7(::std::move(gmock_p7)),                                          \
+        p8(::std::move(gmock_p8)),                                          \
+        p9(::std::move(gmock_p9))
+.fi
+.PP
+Definition at line 313 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_1_VALUE_PARAMS(p0)     (p0##_type gmock_p0) : p0(::std::move(gmock_p0))"
+
+.PP
+Definition at line 242 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_2_VALUE_PARAMS(p0, p1)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1)             \
+      : p0(::std::move(gmock_p0)), p1(::std::move(gmock_p1))
+.fi
+.PP
+Definition at line 244 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_3_VALUE_PARAMS(p0, p1, p2)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2) \
+      : p0(::std::move(gmock_p0)),                             \
+        p1(::std::move(gmock_p1)),                             \
+        p2(::std::move(gmock_p2))
+.fi
+.PP
+Definition at line 247 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_4_VALUE_PARAMS(p0, p1, p2, p3)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2, \
+   p3##_type gmock_p3)                                         \
+      : p0(::std::move(gmock_p0)),                             \
+        p1(::std::move(gmock_p1)),                             \
+        p2(::std::move(gmock_p2)),                             \
+        p3(::std::move(gmock_p3))
+.fi
+.PP
+Definition at line 252 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2,     \
+   p3##_type gmock_p3, p4##_type gmock_p4)                         \
+      : p0(::std::move(gmock_p0)),                                 \
+        p1(::std::move(gmock_p1)),                                 \
+        p2(::std::move(gmock_p2)),                                 \
+        p3(::std::move(gmock_p3)),                                 \
+        p4(::std::move(gmock_p4))
+.fi
+.PP
+Definition at line 259 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2,         \
+   p3##_type gmock_p3, p4##_type gmock_p4, p5##_type gmock_p5)         \
+      : p0(::std::move(gmock_p0)),                                     \
+        p1(::std::move(gmock_p1)),                                     \
+        p2(::std::move(gmock_p2)),                                     \
+        p3(::std::move(gmock_p3)),                                     \
+        p4(::std::move(gmock_p4)),                                     \
+        p5(::std::move(gmock_p5))
+.fi
+.PP
+Definition at line 267 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2,             \
+   p3##_type gmock_p3, p4##_type gmock_p4, p5##_type gmock_p5,             \
+   p6##_type gmock_p6)                                                     \
+      : p0(::std::move(gmock_p0)),                                         \
+        p1(::std::move(gmock_p1)),                                         \
+        p2(::std::move(gmock_p2)),                                         \
+        p3(::std::move(gmock_p3)),                                         \
+        p4(::std::move(gmock_p4)),                                         \
+        p5(::std::move(gmock_p5)),                                         \
+        p6(::std::move(gmock_p6))
+.fi
+.PP
+Definition at line 276 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2,                 \
+   p3##_type gmock_p3, p4##_type gmock_p4, p5##_type gmock_p5,                 \
+   p6##_type gmock_p6, p7##_type gmock_p7)                                     \
+      : p0(::std::move(gmock_p0)),                                             \
+        p1(::std::move(gmock_p1)),                                             \
+        p2(::std::move(gmock_p2)),                                             \
+        p3(::std::move(gmock_p3)),                                             \
+        p4(::std::move(gmock_p4)),                                             \
+        p5(::std::move(gmock_p5)),                                             \
+        p6(::std::move(gmock_p6)),                                             \
+        p7(::std::move(gmock_p7))
+.fi
+.PP
+Definition at line 287 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_INIT_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)"
+\fBValue:\fP
+.PP
+.nf
+  (p0##_type gmock_p0, p1##_type gmock_p1, p2##_type gmock_p2,                 \
+   p3##_type gmock_p3, p4##_type gmock_p4, p5##_type gmock_p5,                 \
+   p6##_type gmock_p6, p7##_type gmock_p7, p8##_type gmock_p8)                 \
+      : p0(::std::move(gmock_p0)),                                             \
+        p1(::std::move(gmock_p1)),                                             \
+        p2(::std::move(gmock_p2)),                                             \
+        p3(::std::move(gmock_p3)),                                             \
+        p4(::std::move(gmock_p4)),                                             \
+        p5(::std::move(gmock_p5)),                                             \
+        p6(::std::move(gmock_p6)),                                             \
+        p7(::std::move(gmock_p7)),                                             \
+        p8(::std::move(gmock_p8))
+.fi
+.PP
+Definition at line 299 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_0_VALUE_PARAMS()"
+
+.PP
+Definition at line 414 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)     p0, p1, p2, p3, p4, p5, p6, p7, p8, p9"
+
+.PP
+Definition at line 430 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_1_VALUE_PARAMS(p0)   p0"
+
+.PP
+Definition at line 415 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_2_VALUE_PARAMS(p0, p1)   p0, p1"
+
+.PP
+Definition at line 416 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_3_VALUE_PARAMS(p0, p1, p2)   p0, p1, p2"
+
+.PP
+Definition at line 417 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_4_VALUE_PARAMS(p0, p1, p2, p3)   p0, p1, p2, p3"
+
+.PP
+Definition at line 418 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)     p0, p1, p2, p3, p4"
+
+.PP
+Definition at line 419 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)     p0, p1, p2, p3, p4, p5"
+
+.PP
+Definition at line 421 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)     p0, p1, p2, p3, p4, p5, p6"
+
+.PP
+Definition at line 423 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)     p0, p1, p2, p3, p4, p5, p6, p7"
+
+.PP
+Definition at line 425 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)     p0, p1, p2, p3, p4, p5, p6, p7, p8"
+
+.PP
+Definition at line 427 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_10_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6, kind7, name7, kind8, name8, kind9, name9)     name0, name1, name2, name3, name4, name5, name6, name7, name8, name9"
+
+.PP
+Definition at line 197 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_1_TEMPLATE_PARAMS(kind0, name0)   name0"
+
+.PP
+Definition at line 169 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_2_TEMPLATE_PARAMS(kind0, name0, kind1, name1)     name0, name1"
+
+.PP
+Definition at line 170 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_3_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2)     name0, name1, name2"
+
+.PP
+Definition at line 172 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_4_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3)     name0, name1, name2, name3"
+
+.PP
+Definition at line 175 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_5_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4)     name0, name1, name2, name3, name4"
+
+.PP
+Definition at line 178 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_6_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5)     name0, name1, name2, name3, name4, name5"
+
+.PP
+Definition at line 181 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_7_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6)     name0, name1, name2, name3, name4, name5, name6"
+
+.PP
+Definition at line 185 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_8_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6, kind7, name7)     name0, name1, name2, name3, name4, name5, name6, name7"
+
+.PP
+Definition at line 189 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_HAS_9_TEMPLATE_PARAMS(kind0, name0, kind1, name1, kind2, name2, kind3, name3, kind4, name4, kind5, name5, kind6, name6, kind7, name7, kind8, name8)     name0, name1, name2, name3, name4, name5, name6, name7, name8"
+
+.PP
+Definition at line 193 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_0_VALUE_PARAMS()"
+
+.PP
+Definition at line 435 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_10_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)"
+\fBValue:\fP
+.PP
+.nf
+  , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type,        \
+      p6##_type, p7##_type, p8##_type, p9##_type
+.fi
+.PP
+Definition at line 458 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_1_VALUE_PARAMS(p0)   , p0##_type"
+
+.PP
+Definition at line 436 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_2_VALUE_PARAMS(p0, p1)     , p0##_type, p1##_type"
+
+.PP
+Definition at line 437 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_3_VALUE_PARAMS(p0, p1, p2)     , p0##_type, p1##_type, p2##_type"
+
+.PP
+Definition at line 439 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_4_VALUE_PARAMS(p0, p1, p2, p3)     , p0##_type, p1##_type, p2##_type, p3##_type"
+
+.PP
+Definition at line 441 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_5_VALUE_PARAMS(p0, p1, p2, p3, p4)     , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type"
+
+.PP
+Definition at line 443 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_6_VALUE_PARAMS(p0, p1, p2, p3, p4, p5)     , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type"
+
+.PP
+Definition at line 445 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_7_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6)     , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type, p6##_type"
+
+.PP
+Definition at line 447 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_8_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7)"
+\fBValue:\fP
+.PP
+.nf
+  , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type,       \
+      p6##_type, p7##_type
+.fi
+.PP
+Definition at line 450 of file gmock\-more\-actions\&.h\&.
+.SS "#define GMOCK_INTERNAL_LIST_TYPE_AND_9_VALUE_PARAMS(p0, p1, p2, p3, p4, p5, p6, p7, p8)"
+\fBValue:\fP
+.PP
+.nf
+  , p0##_type, p1##_type, p2##_type, p3##_type, p4##_type, p5##_type,       \
+      p6##_type, p7##_type, p8##_type
+.fi
+.PP
+Definition at line 454 of file gmock\-more\-actions\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

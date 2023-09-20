@@ -1,0 +1,3618 @@
+.TH "md_build__deps_googletest_src_docs_gmock_cook_book" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src_docs_gmock_cook_book \- gMock Cookbook 
+You can find recipes for using gMock here\&. If you haven't yet, please read \fBthe dummy guide\fP first to make sure you understand the basics\&.
+.PP
+{: \&.callout \&.note} \fBNote:\fP gMock lives in the \fCtesting\fP name space\&. For readability, it is recommended to write \fCusing ::testing::Foo;\fP once in your file before using the name \fCFoo\fP defined by gMock\&. We omit such \fCusing\fP statements in this section for brevity, but you should do it in your own code\&.
+.SH "Creating Mock Classes"
+.PP
+\fBMock\fP classes are defined as normal classes, using the \fCMOCK_METHOD\fP macro to generate mocked methods\&. The macro gets 3 or 4 parameters:
+.PP
+.PP
+.nf
+class MyMock {
+ public:
+  MOCK_METHOD(ReturnType, MethodName, (Args\&.\&.\&.));
+  MOCK_METHOD(ReturnType, MethodName, (Args\&.\&.\&.), (Specs\&.\&.\&.));
+};
+.fi
+.PP
+.PP
+The first 3 parameters are simply the method declaration, split into 3 parts\&. The 4th parameter accepts a closed list of qualifiers, which affect the generated method:
+.PP
+.IP "\(bu" 2
+**\fCconst\fP** - Makes the mocked method a \fCconst\fP method\&. Required if overriding a \fCconst\fP method\&.
+.IP "\(bu" 2
+**\fCoverride\fP** - Marks the method with \fCoverride\fP\&. Recommended if overriding a \fCvirtual\fP method\&.
+.IP "\(bu" 2
+**\fCnoexcept\fP** - Marks the method with \fCnoexcept\fP\&. Required if overriding a \fCnoexcept\fP method\&.
+.IP "\(bu" 2
+**\fCCalltype(\&.\&.\&.)\fP** - Sets the call type for the method (e\&.g\&. to \fCSTDMETHODCALLTYPE\fP), useful in Windows\&.
+.IP "\(bu" 2
+**\fCref(\&.\&.\&.)\fP** - Marks the method with the reference qualification specified\&. Required if overriding a method that has reference qualifications\&. Eg \fCref(&)\fP or \fCref(&&)\fP\&.
+.PP
+.SS "Dealing with unprotected commas"
+Unprotected commas, i\&.e\&. commas which are not surrounded by parentheses, prevent \fCMOCK_METHOD\fP from parsing its arguments correctly:
+.PP
+{: \&.bad} 
+.PP
+.nf
+class MockFoo {
+ public:
+  MOCK_METHOD(std::pair<bool, int>, GetPair, ());  // Won't compile!
+  MOCK_METHOD(bool, CheckMap, (std::map<int, double>, bool));  // Won't compile!
+};
+
+.fi
+.PP
+.PP
+Solution 1 - wrap with parentheses:
+.PP
+{: \&.good} 
+.PP
+.nf
+class MockFoo {
+ public:
+  MOCK_METHOD((std::pair<bool, int>), GetPair, ());
+  MOCK_METHOD(bool, CheckMap, ((std::map<int, double>), bool));
+};
+
+.fi
+.PP
+.PP
+Note that wrapping a return or argument type with parentheses is, in general, invalid C++\&. \fCMOCK_METHOD\fP removes the parentheses\&.
+.PP
+Solution 2 - define an alias:
+.PP
+{: \&.good} 
+.PP
+.nf
+class MockFoo {
+ public:
+  using BoolAndInt = std::pair<bool, int>;
+  MOCK_METHOD(BoolAndInt, GetPair, ());
+  using MapIntDouble = std::map<int, double>;
+  MOCK_METHOD(bool, CheckMap, (MapIntDouble, bool));
+};
+
+.fi
+.PP
+.SS "Mocking Private or Protected Methods"
+You must always put a mock method definition (\fCMOCK_METHOD\fP) in a \fCpublic:\fP section of the mock class, regardless of the method being mocked being \fCpublic\fP, \fCprotected\fP, or \fCprivate\fP in the base class\&. This allows \fCON_CALL\fP and \fCEXPECT_CALL\fP to reference the mock function from outside of the mock class\&. (Yes, C++ allows a subclass to change the access level of a virtual function in the base class\&.) Example:
+.PP
+.PP
+.nf
+class Foo {
+ public:
+  \&.\&.\&.
+  virtual bool Transform(Gadget* g) = 0;
+
+ protected:
+  virtual void Resume();
+
+ private:
+  virtual int GetTimeOut();
+};
+
+class MockFoo : public Foo {
+ public:
+  \&.\&.\&.
+  MOCK_METHOD(bool, Transform, (Gadget* g), (override));
+
+  // The following must be in the public section, even though the
+  // methods are protected or private in the base class\&.
+  MOCK_METHOD(void, Resume, (), (override));
+  MOCK_METHOD(int, GetTimeOut, (), (override));
+};
+.fi
+.PP
+.SS "Mocking Overloaded Methods"
+You can mock overloaded functions as usual\&. No special attention is required:
+.PP
+.PP
+.nf
+class Foo {
+  \&.\&.\&.
+
+  // Must be virtual as we'll inherit from Foo\&.
+  virtual ~Foo();
+
+  // Overloaded on the types and/or numbers of arguments\&.
+  virtual int Add(Element x);
+  virtual int Add(int times, Element x);
+
+  // Overloaded on the const-ness of this object\&.
+  virtual Bar& GetBar();
+  virtual const Bar& GetBar() const;
+};
+
+class MockFoo : public Foo {
+  \&.\&.\&.
+  MOCK_METHOD(int, Add, (Element x), (override));
+  MOCK_METHOD(int, Add, (int times, Element x), (override));
+
+  MOCK_METHOD(Bar&, GetBar, (), (override));
+  MOCK_METHOD(const Bar&, GetBar, (), (const, override));
+};
+.fi
+.PP
+.PP
+{: \&.callout \&.note} \fBNote:\fP if you don't mock all versions of the overloaded method, the compiler will give you a warning about some methods in the base class being hidden\&. To fix that, use \fCusing\fP to bring them in scope:
+.PP
+.PP
+.nf
+class MockFoo : public Foo {
+  \&.\&.\&.
+  using Foo::Add;
+  MOCK_METHOD(int, Add, (Element x), (override));
+  // We don't want to mock int Add(int times, Element x);
+  \&.\&.\&.
+};
+.fi
+.PP
+.SS "Mocking Class Templates"
+You can mock class templates just like any class\&.
+.PP
+.PP
+.nf
+template <typename Elem>
+class StackInterface {
+  \&.\&.\&.
+  // Must be virtual as we'll inherit from StackInterface\&.
+  virtual ~StackInterface();
+
+  virtual int GetSize() const = 0;
+  virtual void Push(const Elem& x) = 0;
+};
+
+template <typename Elem>
+class MockStack : public StackInterface<Elem> {
+  \&.\&.\&.
+  MOCK_METHOD(int, GetSize, (), (override));
+  MOCK_METHOD(void, Push, (const Elem& x), (override));
+};
+.fi
+.PP
+.SS "Mocking Non-virtual Methods"
+gMock can mock non-virtual functions to be used in Hi-perf dependency injection\&.
+.PP
+In this case, instead of sharing a common base class with the real class, your mock class will be \fIunrelated\fP to the real class, but contain methods with the same signatures\&. The syntax for mocking non-virtual methods is the \fIsame\fP as mocking virtual methods (just don't add \fCoverride\fP):
+.PP
+.PP
+.nf
+// A simple packet stream class\&.  None of its members is virtual\&.
+class ConcretePacketStream {
+ public:
+  void AppendPacket(Packet* new_packet);
+  const Packet* GetPacket(size_t packet_number) const;
+  size_t NumberOfPackets() const;
+  \&.\&.\&.
+};
+
+// A mock packet stream class\&.  It inherits from no other, but defines
+// GetPacket() and NumberOfPackets()\&.
+class MockPacketStream {
+ public:
+  MOCK_METHOD(const Packet*, GetPacket, (size_t packet_number), (const));
+  MOCK_METHOD(size_t, NumberOfPackets, (), (const));
+  \&.\&.\&.
+};
+.fi
+.PP
+.PP
+Note that the mock class doesn't define \fCAppendPacket()\fP, unlike the real class\&. That's fine as long as the test doesn't need to call it\&.
+.PP
+Next, you need a way to say that you want to use \fCConcretePacketStream\fP in production code, and use \fCMockPacketStream\fP in tests\&. Since the functions are not virtual and the two classes are unrelated, you must specify your choice at \fIcompile time\fP (as opposed to run time)\&.
+.PP
+One way to do it is to templatize your code that needs to use a packet stream\&. More specifically, you will give your code a template type argument for the type of the packet stream\&. In production, you will instantiate your template with \fCConcretePacketStream\fP as the type argument\&. In tests, you will instantiate the same template with \fCMockPacketStream\fP\&. For example, you may write:
+.PP
+.PP
+.nf
+template <class PacketStream>
+void CreateConnection(PacketStream* stream) { \&.\&.\&. }
+
+template <class PacketStream>
+class PacketReader {
+ public:
+  void ReadPackets(PacketStream* stream, size_t packet_num);
+};
+.fi
+.PP
+.PP
+Then you can use \fCCreateConnection<ConcretePacketStream>()\fP and \fCPacketReader<ConcretePacketStream>\fP in production code, and use \fCCreateConnection<MockPacketStream>()\fP and \fCPacketReader<MockPacketStream>\fP in tests\&.
+.PP
+.PP
+.nf
+MockPacketStream mock_stream;
+EXPECT_CALL(mock_stream, \&.\&.\&.)\&.\&.\&.;
+\&.\&. set more expectations on mock_stream \&.\&.\&.
+PacketReader<MockPacketStream> reader(&mock_stream);
+\&.\&.\&. exercise reader \&.\&.\&.
+.fi
+.PP
+.SS "Mocking Free Functions"
+It is not possible to directly mock a free function (i\&.e\&. a C-style function or a static method)\&. If you need to, you can rewrite your code to use an interface (abstract class)\&.
+.PP
+Instead of calling a free function (say, \fCOpenFile\fP) directly, introduce an interface for it and have a concrete subclass that calls the free function:
+.PP
+.PP
+.nf
+class FileInterface {
+ public:
+  \&.\&.\&.
+  virtual bool Open(const char* path, const char* mode) = 0;
+};
+
+class File : public FileInterface {
+ public:
+  \&.\&.\&.
+  bool Open(const char* path, const char* mode) override {
+     return OpenFile(path, mode);
+  }
+};
+.fi
+.PP
+.PP
+Your code should talk to \fCFileInterface\fP to open a file\&. Now it's easy to mock out the function\&.
+.PP
+This may seem like a lot of hassle, but in practice you often have multiple related functions that you can put in the same interface, so the per-function syntactic overhead will be much lower\&.
+.PP
+If you are concerned about the performance overhead incurred by virtual functions, and profiling confirms your concern, you can combine this with the recipe for \fCmocking non-virtual methods\fP\&.
+.PP
+Alternatively, instead of introducing a new interface, you can rewrite your code to accept a std::function instead of the free function, and then use \fCMockFunction\fP to mock the std::function\&.
+.SS "Old-Style <tt>MOCK_METHODn</tt> Macros"
+Before the generic \fCMOCK_METHOD\fP macro \fCwas introduced in 2018\fP, mocks where created using a family of macros collectively called \fCMOCK_METHODn\fP\&. These macros are still supported, though migration to the new \fCMOCK_METHOD\fP is recommended\&.
+.PP
+The macros in the \fCMOCK_METHODn\fP family differ from \fCMOCK_METHOD\fP:
+.PP
+.IP "\(bu" 2
+The general structure is \fCMOCK_METHODn(MethodName, ReturnType(Args))\fP, instead of \fC\fBMOCK_METHOD(ReturnType, MethodName, (Args))\fP\fP\&.
+.IP "\(bu" 2
+The number \fCn\fP must equal the number of arguments\&.
+.IP "\(bu" 2
+When mocking a const method, one must use \fCMOCK_CONST_METHODn\fP\&.
+.IP "\(bu" 2
+When mocking a class template, the macro name must be suffixed with \fC_T\fP\&.
+.IP "\(bu" 2
+In order to specify the call type, the macro name must be suffixed with \fC_WITH_CALLTYPE\fP, and the call type is the first macro argument\&.
+.PP
+.PP
+Old macros and their new equivalents:
+.PP
+Simple Old \fC\fBMOCK_METHOD1(Foo, bool(int))\fP\fP  New \fC\fBMOCK_METHOD(bool, Foo, (int))\fP\fP 
+.PP
+Const Method Old \fC\fBMOCK_CONST_METHOD1(Foo, bool(int))\fP\fP  New \fCMOCK_METHOD(bool, Foo, (int), (const))\fP 
+.PP
+Method in a Class Template Old \fC\fBMOCK_METHOD1_T(Foo, bool(int))\fP\fP  New \fC\fBMOCK_METHOD(bool, Foo, (int))\fP\fP 
+.PP
+Const Method in a Class Template Old \fC\fBMOCK_CONST_METHOD1_T(Foo, bool(int))\fP\fP  New \fCMOCK_METHOD(bool, Foo, (int), (const))\fP 
+.PP
+Method with Call Type Old \fC\fBMOCK_METHOD1_WITH_CALLTYPE(STDMETHODCALLTYPE, Foo, bool(int))\fP\fP  New \fCMOCK_METHOD(bool, Foo, (int), (Calltype(STDMETHODCALLTYPE)))\fP 
+.PP
+Const Method with Call Type Old \fC\fBMOCK_CONST_METHOD1_WITH_CALLTYPE(STDMETHODCALLTYPE, Foo, bool(int))\fP\fP  New \fCMOCK_METHOD(bool, Foo, (int), (const, Calltype(STDMETHODCALLTYPE)))\fP 
+.PP
+Method with Call Type in a Class Template Old \fC\fBMOCK_METHOD1_T_WITH_CALLTYPE(STDMETHODCALLTYPE, Foo, bool(int))\fP\fP  New \fCMOCK_METHOD(bool, Foo, (int), (Calltype(STDMETHODCALLTYPE)))\fP 
+.PP
+Const Method with Call Type in a Class Template Old \fC\fBMOCK_CONST_METHOD1_T_WITH_CALLTYPE(STDMETHODCALLTYPE, Foo, bool(int))\fP\fP  New \fCMOCK_METHOD(bool, Foo, (int), (const, Calltype(STDMETHODCALLTYPE)))\fP  
+.SS "The Nice, the Strict, and the Naggy"
+If a mock method has no \fCEXPECT_CALL\fP spec but is called, we say that it's an 'uninteresting call', and the default action (which can be specified using \fC\fBON_CALL()\fP\fP) of the method will be taken\&. Currently, an uninteresting call will also by default cause gMock to print a warning\&.
+.PP
+However, sometimes you may want to ignore these uninteresting calls, and sometimes you may want to treat them as errors\&. gMock lets you make the decision on a per-mock-object basis\&.
+.PP
+Suppose your test uses a mock class \fC\fBMockFoo\fP\fP:
+.PP
+.PP
+.nf
+TEST(\&.\&.\&.) {
+  MockFoo mock_foo;
+  EXPECT_CALL(mock_foo, DoThis());
+  \&.\&.\&. code that uses mock_foo \&.\&.\&.
+}
+.fi
+.PP
+.PP
+If a method of \fCmock_foo\fP other than \fCDoThis()\fP is called, you will get a warning\&. However, if you rewrite your test to use \fCNiceMock<\fBMockFoo\fP>\fP instead, you can suppress the warning:
+.PP
+.PP
+.nf
+using ::testing::NiceMock;
+
+TEST(\&.\&.\&.) {
+  NiceMock<MockFoo> mock_foo;
+  EXPECT_CALL(mock_foo, DoThis());
+  \&.\&.\&. code that uses mock_foo \&.\&.\&.
+}
+.fi
+.PP
+.PP
+\fCNiceMock<\fBMockFoo\fP>\fP is a subclass of \fC\fBMockFoo\fP\fP, so it can be used wherever \fC\fBMockFoo\fP\fP is accepted\&.
+.PP
+It also works if \fC\fBMockFoo\fP\fP's constructor takes some arguments, as \fCNiceMock<\fBMockFoo\fP>\fP 'inherits' \fC\fBMockFoo\fP\fP's constructors:
+.PP
+.PP
+.nf
+using ::testing::NiceMock;
+
+TEST(\&.\&.\&.) {
+  NiceMock<MockFoo> mock_foo(5, "hi");  // Calls MockFoo(5, "hi")\&.
+  EXPECT_CALL(mock_foo, DoThis());
+  \&.\&.\&. code that uses mock_foo \&.\&.\&.
+}
+.fi
+.PP
+.PP
+The usage of \fCStrictMock\fP is similar, except that it makes all uninteresting calls failures:
+.PP
+.PP
+.nf
+using ::testing::StrictMock;
+
+TEST(\&.\&.\&.) {
+  StrictMock<MockFoo> mock_foo;
+  EXPECT_CALL(mock_foo, DoThis());
+  \&.\&.\&. code that uses mock_foo \&.\&.\&.
+
+  // The test will fail if a method of mock_foo other than DoThis()
+  // is called\&.
+}
+.fi
+.PP
+.PP
+{: \&.callout \&.note} NOTE: \fCNiceMock\fP and \fCStrictMock\fP only affects \fIuninteresting\fP calls (calls of \fImethods\fP with no expectations); they do not affect \fIunexpected\fP calls (calls of methods with expectations, but they don't match)\&. See \fCUnderstanding Uninteresting vs Unexpected Calls\fP\&.
+.PP
+There are some caveats though (sadly they are side effects of C++'s limitations):
+.PP
+.IP "1." 4
+\fCNiceMock<\fBMockFoo\fP>\fP and \fCStrictMock<\fBMockFoo\fP>\fP only work for mock methods defined using the \fCMOCK_METHOD\fP macro \fBdirectly\fP in the \fC\fBMockFoo\fP\fP class\&. If a mock method is defined in a \fBbase class\fP of \fC\fBMockFoo\fP\fP, the 'nice' or 'strict' modifier may not affect it, depending on the compiler\&. In particular, nesting \fCNiceMock\fP and \fCStrictMock\fP (e\&.g\&. \fCNiceMock<StrictMock<\fBMockFoo\fP> >\fP) is \fBnot\fP supported\&.
+.IP "2." 4
+\fCNiceMock<\fBMockFoo\fP>\fP and \fCStrictMock<\fBMockFoo\fP>\fP may not work correctly if the destructor of \fC\fBMockFoo\fP\fP is not virtual\&. We would like to fix this, but it requires cleaning up existing tests\&.
+.PP
+.PP
+Finally, you should be \fBvery cautious\fP about when to use naggy or strict mocks, as they tend to make tests more brittle and harder to maintain\&. When you refactor your code without changing its externally visible behavior, ideally you shouldn't need to update any tests\&. If your code interacts with a naggy mock, however, you may start to get spammed with warnings as the result of your change\&. Worse, if your code interacts with a strict mock, your tests may start to fail and you'll be forced to fix them\&. Our general recommendation is to use nice mocks (not yet the default) most of the time, use naggy mocks (the current default) when developing or debugging tests, and use strict mocks only as the last resort\&.
+.SS "Simplifying the Interface without Breaking Existing Code"
+Sometimes a method has a long list of arguments that is mostly uninteresting\&. For example:
+.PP
+.PP
+.nf
+class LogSink {
+ public:
+  \&.\&.\&.
+  virtual void send(LogSeverity severity, const char* full_filename,
+                    const char* base_filename, int line,
+                    const struct tm* tm_time,
+                    const char* message, size_t message_len) = 0;
+};
+.fi
+.PP
+.PP
+This method's argument list is lengthy and hard to work with (the \fCmessage\fP argument is not even 0-terminated)\&. If we mock it as is, using the mock will be awkward\&. If, however, we try to simplify this interface, we'll need to fix all clients depending on it, which is often infeasible\&.
+.PP
+The trick is to redispatch the method in the mock class:
+.PP
+.PP
+.nf
+class ScopedMockLog : public LogSink {
+ public:
+  \&.\&.\&.
+  void send(LogSeverity severity, const char* full_filename,
+                    const char* base_filename, int line, const tm* tm_time,
+                    const char* message, size_t message_len) override {
+    // We are only interested in the log severity, full file name, and
+    // log message\&.
+    Log(severity, full_filename, std::string(message, message_len));
+  }
+
+  // Implements the mock method:
+  //
+  //   void Log(LogSeverity severity,
+  //            const string& file_path,
+  //            const string& message);
+  MOCK_METHOD(void, Log,
+              (LogSeverity severity, const string& file_path,
+               const string& message));
+};
+.fi
+.PP
+.PP
+By defining a new mock method with a trimmed argument list, we make the mock class more user-friendly\&.
+.PP
+This technique may also be applied to make overloaded methods more amenable to mocking\&. For example, when overloads have been used to implement default arguments:
+.PP
+.PP
+.nf
+class MockTurtleFactory : public TurtleFactory {
+ public:
+  Turtle* MakeTurtle(int length, int weight) override { \&.\&.\&. }
+  Turtle* MakeTurtle(int length, int weight, int speed) override { \&.\&.\&. }
+
+  // the above methods delegate to this one:
+  MOCK_METHOD(Turtle*, DoMakeTurtle, ());
+};
+.fi
+.PP
+.PP
+This allows tests that don't care which overload was invoked to avoid specifying argument matchers:
+.PP
+.PP
+.nf
+ON_CALL(factory, DoMakeTurtle)
+    \&.WillByDefault(Return(MakeMockTurtle()));
+.fi
+.PP
+.SS "Alternative to Mocking Concrete Classes"
+Often you may find yourself using classes that don't implement interfaces\&. In order to test your code that uses such a class (let's call it \fCConcrete\fP), you may be tempted to make the methods of \fCConcrete\fP virtual and then mock it\&.
+.PP
+Try not to do that\&.
+.PP
+Making a non-virtual function virtual is a big decision\&. It creates an extension point where subclasses can tweak your class' behavior\&. This weakens your control on the class because now it's harder to maintain the class invariants\&. You should make a function virtual only when there is a valid reason for a subclass to override it\&.
+.PP
+Mocking concrete classes directly is problematic as it creates a tight coupling between the class and the tests - any small change in the class may invalidate your tests and make test maintenance a pain\&.
+.PP
+To avoid such problems, many programmers have been practicing 'coding to
+interfaces': instead of talking to the \fCConcrete\fP class, your code would define an interface and talk to it\&. Then you implement that interface as an adaptor on top of \fCConcrete\fP\&. In tests, you can easily mock that interface to observe how your code is doing\&.
+.PP
+This technique incurs some overhead:
+.PP
+.IP "\(bu" 2
+You pay the cost of virtual function calls (usually not a problem)\&.
+.IP "\(bu" 2
+There is more abstraction for the programmers to learn\&.
+.PP
+.PP
+However, it can also bring significant benefits in addition to better testability:
+.PP
+.IP "\(bu" 2
+\fCConcrete\fP's API may not fit your problem domain very well, as you may not be the only client it tries to serve\&. By designing your own interface, you have a chance to tailor it to your need - you may add higher-level functionalities, rename stuff, etc instead of just trimming the class\&. This allows you to write your code (user of the interface) in a more natural way, which means it will be more readable, more maintainable, and you'll be more productive\&.
+.IP "\(bu" 2
+If \fCConcrete\fP's implementation ever has to change, you don't have to rewrite everywhere it is used\&. Instead, you can absorb the change in your implementation of the interface, and your other code and tests will be insulated from this change\&.
+.PP
+.PP
+Some people worry that if everyone is practicing this technique, they will end up writing lots of redundant code\&. This concern is totally understandable\&. However, there are two reasons why it may not be the case:
+.PP
+.IP "\(bu" 2
+Different projects may need to use \fCConcrete\fP in different ways, so the best interfaces for them will be different\&. Therefore, each of them will have its own domain-specific interface on top of \fCConcrete\fP, and they will not be the same code\&.
+.IP "\(bu" 2
+If enough projects want to use the same interface, they can always share it, just like they have been sharing \fCConcrete\fP\&. You can check in the interface and the adaptor somewhere near \fCConcrete\fP (perhaps in a \fCcontrib\fP sub-directory) and let many projects use it\&.
+.PP
+.PP
+You need to weigh the pros and cons carefully for your particular problem, but I'd like to assure you that the Java community has been practicing this for a long time and it's a proven effective technique applicable in a wide variety of situations\&. :-)
+.SS "Delegating Calls to a Fake"
+Some times you have a non-trivial fake implementation of an interface\&. For example:
+.PP
+.PP
+.nf
+class Foo {
+ public:
+  virtual ~Foo() {}
+  virtual char DoThis(int n) = 0;
+  virtual void DoThat(const char* s, int* p) = 0;
+};
+
+class FakeFoo : public Foo {
+ public:
+  char DoThis(int n) override {
+    return (n > 0) ? '+' :
+           (n < 0) ? '-' : '0';
+  }
+
+  void DoThat(const char* s, int* p) override {
+    *p = strlen(s);
+  }
+};
+.fi
+.PP
+.PP
+Now you want to mock this interface such that you can set expectations on it\&. However, you also want to use \fCFakeFoo\fP for the default behavior, as duplicating it in the mock object is, well, a lot of work\&.
+.PP
+When you define the mock class using gMock, you can have it delegate its default action to a fake class you already have, using this pattern:
+.PP
+.PP
+.nf
+class MockFoo : public Foo {
+ public:
+  // Normal mock method definitions using gMock\&.
+  MOCK_METHOD(char, DoThis, (int n), (override));
+  MOCK_METHOD(void, DoThat, (const char* s, int* p), (override));
+
+  // Delegates the default actions of the methods to a FakeFoo object\&.
+  // This must be called *before* the custom ON_CALL() statements\&.
+  void DelegateToFake() {
+    ON_CALL(*this, DoThis)\&.WillByDefault([this](int n) {
+      return fake_\&.DoThis(n);
+    });
+    ON_CALL(*this, DoThat)\&.WillByDefault([this](const char* s, int* p) {
+      fake_\&.DoThat(s, p);
+    });
+  }
+
+ private:
+  FakeFoo fake_;  // Keeps an instance of the fake in the mock\&.
+};
+.fi
+.PP
+.PP
+With that, you can use \fC\fBMockFoo\fP\fP in your tests as usual\&. Just remember that if you don't explicitly set an action in an \fC\fBON_CALL()\fP\fP or \fC\fBEXPECT_CALL()\fP\fP, the fake will be called upon to do it\&.:
+.PP
+.PP
+.nf
+using ::testing::_;
+
+TEST(AbcTest, Xyz) {
+  MockFoo foo;
+
+  foo\&.DelegateToFake();  // Enables the fake for delegation\&.
+
+  // Put your ON_CALL(foo, \&.\&.\&.)s here, if any\&.
+
+  // No action specified, meaning to use the default action\&.
+  EXPECT_CALL(foo, DoThis(5));
+  EXPECT_CALL(foo, DoThat(_, _));
+
+  int n = 0;
+  EXPECT_EQ(foo\&.DoThis(5), '+');  // FakeFoo::DoThis() is invoked\&.
+  foo\&.DoThat("Hi", &n);  // FakeFoo::DoThat() is invoked\&.
+  EXPECT_EQ(n, 2);
+}
+.fi
+.PP
+.PP
+\fBSome tips:\fP
+.PP
+.IP "\(bu" 2
+If you want, you can still override the default action by providing your own \fC\fBON_CALL()\fP\fP or using \fC\&.\fBWillOnce()\fP\fP / \fC\&.WillRepeatedly()\fP in \fC\fBEXPECT_CALL()\fP\fP\&.
+.IP "\(bu" 2
+In \fCDelegateToFake()\fP, you only need to delegate the methods whose fake implementation you intend to use\&.
+.IP "\(bu" 2
+The general technique discussed here works for overloaded methods, but you'll need to tell the compiler which version you mean\&. To disambiguate a mock function (the one you specify inside the parentheses of \fC\fBON_CALL()\fP\fP), use \fCthis technique\fP; to disambiguate a fake function (the one you place inside \fC\fBInvoke()\fP\fP), use a \fCstatic_cast\fP to specify the function's type\&. For instance, if class \fCFoo\fP has methods \fCchar DoThis(int n)\fP and \fCbool DoThis(double x) const\fP, and you want to invoke the latter, you need to write \fCInvoke(&fake_, static_cast<bool (FakeFoo::*)(double) const>(&FakeFoo::DoThis))\fP instead of \fCInvoke(&fake_, &FakeFoo::DoThis)\fP (The strange-looking thing inside the angled brackets of \fCstatic_cast\fP is the type of a function pointer to the second \fCDoThis()\fP method\&.)\&.
+.IP "\(bu" 2
+Having to mix a mock and a fake is often a sign of something gone wrong\&. Perhaps you haven't got used to the interaction-based way of testing yet\&. Or perhaps your interface is taking on too many roles and should be split up\&. Therefore, \fBdon't abuse this\fP\&. We would only recommend to do it as an intermediate step when you are refactoring your code\&.
+.PP
+.PP
+Regarding the tip on mixing a mock and a fake, here's an example on why it may be a bad sign: Suppose you have a class \fCSystem\fP for low-level system operations\&. In particular, it does file and I/O operations\&. And suppose you want to test how your code uses \fCSystem\fP to do I/O, and you just want the file operations to work normally\&. If you mock out the entire \fCSystem\fP class, you'll have to provide a fake implementation for the file operation part, which suggests that \fCSystem\fP is taking on too many roles\&.
+.PP
+Instead, you can define a \fCFileOps\fP interface and an \fCIOOps\fP interface and split \fCSystem\fP's functionalities into the two\&. Then you can mock \fCIOOps\fP without mocking \fCFileOps\fP\&.
+.SS "Delegating Calls to a Real Object"
+When using testing doubles (mocks, fakes, stubs, and etc), sometimes their behaviors will differ from those of the real objects\&. This difference could be either intentional (as in simulating an error such that you can test the error handling code) or unintentional\&. If your mocks have different behaviors than the real objects by mistake, you could end up with code that passes the tests but fails in production\&.
+.PP
+You can use the \fIdelegating-to-real\fP technique to ensure that your mock has the same behavior as the real object while retaining the ability to validate calls\&. This technique is very similar to the \fCdelegating-to-fake\fP technique, the difference being that we use a real object instead of a fake\&. Here's an example:
+.PP
+.PP
+.nf
+using ::testing::AtLeast;
+
+class MockFoo : public Foo {
+ public:
+  MockFoo() {
+    // By default, all calls are delegated to the real object\&.
+    ON_CALL(*this, DoThis)\&.WillByDefault([this](int n) {
+      return real_\&.DoThis(n);
+    });
+    ON_CALL(*this, DoThat)\&.WillByDefault([this](const char* s, int* p) {
+      real_\&.DoThat(s, p);
+    });
+    \&.\&.\&.
+  }
+  MOCK_METHOD(char, DoThis, \&.\&.\&.);
+  MOCK_METHOD(void, DoThat, \&.\&.\&.);
+  \&.\&.\&.
+ private:
+  Foo real_;
+};
+
+\&.\&.\&.
+  MockFoo mock;
+  EXPECT_CALL(mock, DoThis())
+      \&.Times(3);
+  EXPECT_CALL(mock, DoThat("Hi"))
+      \&.Times(AtLeast(1));
+  \&.\&.\&. use mock in test \&.\&.\&.
+.fi
+.PP
+.PP
+With this, gMock will verify that your code made the right calls (with the right arguments, in the right order, called the right number of times, etc), and a real object will answer the calls (so the behavior will be the same as in production)\&. This gives you the best of both worlds\&.
+.SS "Delegating Calls to a Parent Class"
+Ideally, you should code to interfaces, whose methods are all pure virtual\&. In reality, sometimes you do need to mock a virtual method that is not pure (i\&.e, it already has an implementation)\&. For example:
+.PP
+.PP
+.nf
+class Foo {
+ public:
+  virtual ~Foo();
+
+  virtual void Pure(int n) = 0;
+  virtual int Concrete(const char* str) { \&.\&.\&. }
+};
+
+class MockFoo : public Foo {
+ public:
+  // Mocking a pure method\&.
+  MOCK_METHOD(void, Pure, (int n), (override));
+  // Mocking a concrete method\&.  Foo::Concrete() is shadowed\&.
+  MOCK_METHOD(int, Concrete, (const char* str), (override));
+};
+.fi
+.PP
+.PP
+Sometimes you may want to call \fCFoo::Concrete()\fP instead of \fCMockFoo::Concrete()\fP\&. Perhaps you want to do it as part of a stub action, or perhaps your test doesn't need to mock \fCConcrete()\fP at all (but it would be oh-so painful to have to define a new mock class whenever you don't need to mock one of its methods)\&.
+.PP
+You can call \fCFoo::Concrete()\fP inside an action by:
+.PP
+.PP
+.nf
+\&.\&.\&.
+  EXPECT_CALL(foo, Concrete)\&.WillOnce([&foo](const char* str) {
+    return foo\&.Foo::Concrete(str);
+  });
+.fi
+.PP
+.PP
+or tell the mock object that you don't want to mock \fCConcrete()\fP:
+.PP
+.PP
+.nf
+\&.\&.\&.
+  ON_CALL(foo, Concrete)\&.WillByDefault([&foo](const char* str) {
+    return foo\&.Foo::Concrete(str);
+  });
+.fi
+.PP
+.PP
+(Why don't we just write \fC{ return foo\&.Concrete(str); }\fP? If you do that, \fCMockFoo::Concrete()\fP will be called (and cause an infinite recursion) since \fCFoo::Concrete()\fP is virtual\&. That's just how C++ works\&.)
+.SH "Using Matchers"
+.PP
+.SS "Matching Argument Values Exactly"
+You can specify exactly which arguments a mock method is expecting:
+.PP
+.PP
+.nf
+using ::testing::Return;
+\&.\&.\&.
+  EXPECT_CALL(foo, DoThis(5))
+      \&.WillOnce(Return('a'));
+  EXPECT_CALL(foo, DoThat("Hello", bar));
+.fi
+.PP
+.SS "Using Simple Matchers"
+You can use matchers to match arguments that have a certain property:
+.PP
+.PP
+.nf
+using ::testing::NotNull;
+using ::testing::Return;
+\&.\&.\&.
+  EXPECT_CALL(foo, DoThis(Ge(5)))  // The argument must be >= 5\&.
+      \&.WillOnce(Return('a'));
+  EXPECT_CALL(foo, DoThat("Hello", NotNull()));
+      // The second argument must not be NULL\&.
+.fi
+.PP
+.PP
+A frequently used matcher is \fC_\fP, which matches anything:
+.PP
+.PP
+.nf
+EXPECT_CALL(foo, DoThat(_, NotNull()));
+.fi
+.PP
+.SS "Combining Matchers"
+You can build complex matchers from existing ones using \fCAllOf()\fP, \fCAllOfArray()\fP, \fCAnyOf()\fP, \fCAnyOfArray()\fP and \fCNot()\fP:
+.PP
+.PP
+.nf
+using ::testing::AllOf;
+using ::testing::Gt;
+using ::testing::HasSubstr;
+using ::testing::Ne;
+using ::testing::Not;
+\&.\&.\&.
+  // The argument must be > 5 and != 10\&.
+  EXPECT_CALL(foo, DoThis(AllOf(Gt(5),
+                                Ne(10))));
+
+  // The first argument must not contain sub-string "blah"\&.
+  EXPECT_CALL(foo, DoThat(Not(HasSubstr("blah")),
+                          NULL));
+.fi
+.PP
+.PP
+Matchers are function objects, and parametrized matchers can be composed just like any other function\&. However because their types can be long and rarely provide meaningful information, it can be easier to express them with C++14 generic lambdas to avoid specifying types\&. For example,
+.PP
+.PP
+.nf
+using ::testing::Contains;
+using ::testing::Property;
+
+inline constexpr auto HasFoo = [](const auto& f) {
+  return Property("foo", &MyClass::foo, Contains(f));
+};
+\&.\&.\&.
+  EXPECT_THAT(x, HasFoo("blah"));
+.fi
+.PP
+.SS "Casting Matchers"
+gMock matchers are statically typed, meaning that the compiler can catch your mistake if you use a matcher of the wrong type (for example, if you use \fCEq(5)\fP to match a \fCstring\fP argument)\&. Good for you!
+.PP
+Sometimes, however, you know what you're doing and want the compiler to give you some slack\&. One example is that you have a matcher for \fClong\fP and the argument you want to match is \fCint\fP\&. While the two types aren't exactly the same, there is nothing really wrong with using a \fCMatcher<long>\fP to match an \fCint\fP - after all, we can first convert the \fCint\fP argument to a \fClong\fP losslessly before giving it to the matcher\&.
+.PP
+To support this need, gMock gives you the \fCSafeMatcherCast<T>(m)\fP function\&. It casts a matcher \fCm\fP to type \fCMatcher<T>\fP\&. To ensure safety, gMock checks that (let \fCU\fP be the type \fCm\fP accepts :
+.PP
+.IP "1." 4
+Type \fCT\fP can be \fIimplicitly\fP cast to type \fCU\fP;
+.IP "2." 4
+When both \fCT\fP and \fCU\fP are built-in arithmetic types (\fCbool\fP, integers, and floating-point numbers), the conversion from \fCT\fP to \fCU\fP is not lossy (in other words, any value representable by \fCT\fP can also be represented by \fCU\fP); and
+.IP "3." 4
+When \fCU\fP is a reference, \fCT\fP must also be a reference (as the underlying matcher may be interested in the address of the \fCU\fP value)\&.
+.PP
+.PP
+The code won't compile if any of these conditions isn't met\&.
+.PP
+Here's one example:
+.PP
+.PP
+.nf
+using ::testing::SafeMatcherCast;
+
+// A base class and a child class\&.
+class Base { \&.\&.\&. };
+class Derived : public Base { \&.\&.\&. };
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(void, DoThis, (Derived* derived), (override));
+};
+
+\&.\&.\&.
+  MockFoo foo;
+  // m is a Matcher<Base*> we got from somewhere\&.
+  EXPECT_CALL(foo, DoThis(SafeMatcherCast<Derived*>(m)));
+.fi
+.PP
+.PP
+If you find \fCSafeMatcherCast<T>(m)\fP too limiting, you can use a similar function \fCMatcherCast<T>(m)\fP\&. The difference is that \fCMatcherCast\fP works as long as you can \fCstatic_cast\fP type \fCT\fP to type \fCU\fP\&.
+.PP
+\fCMatcherCast\fP essentially lets you bypass C++'s type system (\fCstatic_cast\fP isn't always safe as it could throw away information, for example), so be careful not to misuse/abuse it\&.
+.SS "Selecting Between Overloaded Functions"
+If you expect an overloaded function to be called, the compiler may need some help on which overloaded version it is\&.
+.PP
+To disambiguate functions overloaded on the const-ness of this object, use the \fCConst()\fP argument wrapper\&.
+.PP
+.PP
+.nf
+using ::testing::ReturnRef;
+
+class MockFoo : public Foo {
+  \&.\&.\&.
+  MOCK_METHOD(Bar&, GetBar, (), (override));
+  MOCK_METHOD(const Bar&, GetBar, (), (const, override));
+};
+
+\&.\&.\&.
+  MockFoo foo;
+  Bar bar1, bar2;
+  EXPECT_CALL(foo, GetBar())         // The non-const GetBar()\&.
+      \&.WillOnce(ReturnRef(bar1));
+  EXPECT_CALL(Const(foo), GetBar())  // The const GetBar()\&.
+      \&.WillOnce(ReturnRef(bar2));
+.fi
+.PP
+.PP
+(\fCConst()\fP is defined by gMock and returns a \fCconst\fP reference to its argument\&.)
+.PP
+To disambiguate overloaded functions with the same number of arguments but different argument types, you may need to specify the exact type of a matcher, either by wrapping your matcher in \fCMatcher<type>()\fP, or using a matcher whose type is fixed (\fCTypedEq<type>\fP, \fCAn<type>()\fP, etc):
+.PP
+.PP
+.nf
+using ::testing::An;
+using ::testing::Matcher;
+using ::testing::TypedEq;
+
+class MockPrinter : public Printer {
+ public:
+  MOCK_METHOD(void, Print, (int n), (override));
+  MOCK_METHOD(void, Print, (char c), (override));
+};
+
+TEST(PrinterTest, Print) {
+  MockPrinter printer;
+
+  EXPECT_CALL(printer, Print(An<int>()));            // void Print(int);
+  EXPECT_CALL(printer, Print(Matcher<int>(Lt(5))));  // void Print(int);
+  EXPECT_CALL(printer, Print(TypedEq<char>('a')));   // void Print(char);
+
+  printer\&.Print(3);
+  printer\&.Print(6);
+  printer\&.Print('a');
+}
+.fi
+.PP
+.SS "Performing Different Actions Based on the Arguments"
+When a mock method is called, the \fIlast\fP matching expectation that's still active will be selected (think 'newer overrides older')\&. So, you can make a method do different things depending on its argument values like this:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Lt;
+using ::testing::Return;
+\&.\&.\&.
+  // The default case\&.
+  EXPECT_CALL(foo, DoThis(_))
+      \&.WillRepeatedly(Return('b'));
+  // The more specific case\&.
+  EXPECT_CALL(foo, DoThis(Lt(5)))
+      \&.WillRepeatedly(Return('a'));
+.fi
+.PP
+.PP
+Now, if \fCfoo\&.DoThis()\fP is called with a value less than 5, `'a'\fCwill be returned; otherwise\fP'b'` will be returned\&.
+.SS "Matching Multiple Arguments as a Whole"
+Sometimes it's not enough to match the arguments individually\&. For example, we may want to say that the first argument must be less than the second argument\&. The \fCWith()\fP clause allows us to match all arguments of a mock function as a whole\&. For example,
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Ne;
+using ::testing::Lt;
+\&.\&.\&.
+  EXPECT_CALL(foo, InRange(Ne(0), _))
+      \&.With(Lt());
+.fi
+.PP
+.PP
+says that the first argument of \fCInRange()\fP must not be 0, and must be less than the second argument\&.
+.PP
+The expression inside \fCWith()\fP must be a matcher of type \fCMatcher<std::tuple<A1, \&.\&.\&., An>>\fP, where \fCA1\fP, \&.\&.\&., \fCAn\fP are the types of the function arguments\&.
+.PP
+You can also write \fCAllArgs(m)\fP instead of \fCm\fP inside \fC\&.With()\fP\&. The two forms are equivalent, but \fC\&.With(AllArgs(Lt()))\fP is more readable than \fC\&.With(Lt())\fP\&.
+.PP
+You can use \fCArgs<k1, \&.\&.\&., kn>(m)\fP to match the \fCn\fP selected arguments (as a tuple) against \fCm\fP\&. For example,
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::AllOf;
+using ::testing::Args;
+using ::testing::Lt;
+\&.\&.\&.
+  EXPECT_CALL(foo, Blah)
+      \&.With(AllOf(Args<0, 1>(Lt()), Args<1, 2>(Lt())));
+.fi
+.PP
+.PP
+says that \fCBlah\fP will be called with arguments \fCx\fP, \fCy\fP, and \fCz\fP where \fCx < y < z\fP\&. Note that in this example, it wasn't necessary to specify the positional matchers\&.
+.PP
+As a convenience and example, gMock provides some matchers for 2-tuples, including the \fCLt()\fP matcher above\&. See \fCMulti-argument Matchers\fP for the complete list\&.
+.PP
+Note that if you want to pass the arguments to a predicate of your own (e\&.g\&. \fC\&.With(Args<0, 1>(Truly(&MyPredicate)))\fP), that predicate MUST be written to take a \fCstd::tuple\fP as its argument; gMock will pass the \fCn\fP selected arguments as \fIone\fP single tuple to the predicate\&.
+.SS "Using Matchers as Predicates"
+Have you noticed that a matcher is just a fancy predicate that also knows how to describe itself? Many existing algorithms take predicates as arguments (e\&.g\&. those defined in STL's \fC<algorithm>\fP header), and it would be a shame if gMock matchers were not allowed to participate\&.
+.PP
+Luckily, you can use a matcher where a unary predicate functor is expected by wrapping it inside the \fCMatches()\fP function\&. For example,
+.PP
+.PP
+.nf
+#include <algorithm>
+#include <vector>
+
+using ::testing::Matches;
+using ::testing::Ge;
+
+vector<int> v;
+\&.\&.\&.
+// How many elements in v are >= 10?
+const int count = count_if(v\&.begin(), v\&.end(), Matches(Ge(10)));
+.fi
+.PP
+.PP
+Since you can build complex matchers from simpler ones easily using gMock, this gives you a way to conveniently construct composite predicates (doing the same using STL's \fC<functional>\fP header is just painful)\&. For example, here's a predicate that's satisfied by any number that is >= 0, <= 100, and != 50:
+.PP
+.PP
+.nf
+using ::testing::AllOf;
+using ::testing::Ge;
+using ::testing::Le;
+using ::testing::Matches;
+using ::testing::Ne;
+\&.\&.\&.
+Matches(AllOf(Ge(0), Le(100), Ne(50)))
+.fi
+.PP
+.SS "Using Matchers in googletest Assertions"
+See \fC\fCEXPECT_THAT\fP\fP in the Assertions Reference\&.
+.SS "Using Predicates as Matchers"
+gMock provides a set of built-in matchers for matching arguments with expected values—see the \fBMatchers Reference\fP for more information\&. In case you find the built-in set lacking, you can use an arbitrary unary predicate function or functor as a matcher - as long as the predicate accepts a value of the type you want\&. You do this by wrapping the predicate inside the \fCTruly()\fP function, for example:
+.PP
+.PP
+.nf
+using ::testing::Truly;
+
+int IsEven(int n) { return (n % 2) == 0 ? 1 : 0; }
+\&.\&.\&.
+  // Bar() must be called with an even number\&.
+  EXPECT_CALL(foo, Bar(Truly(IsEven)));
+.fi
+.PP
+.PP
+Note that the predicate function / functor doesn't have to return \fCbool\fP\&. It works as long as the return value can be used as the condition in the statement \fCif (condition) \&.\&.\&.\fP\&.
+.SS "Matching Arguments that Are Not Copyable"
+When you do an \fC\fBEXPECT_CALL(mock_obj, Foo(bar))\fP\fP, gMock saves away a copy of \fCbar\fP\&. When \fCFoo()\fP is called later, gMock compares the argument to \fCFoo()\fP with the saved copy of \fCbar\fP\&. This way, you don't need to worry about \fCbar\fP being modified or destroyed after the \fC\fBEXPECT_CALL()\fP\fP is executed\&. The same is true when you use matchers like \fCEq(bar)\fP, \fCLe(bar)\fP, and so on\&.
+.PP
+But what if \fCbar\fP cannot be copied (i\&.e\&. has no copy constructor)? You could define your own matcher function or callback and use it with \fCTruly()\fP, as the previous couple of recipes have shown\&. Or, you may be able to get away from it if you can guarantee that \fCbar\fP won't be changed after the \fC\fBEXPECT_CALL()\fP\fP is executed\&. Just tell gMock that it should save a reference to \fCbar\fP, instead of a copy of it\&. Here's how:
+.PP
+.PP
+.nf
+using ::testing::Eq;
+using ::testing::Lt;
+\&.\&.\&.
+  // Expects that Foo()'s argument == bar\&.
+  EXPECT_CALL(mock_obj, Foo(Eq(std::ref(bar))));
+
+  // Expects that Foo()'s argument < bar\&.
+  EXPECT_CALL(mock_obj, Foo(Lt(std::ref(bar))));
+.fi
+.PP
+.PP
+Remember: if you do this, don't change \fCbar\fP after the \fC\fBEXPECT_CALL()\fP\fP, or the result is undefined\&.
+.SS "Validating a Member of an Object"
+Often a mock function takes a reference to object as an argument\&. When matching the argument, you may not want to compare the entire object against a fixed object, as that may be over-specification\&. Instead, you may need to validate a certain member variable or the result of a certain getter method of the object\&. You can do this with \fCField()\fP and \fCProperty()\fP\&. More specifically,
+.PP
+.PP
+.nf
+Field(&Foo::bar, m)
+.fi
+.PP
+.PP
+is a matcher that matches a \fCFoo\fP object whose \fCbar\fP member variable satisfies matcher \fCm\fP\&.
+.PP
+.PP
+.nf
+Property(&Foo::baz, m)
+.fi
+.PP
+.PP
+is a matcher that matches a \fCFoo\fP object whose \fCbaz()\fP method returns a value that satisfies matcher \fCm\fP\&.
+.PP
+For example:
+.PP
+Expression   Description    \fCField(&Foo::number, Ge(3))\fP   Matches \fCx\fP where \fCx\&.number >= 3\fP\&.    \fCProperty(&Foo::name, StartsWith('John '))\fP   Matches \fCx\fP where \fCx\&.name()\fP starts with \fC'John '\fP\&.   
+.PP
+Note that in \fCProperty(&Foo::baz, \&.\&.\&.)\fP, method \fCbaz()\fP must take no argument and be declared as \fCconst\fP\&. Don't use \fCProperty()\fP against member functions that you do not own, because taking addresses of functions is fragile and generally not part of the contract of the function\&.
+.PP
+\fCField()\fP and \fCProperty()\fP can also match plain pointers to objects\&. For instance,
+.PP
+.PP
+.nf
+using ::testing::Field;
+using ::testing::Ge;
+\&.\&.\&.
+Field(&Foo::number, Ge(3))
+.fi
+.PP
+.PP
+matches a plain pointer \fCp\fP where \fCp->number >= 3\fP\&. If \fCp\fP is \fCNULL\fP, the match will always fail regardless of the inner matcher\&.
+.PP
+What if you want to validate more than one members at the same time? Remember that there are \fC\fCAllOf()\fP and \fCAllOfArray()\fP\fP\&.
+.PP
+Finally \fCField()\fP and \fCProperty()\fP provide overloads that take the field or property names as the first argument to include it in the error message\&. This can be useful when creating combined matchers\&.
+.PP
+.PP
+.nf
+using ::testing::AllOf;
+using ::testing::Field;
+using ::testing::Matcher;
+using ::testing::SafeMatcherCast;
+
+Matcher<Foo> IsFoo(const Foo& foo) {
+  return AllOf(Field("some_field", &Foo::some_field, foo\&.some_field),
+               Field("other_field", &Foo::other_field, foo\&.other_field),
+               Field("last_field", &Foo::last_field, foo\&.last_field));
+}
+.fi
+.PP
+.SS "Validating the Value Pointed to by a Pointer Argument"
+C++ functions often take pointers as arguments\&. You can use matchers like \fC\fBIsNull()\fP\fP, \fCNotNull()\fP, and other comparison matchers to match a pointer, but what if you want to make sure the value \fIpointed to\fP by the pointer, instead of the pointer itself, has a certain property? Well, you can use the \fCPointee(m)\fP matcher\&.
+.PP
+\fCPointee(m)\fP matches a pointer if and only if \fCm\fP matches the value the pointer points to\&. For example:
+.PP
+.PP
+.nf
+using ::testing::Ge;
+using ::testing::Pointee;
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(Pointee(Ge(3))));
+.fi
+.PP
+.PP
+expects \fCfoo\&.Bar()\fP to be called with a pointer that points to a value greater than or equal to 3\&.
+.PP
+One nice thing about \fCPointee()\fP is that it treats a \fCNULL\fP pointer as a match failure, so you can write \fCPointee(m)\fP instead of
+.PP
+.PP
+.nf
+using ::testing::AllOf;
+using ::testing::NotNull;
+using ::testing::Pointee;
+\&.\&.\&.
+  AllOf(NotNull(), Pointee(m))
+.fi
+.PP
+.PP
+without worrying that a \fCNULL\fP pointer will crash your test\&.
+.PP
+Also, did we tell you that \fCPointee()\fP works with both raw pointers \fBand\fP smart pointers (\fCstd::unique_ptr\fP, \fCstd::shared_ptr\fP, etc)?
+.PP
+What if you have a pointer to pointer? You guessed it - you can use nested \fCPointee()\fP to probe deeper inside the value\&. For example, \fCPointee(Pointee(Lt(3)))\fP matches a pointer that points to a pointer that points to a number less than 3 (what a mouthful\&.\&.\&.)\&.
+.SS "Defining a Custom Matcher Class"
+Most matchers can be simply defined using \fCthe MATCHER* macros\fP, which are terse and flexible, and produce good error messages\&. However, these macros are not very explicit about the interfaces they create and are not always suitable, especially for matchers that will be widely reused\&.
+.PP
+For more advanced cases, you may need to define your own matcher class\&. A custom matcher allows you to test a specific invariant property of that object\&. Let's take a look at how to do so\&.
+.PP
+Imagine you have a mock function that takes an object of type \fCFoo\fP, which has an \fCint bar()\fP method and an \fCint baz()\fP method\&. You want to constrain that the argument's \fCbar()\fP value plus its \fCbaz()\fP value is a given number\&. (This is an invariant\&.) Here's how we can write and use a matcher class to do so:
+.PP
+.PP
+.nf
+class BarPlusBazEqMatcher {
+ public:
+  using is_gtest_matcher = void;
+
+  explicit BarPlusBazEqMatcher(int expected_sum)
+      : expected_sum_(expected_sum) {}
+
+  bool MatchAndExplain(const Foo& foo,
+                       std::ostream* /* listener */) const {
+    return (foo\&.bar() + foo\&.baz()) == expected_sum_;
+  }
+
+  void DescribeTo(std::ostream* os) const {
+    *os << "bar() + baz() equals " << expected_sum_;
+  }
+
+  void DescribeNegationTo(std::ostream* os) const {
+    *os << "bar() + baz() does not equal " << expected_sum_;
+  }
+ private:
+  const int expected_sum_;
+};
+
+::testing::Matcher<const Foo&> BarPlusBazEq(int expected_sum) {
+  return BarPlusBazEqMatcher(expected_sum);
+}
+
+\&.\&.\&.
+  Foo foo;
+  EXPECT_THAT(foo, BarPlusBazEq(5))\&.\&.\&.;
+.fi
+.PP
+.SS "Matching Containers"
+Sometimes an STL container (e\&.g\&. list, vector, map, \&.\&.\&.) is passed to a mock function and you may want to validate it\&. Since most STL containers support the \fC==\fP operator, you can write \fCEq(expected_container)\fP or simply \fCexpected_container\fP to match a container exactly\&.
+.PP
+Sometimes, though, you may want to be more flexible (for example, the first element must be an exact match, but the second element can be any positive number, and so on)\&. Also, containers used in tests often have a small number of elements, and having to define the expected container out-of-line is a bit of a hassle\&.
+.PP
+You can use the \fCElementsAre()\fP or \fCUnorderedElementsAre()\fP matcher in such cases:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::ElementsAre;
+using ::testing::Gt;
+\&.\&.\&.
+  MOCK_METHOD(void, Foo, (const vector<int>& numbers), (override));
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo(ElementsAre(1, Gt(0), _, 5)));
+.fi
+.PP
+.PP
+The above matcher says that the container must have 4 elements, which must be 1, greater than 0, anything, and 5 respectively\&.
+.PP
+If you instead write:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Gt;
+using ::testing::UnorderedElementsAre;
+\&.\&.\&.
+  MOCK_METHOD(void, Foo, (const vector<int>& numbers), (override));
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo(UnorderedElementsAre(1, Gt(0), _, 5)));
+.fi
+.PP
+.PP
+It means that the container must have 4 elements, which (under some permutation) must be 1, greater than 0, anything, and 5 respectively\&.
+.PP
+As an alternative you can place the arguments in a C-style array and use \fCElementsAreArray()\fP or \fCUnorderedElementsAreArray()\fP instead:
+.PP
+.PP
+.nf
+using ::testing::ElementsAreArray;
+\&.\&.\&.
+  // ElementsAreArray accepts an array of element values\&.
+  const int expected_vector1[] = {1, 5, 2, 4, \&.\&.\&.};
+  EXPECT_CALL(mock, Foo(ElementsAreArray(expected_vector1)));
+
+  // Or, an array of element matchers\&.
+  Matcher<int> expected_vector2[] = {1, Gt(2), _, 3, \&.\&.\&.};
+  EXPECT_CALL(mock, Foo(ElementsAreArray(expected_vector2)));
+.fi
+.PP
+.PP
+In case the array needs to be dynamically created (and therefore the array size cannot be inferred by the compiler), you can give \fCElementsAreArray()\fP an additional argument to specify the array size:
+.PP
+.PP
+.nf
+using ::testing::ElementsAreArray;
+\&.\&.\&.
+  int* const expected_vector3 = new int[count];
+  \&.\&.\&. fill expected_vector3 with values \&.\&.\&.
+  EXPECT_CALL(mock, Foo(ElementsAreArray(expected_vector3, count)));
+.fi
+.PP
+.PP
+Use \fCPair\fP when comparing maps or other associative containers\&.
+.PP
+{% raw %}
+.PP
+.PP
+.nf
+using ::testing::UnorderedElementsAre;
+using ::testing::Pair;
+\&.\&.\&.
+  absl::flat_hash_map<string, int> m = {{"a", 1}, {"b", 2}, {"c", 3}};
+  EXPECT_THAT(m, UnorderedElementsAre(
+      Pair("a", 1), Pair("b", 2), Pair("c", 3)));
+.fi
+.PP
+.PP
+{% endraw %}
+.PP
+\fBTips:\fP
+.PP
+.IP "\(bu" 2
+\fCElementsAre*()\fP can be used to match \fIany\fP container that implements the STL iterator pattern (i\&.e\&. it has a \fCconst_iterator\fP type and supports \fCbegin()/end()\fP), not just the ones defined in STL\&. It will even work with container types yet to be written - as long as they follows the above pattern\&.
+.IP "\(bu" 2
+You can use nested \fCElementsAre*()\fP to match nested (multi-dimensional) containers\&.
+.IP "\(bu" 2
+If the container is passed by pointer instead of by reference, just write \fCPointee(ElementsAre*(\&.\&.\&.))\fP\&.
+.IP "\(bu" 2
+The order of elements \fImatters\fP for \fCElementsAre*()\fP\&. If you are using it with containers whose element order are undefined (such as a \fCstd::unordered_map\fP) you should use \fCUnorderedElementsAre\fP\&.
+.PP
+.SS "Sharing Matchers"
+Under the hood, a gMock matcher object consists of a pointer to a ref-counted implementation object\&. Copying matchers is allowed and very efficient, as only the pointer is copied\&. When the last matcher that references the implementation object dies, the implementation object will be deleted\&.
+.PP
+Therefore, if you have some complex matcher that you want to use again and again, there is no need to build it every time\&. Just assign it to a matcher variable and use that variable repeatedly! For example,
+.PP
+.PP
+.nf
+using ::testing::AllOf;
+using ::testing::Gt;
+using ::testing::Le;
+using ::testing::Matcher;
+\&.\&.\&.
+  Matcher<int> in_range = AllOf(Gt(5), Le(10));
+  \&.\&.\&. use in_range as a matcher in multiple EXPECT_CALLs \&.\&.\&.
+.fi
+.PP
+.SS "Matchers must have no side-effects"
+{: \&.callout \&.warning} WARNING: gMock does not guarantee when or how many times a matcher will be invoked\&. Therefore, all matchers must be \fIpurely functional\fP: they cannot have any side effects, and the match result must not depend on anything other than the matcher's parameters and the value being matched\&.
+.PP
+This requirement must be satisfied no matter how a matcher is defined (e\&.g\&., if it is one of the standard matchers, or a custom matcher)\&. In particular, a matcher can never call a mock function, as that will affect the state of the mock object and gMock\&.
+.SH "Setting Expectations"
+.PP
+.SS "Knowing When to Expect"
+**\fCON_CALL\fP** is likely the \fIsingle most under-utilized construct\fP in gMock\&.
+.PP
+There are basically two constructs for defining the behavior of a mock object: \fCON_CALL\fP and \fCEXPECT_CALL\fP\&. The difference? \fCON_CALL\fP defines what happens when a mock method is called, but \fIdoesn't imply any expectation on the method being called\fP\&. \fCEXPECT_CALL\fP not only defines the behavior, but also sets an expectation that \fIthe method will be called with the given arguments, for the given number of times\fP (and \fIin the given order\fP when you specify the order too)\&.
+.PP
+Since \fCEXPECT_CALL\fP does more, isn't it better than \fCON_CALL\fP? Not really\&. Every \fCEXPECT_CALL\fP adds a constraint on the behavior of the code under test\&. Having more constraints than necessary is \fIbaaad\fP - even worse than not having enough constraints\&.
+.PP
+This may be counter-intuitive\&. How could tests that verify more be worse than tests that verify less? Isn't verification the whole point of tests?
+.PP
+The answer lies in \fIwhat\fP a test should verify\&. \fBA good test verifies the contract of the code\&.\fP If a test over-specifies, it doesn't leave enough freedom to the implementation\&. As a result, changing the implementation without breaking the contract (e\&.g\&. refactoring and optimization), which should be perfectly fine to do, can break such tests\&. Then you have to spend time fixing them, only to see them broken again the next time the implementation is changed\&.
+.PP
+Keep in mind that one doesn't have to verify more than one property in one test\&. In fact, \fBit's a good style to verify only one thing in one test\&.\fP If you do that, a bug will likely break only one or two tests instead of dozens (which case would you rather debug?)\&. If you are also in the habit of giving tests descriptive names that tell what they verify, you can often easily guess what's wrong just from the test log itself\&.
+.PP
+So use \fCON_CALL\fP by default, and only use \fCEXPECT_CALL\fP when you actually intend to verify that the call is made\&. For example, you may have a bunch of \fCON_CALL\fPs in your test fixture to set the common mock behavior shared by all tests in the same group, and write (scarcely) different \fCEXPECT_CALL\fPs in different \fCTEST_F\fPs to verify different aspects of the code's behavior\&. Compared with the style where each \fCTEST\fP has many \fCEXPECT_CALL\fPs, this leads to tests that are more resilient to implementational changes (and thus less likely to require maintenance) and makes the intent of the tests more obvious (so they are easier to maintain when you do need to maintain them)\&.
+.PP
+If you are bothered by the 'Uninteresting mock function call' message printed when a mock method without an \fCEXPECT_CALL\fP is called, you may use a \fCNiceMock\fP instead to suppress all such messages for the mock object, or suppress the message for specific methods by adding \fC\fBEXPECT_CALL(\&.\&.\&.)\fP\&.Times(AnyNumber())\fP\&. DO NOT suppress it by blindly adding an \fC\fBEXPECT_CALL(\&.\&.\&.)\fP\fP, or you'll have a test that's a pain to maintain\&.
+.SS "Ignoring Uninteresting Calls"
+If you are not interested in how a mock method is called, just don't say anything about it\&. In this case, if the method is ever called, gMock will perform its default action to allow the test program to continue\&. If you are not happy with the default action taken by gMock, you can override it using \fCDefaultValue<T>::Set()\fP (described \fChere\fP) or \fC\fBON_CALL()\fP\fP\&.
+.PP
+Please note that once you expressed interest in a particular mock method (via \fC\fBEXPECT_CALL()\fP\fP), all invocations to it must match some expectation\&. If this function is called but the arguments don't match any \fC\fBEXPECT_CALL()\fP\fP statement, it will be an error\&.
+.SS "Disallowing Unexpected Calls"
+If a mock method shouldn't be called at all, explicitly say so:
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(_))
+      \&.Times(0);
+.fi
+.PP
+.PP
+If some calls to the method are allowed, but the rest are not, just list all the expected calls:
+.PP
+.PP
+.nf
+using ::testing::AnyNumber;
+using ::testing::Gt;
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(5));
+  EXPECT_CALL(foo, Bar(Gt(10)))
+      \&.Times(AnyNumber());
+.fi
+.PP
+.PP
+A call to \fCfoo\&.Bar()\fP that doesn't match any of the \fC\fBEXPECT_CALL()\fP\fP statements will be an error\&.
+.SS "Understanding Uninteresting vs Unexpected Calls"
+\fIUninteresting\fP calls and \fIunexpected\fP calls are different concepts in gMock\&. \fIVery\fP different\&.
+.PP
+A call \fCx\&.Y(\&.\&.\&.)\fP is \fBuninteresting\fP if there's \fInot even a single\fP \fC\fBEXPECT_CALL(x, Y(\&.\&.\&.))\fP\fP set\&. In other words, the test isn't interested in the \fCx\&.Y()\fP method at all, as evident in that the test doesn't care to say anything about it\&.
+.PP
+A call \fCx\&.Y(\&.\&.\&.)\fP is \fBunexpected\fP if there are \fIsome\fP \fCEXPECT_CALL(x, Y(\&.\&.\&.))\fPs set, but none of them matches the call\&. Put another way, the test is interested in the \fCx\&.Y()\fP method (therefore it explicitly sets some \fCEXPECT_CALL\fP to verify how it's called); however, the verification fails as the test doesn't expect this particular call to happen\&.
+.PP
+\fBAn unexpected call is always an error,\fP as the code under test doesn't behave the way the test expects it to behave\&.
+.PP
+\fBBy default, an uninteresting call is not an error,\fP as it violates no constraint specified by the test\&. (gMock's philosophy is that saying nothing means there is no constraint\&.) However, it leads to a warning, as it \fImight\fP indicate a problem (e\&.g\&. the test author might have forgotten to specify a constraint)\&.
+.PP
+In gMock, \fCNiceMock\fP and \fCStrictMock\fP can be used to make a mock class 'nice' or 'strict'\&. How does this affect uninteresting calls and unexpected calls?
+.PP
+A \fBnice mock\fP suppresses uninteresting call \fIwarnings\fP\&. It is less chatty than the default mock, but otherwise is the same\&. If a test fails with a default mock, it will also fail using a nice mock instead\&. And vice versa\&. Don't expect making a mock nice to change the test's result\&.
+.PP
+A \fBstrict mock\fP turns uninteresting call warnings into errors\&. So making a mock strict may change the test's result\&.
+.PP
+Let's look at an example:
+.PP
+.PP
+.nf
+TEST(\&.\&.\&.) {
+  NiceMock<MockDomainRegistry> mock_registry;
+  EXPECT_CALL(mock_registry, GetDomainOwner("google\&.com"))
+          \&.WillRepeatedly(Return("Larry Page"));
+
+  // Use mock_registry in code under test\&.
+  \&.\&.\&. &mock_registry \&.\&.\&.
+}
+.fi
+.PP
+.PP
+The sole \fCEXPECT_CALL\fP here says that all calls to \fCGetDomainOwner()\fP must have \fC'google\&.com'\fP as the argument\&. If \fCGetDomainOwner('yahoo\&.com')\fP is called, it will be an unexpected call, and thus an error\&. \fIHaving a nice mock doesn't change the severity of an unexpected call\&.\fP
+.PP
+So how do we tell gMock that \fCGetDomainOwner()\fP can be called with some other arguments as well? The standard technique is to add a 'catch all' \fCEXPECT_CALL\fP:
+.PP
+.PP
+.nf
+EXPECT_CALL(mock_registry, GetDomainOwner(_))
+      \&.Times(AnyNumber());  // catches all other calls to this method\&.
+EXPECT_CALL(mock_registry, GetDomainOwner("google\&.com"))
+      \&.WillRepeatedly(Return("Larry Page"));
+.fi
+.PP
+.PP
+Remember that \fC_\fP is the wildcard matcher that matches anything\&. With this, if \fCGetDomainOwner('google\&.com')\fP is called, it will do what the second \fCEXPECT_CALL\fP says; if it is called with a different argument, it will do what the first \fCEXPECT_CALL\fP says\&.
+.PP
+Note that the order of the two \fCEXPECT_CALL\fPs is important, as a newer \fCEXPECT_CALL\fP takes precedence over an older one\&.
+.PP
+For more on uninteresting calls, nice mocks, and strict mocks, read \fC'The Nice, the Strict, and the Naggy'\fP\&.
+.SS "Ignoring Uninteresting Arguments"
+If your test doesn't care about the parameters (it only cares about the number or order of calls), you can often simply omit the parameter list:
+.PP
+.PP
+.nf
+// Expect foo\&.Bar( \&.\&.\&. ) twice with any arguments\&.
+EXPECT_CALL(foo, Bar)\&.Times(2);
+
+// Delegate to the given method whenever the factory is invoked\&.
+ON_CALL(foo_factory, MakeFoo)
+    \&.WillByDefault(&BuildFooForTest);
+.fi
+.PP
+.PP
+This functionality is only available when a method is not overloaded; to prevent unexpected behavior it is a compilation error to try to set an expectation on a method where the specific overload is ambiguous\&. You can work around this by supplying a \fCsimpler mock interface\fP than the mocked class provides\&.
+.PP
+This pattern is also useful when the arguments are interesting, but match logic is substantially complex\&. You can leave the argument list unspecified and use SaveArg actions to \fCsave the values for later verification\fP\&. If you do that, you can easily differentiate calling the method the wrong number of times from calling it with the wrong arguments\&.
+.SS "Expecting Ordered Calls"
+Although an \fC\fBEXPECT_CALL()\fP\fP statement defined later takes precedence when gMock tries to match a function call with an expectation, by default calls don't have to happen in the order \fC\fBEXPECT_CALL()\fP\fP statements are written\&. For example, if the arguments match the matchers in the second \fC\fBEXPECT_CALL()\fP\fP, but not those in the first and third, then the second expectation will be used\&.
+.PP
+If you would rather have all calls occur in the order of the expectations, put the \fC\fBEXPECT_CALL()\fP\fP statements in a block where you define a variable of type \fCInSequence\fP:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::InSequence;
+
+  {
+    InSequence s;
+
+    EXPECT_CALL(foo, DoThis(5));
+    EXPECT_CALL(bar, DoThat(_))
+        \&.Times(2);
+    EXPECT_CALL(foo, DoThis(6));
+  }
+.fi
+.PP
+.PP
+In this example, we expect a call to \fCfoo\&.DoThis(5)\fP, followed by two calls to \fCbar\&.DoThat()\fP where the argument can be anything, which are in turn followed by a call to \fCfoo\&.DoThis(6)\fP\&. If a call occurred out-of-order, gMock will report an error\&.
+.SS "Expecting Partially Ordered Calls"
+Sometimes requiring everything to occur in a predetermined order can lead to brittle tests\&. For example, we may care about \fCA\fP occurring before both \fCB\fP and \fCC\fP, but aren't interested in the relative order of \fCB\fP and \fCC\fP\&. In this case, the test should reflect our real intent, instead of being overly constraining\&.
+.PP
+gMock allows you to impose an arbitrary DAG (directed acyclic graph) on the calls\&. One way to express the DAG is to use the \fC\fCAfter\fP clause\fP of \fCEXPECT_CALL\fP\&.
+.PP
+Another way is via the \fCInSequence()\fP clause (not the same as the \fCInSequence\fP class), which we borrowed from jMock 2\&. It's less flexible than \fCAfter()\fP, but more convenient when you have long chains of sequential calls, as it doesn't require you to come up with different names for the expectations in the chains\&. Here's how it works:
+.PP
+If we view \fC\fBEXPECT_CALL()\fP\fP statements as nodes in a graph, and add an edge from node A to node B wherever A must occur before B, we can get a DAG\&. We use the term 'sequence' to mean a directed path in this DAG\&. Now, if we decompose the DAG into sequences, we just need to know which sequences each \fC\fBEXPECT_CALL()\fP\fP belongs to in order to be able to reconstruct the original DAG\&.
+.PP
+So, to specify the partial order on the expectations we need to do two things: first to define some \fCSequence\fP objects, and then for each \fC\fBEXPECT_CALL()\fP\fP say which \fCSequence\fP objects it is part of\&.
+.PP
+Expectations in the same sequence must occur in the order they are written\&. For example,
+.PP
+.PP
+.nf
+using ::testing::Sequence;
+\&.\&.\&.
+  Sequence s1, s2;
+
+  EXPECT_CALL(foo, A())
+      \&.InSequence(s1, s2);
+  EXPECT_CALL(bar, B())
+      \&.InSequence(s1);
+  EXPECT_CALL(bar, C())
+      \&.InSequence(s2);
+  EXPECT_CALL(foo, D())
+      \&.InSequence(s2);
+.fi
+.PP
+.PP
+specifies the following DAG (where \fCs1\fP is \fCA -> B\fP, and \fCs2\fP is \fCA -> C -> D\fP):
+.PP
+.PP
+.nf
+     +---> B
+     |
+A ---|
+     |
+     +---> C ---> D
+.fi
+.PP
+.PP
+This means that A must occur before B and C, and C must occur before D\&. There's no restriction about the order other than these\&.
+.SS "Controlling When an Expectation Retires"
+When a mock method is called, gMock only considers expectations that are still active\&. An expectation is active when created, and becomes inactive (aka \fIretires\fP) when a call that has to occur later has occurred\&. For example, in
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Sequence;
+\&.\&.\&.
+  Sequence s1, s2;
+
+  EXPECT_CALL(log, Log(WARNING, _, "File too large\&."))      // #1
+      \&.Times(AnyNumber())
+      \&.InSequence(s1, s2);
+  EXPECT_CALL(log, Log(WARNING, _, "Data set is empty\&."))   // #2
+      \&.InSequence(s1);
+  EXPECT_CALL(log, Log(WARNING, _, "User not found\&."))      // #3
+      \&.InSequence(s2);
+.fi
+.PP
+.PP
+as soon as either #2 or #3 is matched, #1 will retire\&. If a warning \fC'File too
+large\&.'\fP is logged after this, it will be an error\&.
+.PP
+Note that an expectation doesn't retire automatically when it's saturated\&. For example,
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  EXPECT_CALL(log, Log(WARNING, _, _));                     // #1
+  EXPECT_CALL(log, Log(WARNING, _, "File too large\&."));     // #2
+.fi
+.PP
+.PP
+says that there will be exactly one warning with the message \fC'File too
+large\&.'\fP\&. If the second warning contains this message too, #2 will match again and result in an upper-bound-violated error\&.
+.PP
+If this is not what you want, you can ask an expectation to retire as soon as it becomes saturated:
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  EXPECT_CALL(log, Log(WARNING, _, _));                     // #1
+  EXPECT_CALL(log, Log(WARNING, _, "File too large\&."))      // #2
+      \&.RetiresOnSaturation();
+.fi
+.PP
+.PP
+Here #2 can be used only once, so if you have two warnings with the message \fC'File too large\&.'\fP, the first will match #2 and the second will match #1 - there will be no error\&.
+.SH "Using Actions"
+.PP
+.SS "Returning References from Mock Methods"
+If a mock function's return type is a reference, you need to use \fC\fBReturnRef()\fP\fP instead of \fC\fBReturn()\fP\fP to return a result:
+.PP
+.PP
+.nf
+using ::testing::ReturnRef;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(Bar&, GetBar, (), (override));
+};
+\&.\&.\&.
+  MockFoo foo;
+  Bar bar;
+  EXPECT_CALL(foo, GetBar())
+      \&.WillOnce(ReturnRef(bar));
+\&.\&.\&.
+.fi
+.PP
+.SS "Returning Live Values from Mock Methods"
+The \fCReturn(x)\fP action saves a copy of \fCx\fP when the action is created, and always returns the same value whenever it's executed\&. Sometimes you may want to instead return the \fIlive\fP value of \fCx\fP (i\&.e\&. its value at the time when the action is \fIexecuted\fP\&.)\&. Use either \fC\fBReturnRef()\fP\fP or \fC\fBReturnPointee()\fP\fP for this purpose\&.
+.PP
+If the mock function's return type is a reference, you can do it using \fCReturnRef(x)\fP, as shown in the previous recipe ('Returning References from Mock
+Methods')\&. However, gMock doesn't let you use \fC\fBReturnRef()\fP\fP in a mock function whose return type is not a reference, as doing that usually indicates a user error\&. So, what shall you do?
+.PP
+Though you may be tempted, DO NOT use \fCstd::ref()\fP:
+.PP
+.PP
+.nf
+using ::testing::Return;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(int, GetValue, (), (override));
+};
+\&.\&.\&.
+  int x = 0;
+  MockFoo foo;
+  EXPECT_CALL(foo, GetValue())
+      \&.WillRepeatedly(Return(std::ref(x)));  // Wrong!
+  x = 42;
+  EXPECT_EQ(foo\&.GetValue(), 42);
+.fi
+.PP
+.PP
+Unfortunately, it doesn't work here\&. The above code will fail with error:
+.PP
+.PP
+.nf
+Value of: foo\&.GetValue()
+  Actual: 0
+Expected: 42
+.fi
+.PP
+.PP
+The reason is that \fCReturn(*value*)\fP converts \fCvalue\fP to the actual return type of the mock function at the time when the action is \fIcreated\fP, not when it is \fIexecuted\fP\&. (This behavior was chosen for the action to be safe when \fCvalue\fP is a proxy object that references some temporary objects\&.) As a result, \fCstd::ref(x)\fP is converted to an \fCint\fP value (instead of a \fCconst int&\fP) when the expectation is set, and \fCReturn(std::ref(x))\fP will always return 0\&.
+.PP
+\fCReturnPointee(pointer)\fP was provided to solve this problem specifically\&. It returns the value pointed to by \fCpointer\fP at the time the action is \fIexecuted\fP:
+.PP
+.PP
+.nf
+using ::testing::ReturnPointee;
+\&.\&.\&.
+  int x = 0;
+  MockFoo foo;
+  EXPECT_CALL(foo, GetValue())
+      \&.WillRepeatedly(ReturnPointee(&x));  // Note the & here\&.
+  x = 42;
+  EXPECT_EQ(foo\&.GetValue(), 42);  // This will succeed now\&.
+.fi
+.PP
+.SS "Combining Actions"
+Want to do more than one thing when a function is called? That's fine\&. \fC\fBDoAll()\fP\fP allows you to do a sequence of actions every time\&. Only the return value of the last action in the sequence will be used\&.
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::DoAll;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(bool, Bar, (int n), (override));
+};
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(_))
+      \&.WillOnce(DoAll(action_1,
+                      action_2,
+                      \&.\&.\&.
+                      action_n));
+.fi
+.PP
+.SS "Verifying Complex Arguments"
+If you want to verify that a method is called with a particular argument but the match criteria is complex, it can be difficult to distinguish between cardinality failures (calling the method the wrong number of times) and argument match failures\&. Similarly, if you are matching multiple parameters, it may not be easy to distinguishing which argument failed to match\&. For example:
+.PP
+.PP
+.nf
+// Not ideal: this could fail because of a problem with arg1 or arg2, or maybe
+// just the method wasn't called\&.
+EXPECT_CALL(foo, SendValues(_, ElementsAre(1, 4, 4, 7), EqualsProto( \&.\&.\&. )));
+.fi
+.PP
+.PP
+You can instead save the arguments and test them individually:
+.PP
+.PP
+.nf
+EXPECT_CALL(foo, SendValues)
+    \&.WillOnce(DoAll(SaveArg<1>(&actual_array), SaveArg<2>(&actual_proto)));
+\&.\&.\&. run the test
+EXPECT_THAT(actual_array, ElementsAre(1, 4, 4, 7));
+EXPECT_THAT(actual_proto, EqualsProto( \&.\&.\&. ));
+.fi
+.PP
+.SS "Mocking Side Effects"
+Sometimes a method exhibits its effect not via returning a value but via side effects\&. For example, it may change some global state or modify an output argument\&. To mock side effects, in general you can define your own action by implementing \fC\fBtesting::ActionInterface\fP\fP\&.
+.PP
+If all you need to do is to change an output argument, the built-in \fC\fBSetArgPointee()\fP\fP action is convenient:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::SetArgPointee;
+
+class MockMutator : public Mutator {
+ public:
+  MOCK_METHOD(void, Mutate, (bool mutate, int* value), (override));
+  \&.\&.\&.
+}
+\&.\&.\&.
+  MockMutator mutator;
+  EXPECT_CALL(mutator, Mutate(true, _))
+      \&.WillOnce(SetArgPointee<1>(5));
+.fi
+.PP
+.PP
+In this example, when \fCmutator\&.Mutate()\fP is called, we will assign 5 to the \fCint\fP variable pointed to by argument #1 (0-based)\&.
+.PP
+\fC\fBSetArgPointee()\fP\fP conveniently makes an internal copy of the value you pass to it, removing the need to keep the value in scope and alive\&. The implication however is that the value must have a copy constructor and assignment operator\&.
+.PP
+If the mock method also needs to return a value as well, you can chain \fC\fBSetArgPointee()\fP\fP with \fC\fBReturn()\fP\fP using \fC\fBDoAll()\fP\fP, remembering to put the \fC\fBReturn()\fP\fP statement last:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::DoAll;
+using ::testing::Return;
+using ::testing::SetArgPointee;
+
+class MockMutator : public Mutator {
+ public:
+  \&.\&.\&.
+  MOCK_METHOD(bool, MutateInt, (int* value), (override));
+}
+\&.\&.\&.
+  MockMutator mutator;
+  EXPECT_CALL(mutator, MutateInt(_))
+      \&.WillOnce(DoAll(SetArgPointee<0>(5),
+                      Return(true)));
+.fi
+.PP
+.PP
+Note, however, that if you use the \fCReturnOKWith()\fP method, it will override the values provided by \fC\fBSetArgPointee()\fP\fP in the response parameters of your function call\&.
+.PP
+If the output argument is an array, use the \fCSetArrayArgument<N>(first, last)\fP action instead\&. It copies the elements in source range \fC[first, last)\fP to the array pointed to by the \fCN\fP-th (0-based) argument:
+.PP
+.PP
+.nf
+using ::testing::NotNull;
+using ::testing::SetArrayArgument;
+
+class MockArrayMutator : public ArrayMutator {
+ public:
+  MOCK_METHOD(void, Mutate, (int* values, int num_values), (override));
+  \&.\&.\&.
+}
+\&.\&.\&.
+  MockArrayMutator mutator;
+  int values[5] = {1, 2, 3, 4, 5};
+  EXPECT_CALL(mutator, Mutate(NotNull(), 5))
+      \&.WillOnce(SetArrayArgument<0>(values, values + 5));
+.fi
+.PP
+.PP
+This also works when the argument is an output iterator:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::SetArrayArgument;
+
+class MockRolodex : public Rolodex {
+ public:
+  MOCK_METHOD(void, GetNames, (std::back_insert_iterator<vector<string>>),
+              (override));
+  \&.\&.\&.
+}
+\&.\&.\&.
+  MockRolodex rolodex;
+  vector<string> names = {"George", "John", "Thomas"};
+  EXPECT_CALL(rolodex, GetNames(_))
+      \&.WillOnce(SetArrayArgument<0>(names\&.begin(), names\&.end()));
+.fi
+.PP
+.SS "Changing a Mock Object's Behavior Based on the State"
+If you expect a call to change the behavior of a mock object, you can use \fC::testing::InSequence\fP to specify different behaviors before and after the call:
+.PP
+.PP
+.nf
+using ::testing::InSequence;
+using ::testing::Return;
+
+\&.\&.\&.
+  {
+     InSequence seq;
+     EXPECT_CALL(my_mock, IsDirty())
+         \&.WillRepeatedly(Return(true));
+     EXPECT_CALL(my_mock, Flush());
+     EXPECT_CALL(my_mock, IsDirty())
+         \&.WillRepeatedly(Return(false));
+  }
+  my_mock\&.FlushIfDirty();
+.fi
+.PP
+.PP
+This makes \fCmy_mock\&.IsDirty()\fP return \fCtrue\fP before \fCmy_mock\&.Flush()\fP is called and return \fCfalse\fP afterwards\&.
+.PP
+If the behavior change is more complex, you can store the effects in a variable and make a mock method get its return value from that variable:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::SaveArg;
+using ::testing::Return;
+
+ACTION_P(ReturnPointee, p) { return *p; }
+\&.\&.\&.
+  int previous_value = 0;
+  EXPECT_CALL(my_mock, GetPrevValue)
+      \&.WillRepeatedly(ReturnPointee(&previous_value));
+  EXPECT_CALL(my_mock, UpdateValue)
+      \&.WillRepeatedly(SaveArg<0>(&previous_value));
+  my_mock\&.DoSomethingToUpdateValue();
+.fi
+.PP
+.PP
+Here \fCmy_mock\&.GetPrevValue()\fP will always return the argument of the last \fCUpdateValue()\fP call\&.
+.SS "Setting the Default Value for a Return Type"
+If a mock method's return type is a built-in C++ type or pointer, by default it will return 0 when invoked\&. Also, in C++ 11 and above, a mock method whose return type has a default constructor will return a default-constructed value by default\&. You only need to specify an action if this default value doesn't work for you\&.
+.PP
+Sometimes, you may want to change this default value, or you may want to specify a default value for types gMock doesn't know about\&. You can do this using the \fC\fBtesting::DefaultValue\fP\fP class template:
+.PP
+.PP
+.nf
+using ::testing::DefaultValue;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(Bar, CalculateBar, (), (override));
+};
+
+
+\&.\&.\&.
+  Bar default_bar;
+  // Sets the default return value for type Bar\&.
+  DefaultValue<Bar>::Set(default_bar);
+
+  MockFoo foo;
+
+  // We don't need to specify an action here, as the default
+  // return value works for us\&.
+  EXPECT_CALL(foo, CalculateBar());
+
+  foo\&.CalculateBar();  // This should return default_bar\&.
+
+  // Unsets the default return value\&.
+  DefaultValue<Bar>::Clear();
+.fi
+.PP
+.PP
+Please note that changing the default value for a type can make your tests hard to understand\&. We recommend you to use this feature judiciously\&. For example, you may want to make sure the \fCSet()\fP and \fCClear()\fP calls are right next to the code that uses your mock\&.
+.SS "Setting the Default Actions for a Mock Method"
+You've learned how to change the default value of a given type\&. However, this may be too coarse for your purpose: perhaps you have two mock methods with the same return type and you want them to have different behaviors\&. The \fC\fBON_CALL()\fP\fP macro allows you to customize your mock's behavior at the method level:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::AnyNumber;
+using ::testing::Gt;
+using ::testing::Return;
+\&.\&.\&.
+  ON_CALL(foo, Sign(_))
+      \&.WillByDefault(Return(-1));
+  ON_CALL(foo, Sign(0))
+      \&.WillByDefault(Return(0));
+  ON_CALL(foo, Sign(Gt(0)))
+      \&.WillByDefault(Return(1));
+
+  EXPECT_CALL(foo, Sign(_))
+      \&.Times(AnyNumber());
+
+  foo\&.Sign(5);   // This should return 1\&.
+  foo\&.Sign(-9);  // This should return -1\&.
+  foo\&.Sign(0);   // This should return 0\&.
+.fi
+.PP
+.PP
+As you may have guessed, when there are more than one \fC\fBON_CALL()\fP\fP statements, the newer ones in the order take precedence over the older ones\&. In other words, the \fBlast\fP one that matches the function arguments will be used\&. This matching order allows you to set up the common behavior in a mock object's constructor or the test fixture's set-up phase and specialize the mock's behavior later\&.
+.PP
+Note that both \fCON_CALL\fP and \fCEXPECT_CALL\fP have the same 'later statements take
+precedence' rule, but they don't interact\&. That is, \fCEXPECT_CALL\fPs have their own precedence order distinct from the \fCON_CALL\fP precedence order\&.
+.SS "Using Functions/Methods/Functors/Lambdas as Actions"
+If the built-in actions don't suit you, you can use an existing callable (function, \fCstd::function\fP, method, functor, lambda) as an action\&.
+.PP
+.PP
+.nf
+using ::testing::_; using ::testing::Invoke;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(int, Sum, (int x, int y), (override));
+  MOCK_METHOD(bool, ComplexJob, (int x), (override));
+};
+
+int CalculateSum(int x, int y) { return x + y; }
+int Sum3(int x, int y, int z) { return x + y + z; }
+
+class Helper {
+ public:
+  bool ComplexJob(int x);
+};
+
+\&.\&.\&.
+  MockFoo foo;
+  Helper helper;
+  EXPECT_CALL(foo, Sum(_, _))
+      \&.WillOnce(&CalculateSum)
+      \&.WillRepeatedly(Invoke(NewPermanentCallback(Sum3, 1)));
+  EXPECT_CALL(foo, ComplexJob(_))
+      \&.WillOnce(Invoke(&helper, &Helper::ComplexJob))
+      \&.WillOnce([] { return true; })
+      \&.WillRepeatedly([](int x) { return x > 0; });
+
+  foo\&.Sum(5, 6);         // Invokes CalculateSum(5, 6)\&.
+  foo\&.Sum(2, 3);         // Invokes Sum3(1, 2, 3)\&.
+  foo\&.ComplexJob(10);    // Invokes helper\&.ComplexJob(10)\&.
+  foo\&.ComplexJob(-1);    // Invokes the inline lambda\&.
+.fi
+.PP
+.PP
+The only requirement is that the type of the function, etc must be \fIcompatible\fP with the signature of the mock function, meaning that the latter's arguments (if it takes any) can be implicitly converted to the corresponding arguments of the former, and the former's return type can be implicitly converted to that of the latter\&. So, you can invoke something whose type is \fInot\fP exactly the same as the mock function, as long as it's safe to do so - nice, huh?
+.PP
+Note that:
+.PP
+.IP "\(bu" 2
+The action takes ownership of the callback and will delete it when the action itself is destructed\&.
+.IP "\(bu" 2
+If the type of a callback is derived from a base callback type \fCC\fP, you need to implicitly cast it to \fCC\fP to resolve the overloading, e\&.g\&.
+.PP
+```cpp using \fBtesting::Invoke\fP; \&.\&.\&. ResultCallback<bool>* is_ok = \&.\&.\&.; \&.\&.\&. Invoke(is_ok) \&.\&.\&.; // This works\&.
+.PP
+BlockingClosure* done = new BlockingClosure; \&.\&.\&. Invoke(implicit_cast<Closure*>(done)) \&.\&.\&.; // The cast is necessary\&. ```
+.PP
+.SS "Using Functions with Extra Info as Actions"
+The function or functor you call using \fC\fBInvoke()\fP\fP must have the same number of arguments as the mock function you use it for\&. Sometimes you may have a function that takes more arguments, and you are willing to pass in the extra arguments yourself to fill the gap\&. You can do this in gMock using callbacks with pre-bound arguments\&. Here's an example:
+.PP
+.PP
+.nf
+using ::testing::Invoke;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(char, DoThis, (int n), (override));
+};
+
+char SignOfSum(int x, int y) {
+  const int sum = x + y;
+  return (sum > 0) ? '+' : (sum < 0) ? '-' : '0';
+}
+
+TEST_F(FooTest, Test) {
+  MockFoo foo;
+
+  EXPECT_CALL(foo, DoThis(2))
+      \&.WillOnce(Invoke(NewPermanentCallback(SignOfSum, 5)));
+  EXPECT_EQ(foo\&.DoThis(2), '+');  // Invokes SignOfSum(5, 2)\&.
+}
+.fi
+.PP
+.SS "Invoking a Function/Method/Functor/Lambda/Callback Without Arguments"
+\fC\fBInvoke()\fP\fP passes the mock function's arguments to the function, etc being invoked such that the callee has the full context of the call to work with\&. If the invoked function is not interested in some or all of the arguments, it can simply ignore them\&.
+.PP
+Yet, a common pattern is that a test author wants to invoke a function without the arguments of the mock function\&. She could do that using a wrapper function that throws away the arguments before invoking an underlining nullary function\&. Needless to say, this can be tedious and obscures the intent of the test\&.
+.PP
+There are two solutions to this problem\&. First, you can pass any callable of zero args as an action\&. Alternatively, use \fC\fBInvokeWithoutArgs()\fP\fP, which is like \fC\fBInvoke()\fP\fP except that it doesn't pass the mock function's arguments to the callee\&. Here's an example of each:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::InvokeWithoutArgs;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(bool, ComplexJob, (int n), (override));
+};
+
+bool Job1() { \&.\&.\&. }
+bool Job2(int n, char c) { \&.\&.\&. }
+
+\&.\&.\&.
+  MockFoo foo;
+  EXPECT_CALL(foo, ComplexJob(_))
+      \&.WillOnce([] { Job1(); });
+      \&.WillOnce(InvokeWithoutArgs(NewPermanentCallback(Job2, 5, 'a')));
+
+  foo\&.ComplexJob(10);  // Invokes Job1()\&.
+  foo\&.ComplexJob(20);  // Invokes Job2(5, 'a')\&.
+.fi
+.PP
+.PP
+Note that:
+.PP
+.IP "\(bu" 2
+The action takes ownership of the callback and will delete it when the action itself is destructed\&.
+.IP "\(bu" 2
+If the type of a callback is derived from a base callback type \fCC\fP, you need to implicitly cast it to \fCC\fP to resolve the overloading, e\&.g\&.
+.PP
+```cpp using \fBtesting::InvokeWithoutArgs\fP; \&.\&.\&. ResultCallback<bool>* is_ok = \&.\&.\&.; \&.\&.\&. InvokeWithoutArgs(is_ok) \&.\&.\&.; // This works\&.
+.PP
+BlockingClosure* done = \&.\&.\&.; \&.\&.\&. InvokeWithoutArgs(implicit_cast<Closure*>(done)) \&.\&.\&.; // The cast is necessary\&. ```
+.PP
+.SS "Invoking an Argument of the Mock Function"
+Sometimes a mock function will receive a function pointer, a functor (in other words, a 'callable') as an argument, e\&.g\&.
+.PP
+.PP
+.nf
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(bool, DoThis, (int n, (ResultCallback1<bool, int>* callback)),
+              (override));
+};
+.fi
+.PP
+.PP
+and you may want to invoke this callable argument:
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  MockFoo foo;
+  EXPECT_CALL(foo, DoThis(_, _))
+      \&.WillOnce(\&.\&.\&.);
+      // Will execute callback->Run(5), where callback is the
+      // second argument DoThis() receives\&.
+.fi
+.PP
+.PP
+{: \&.callout \&.note} NOTE: The section below is legacy documentation from before C++ had lambdas:
+.PP
+Arghh, you need to refer to a mock function argument but C++ has no lambda (yet), so you have to define your own action\&. :-( Or do you really?
+.PP
+Well, gMock has an action to solve \fIexactly\fP this problem:
+.PP
+.PP
+.nf
+InvokeArgument<N>(arg_1, arg_2, \&.\&.\&., arg_m)
+.fi
+.PP
+.PP
+will invoke the \fCN\fP-th (0-based) argument the mock function receives, with \fCarg_1\fP, \fCarg_2\fP, \&.\&.\&., and \fCarg_m\fP\&. No matter if the argument is a function pointer, a functor, or a callback\&. gMock handles them all\&.
+.PP
+With that, you could write:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::InvokeArgument;
+\&.\&.\&.
+  EXPECT_CALL(foo, DoThis(_, _))
+      \&.WillOnce(InvokeArgument<1>(5));
+      // Will execute callback->Run(5), where callback is the
+      // second argument DoThis() receives\&.
+.fi
+.PP
+.PP
+What if the callable takes an argument by reference? No problem - just wrap it inside \fCstd::ref()\fP:
+.PP
+.PP
+.nf
+\&.\&.\&.
+MOCK_METHOD(bool, Bar,
+            ((ResultCallback2<bool, int, const Helper&>* callback)),
+            (override));
+\&.\&.\&.
+using ::testing::_;
+using ::testing::InvokeArgument;
+\&.\&.\&.
+MockFoo foo;
+Helper helper;
+\&.\&.\&.
+EXPECT_CALL(foo, Bar(_))
+    \&.WillOnce(InvokeArgument<0>(5, std::ref(helper)));
+    // std::ref(helper) guarantees that a reference to helper, not a copy of
+    // it, will be passed to the callback\&.
+.fi
+.PP
+.PP
+What if the callable takes an argument by reference and we do \fBnot\fP wrap the argument in \fCstd::ref()\fP? Then \fC\fBInvokeArgument()\fP\fP will \fImake a copy\fP of the argument, and pass a \fIreference to the copy\fP, instead of a reference to the original value, to the callable\&. This is especially handy when the argument is a temporary value:
+.PP
+.PP
+.nf
+\&.\&.\&.
+MOCK_METHOD(bool, DoThat, (bool (*f)(const double& x, const string& s)),
+            (override));
+\&.\&.\&.
+using ::testing::_;
+using ::testing::InvokeArgument;
+\&.\&.\&.
+MockFoo foo;
+\&.\&.\&.
+EXPECT_CALL(foo, DoThat(_))
+    \&.WillOnce(InvokeArgument<0>(5\&.0, string("Hi")));
+    // Will execute (*f)(5\&.0, string("Hi")), where f is the function pointer
+    // DoThat() receives\&.  Note that the values 5\&.0 and string("Hi") are
+    // temporary and dead once the EXPECT_CALL() statement finishes\&.  Yet
+    // it's fine to perform this action later, since a copy of the values
+    // are kept inside the InvokeArgument action\&.
+.fi
+.PP
+.SS "Ignoring an Action's Result"
+Sometimes you have an action that returns \fIsomething\fP, but you need an action that returns \fCvoid\fP (perhaps you want to use it in a mock function that returns \fCvoid\fP, or perhaps it needs to be used in \fC\fBDoAll()\fP\fP and it's not the last in the list)\&. \fC\fBIgnoreResult()\fP\fP lets you do that\&. For example:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::DoAll;
+using ::testing::IgnoreResult;
+using ::testing::Return;
+
+int Process(const MyData& data);
+string DoSomething();
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(void, Abc, (const MyData& data), (override));
+  MOCK_METHOD(bool, Xyz, (), (override));
+};
+
+  \&.\&.\&.
+  MockFoo foo;
+  EXPECT_CALL(foo, Abc(_))
+      // \&.WillOnce(Invoke(Process));
+      // The above line won't compile as Process() returns int but Abc() needs
+      // to return void\&.
+      \&.WillOnce(IgnoreResult(Process));
+  EXPECT_CALL(foo, Xyz())
+      \&.WillOnce(DoAll(IgnoreResult(DoSomething),
+                      // Ignores the string DoSomething() returns\&.
+                      Return(true)));
+.fi
+.PP
+.PP
+Note that you \fBcannot\fP use \fC\fBIgnoreResult()\fP\fP on an action that already returns \fCvoid\fP\&. Doing so will lead to ugly compiler errors\&.
+.SS "Selecting an Action's Arguments"
+Say you have a mock function \fCFoo()\fP that takes seven arguments, and you have a custom action that you want to invoke when \fCFoo()\fP is called\&. Trouble is, the custom action only wants three arguments:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Invoke;
+\&.\&.\&.
+  MOCK_METHOD(bool, Foo,
+              (bool visible, const string& name, int x, int y,
+               (const map<pair<int, int>>), double& weight, double min_weight,
+               double max_wight));
+\&.\&.\&.
+bool IsVisibleInQuadrant1(bool visible, int x, int y) {
+  return visible && x >= 0 && y >= 0;
+}
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo)
+      \&.WillOnce(Invoke(IsVisibleInQuadrant1));  // Uh, won't compile\&. :-(
+.fi
+.PP
+.PP
+To please the compiler God, you need to define an 'adaptor' that has the same signature as \fCFoo()\fP and calls the custom action with the right arguments:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Invoke;
+\&.\&.\&.
+bool MyIsVisibleInQuadrant1(bool visible, const string& name, int x, int y,
+                            const map<pair<int, int>, double>& weight,
+                            double min_weight, double max_wight) {
+  return IsVisibleInQuadrant1(visible, x, y);
+}
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo)
+      \&.WillOnce(Invoke(MyIsVisibleInQuadrant1));  // Now it works\&.
+.fi
+.PP
+.PP
+But isn't this awkward?
+.PP
+gMock provides a generic \fIaction adaptor\fP, so you can spend your time minding more important business than writing your own adaptors\&. Here's the syntax:
+.PP
+.PP
+.nf
+WithArgs<N1, N2, \&.\&.\&., Nk>(action)
+.fi
+.PP
+.PP
+creates an action that passes the arguments of the mock function at the given indices (0-based) to the inner \fCaction\fP and performs it\&. Using \fCWithArgs\fP, our original example can be written as:
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Invoke;
+using ::testing::WithArgs;
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo)
+      \&.WillOnce(WithArgs<0, 2, 3>(Invoke(IsVisibleInQuadrant1)));  // No need to define your own adaptor\&.
+.fi
+.PP
+.PP
+For better readability, gMock also gives you:
+.PP
+.IP "\(bu" 2
+\fCWithoutArgs(action)\fP when the inner \fCaction\fP takes \fIno\fP argument, and
+.IP "\(bu" 2
+\fCWithArg<N>(action)\fP (no \fCs\fP after \fCArg\fP) when the inner \fCaction\fP takes \fIone\fP argument\&.
+.PP
+.PP
+As you may have realized, \fCInvokeWithoutArgs(\&.\&.\&.)\fP is just syntactic sugar for \fCWithoutArgs(Invoke(\&.\&.\&.))\fP\&.
+.PP
+Here are more tips:
+.PP
+.IP "\(bu" 2
+The inner action used in \fCWithArgs\fP and friends does not have to be \fC\fBInvoke()\fP\fP -- it can be anything\&.
+.IP "\(bu" 2
+You can repeat an argument in the argument list if necessary, e\&.g\&. \fCWithArgs<2, 3, 3, 5>(\&.\&.\&.)\fP\&.
+.IP "\(bu" 2
+You can change the order of the arguments, e\&.g\&. \fCWithArgs<3, 2, 1>(\&.\&.\&.)\fP\&.
+.IP "\(bu" 2
+The types of the selected arguments do \fInot\fP have to match the signature of the inner action exactly\&. It works as long as they can be implicitly converted to the corresponding arguments of the inner action\&. For example, if the 4-th argument of the mock function is an \fCint\fP and \fCmy_action\fP takes a \fCdouble\fP, \fCWithArg<4>(my_action)\fP will work\&.
+.PP
+.SS "Ignoring Arguments in Action Functions"
+The \fCselecting-an-action's-arguments\fP recipe showed us one way to make a mock function and an action with incompatible argument lists fit together\&. The downside is that wrapping the action in \fCWithArgs<\&.\&.\&.>()\fP can get tedious for people writing the tests\&.
+.PP
+If you are defining a function (or method, functor, lambda, callback) to be used with \fCInvoke*()\fP, and you are not interested in some of its arguments, an alternative to \fCWithArgs\fP is to declare the uninteresting arguments as \fCUnused\fP\&. This makes the definition less cluttered and less fragile in case the types of the uninteresting arguments change\&. It could also increase the chance the action function can be reused\&. For example, given
+.PP
+.PP
+.nf
+public:
+ MOCK_METHOD(double, Foo, double(const string& label, double x, double y),
+             (override));
+ MOCK_METHOD(double, Bar, (int index, double x, double y), (override));
+.fi
+.PP
+.PP
+instead of
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Invoke;
+
+double DistanceToOriginWithLabel(const string& label, double x, double y) {
+  return sqrt(x*x + y*y);
+}
+double DistanceToOriginWithIndex(int index, double x, double y) {
+  return sqrt(x*x + y*y);
+}
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo("abc", _, _))
+      \&.WillOnce(Invoke(DistanceToOriginWithLabel));
+  EXPECT_CALL(mock, Bar(5, _, _))
+      \&.WillOnce(Invoke(DistanceToOriginWithIndex));
+.fi
+.PP
+.PP
+you could write
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Invoke;
+using ::testing::Unused;
+
+double DistanceToOrigin(Unused, double x, double y) {
+  return sqrt(x*x + y*y);
+}
+\&.\&.\&.
+  EXPECT_CALL(mock, Foo("abc", _, _))
+      \&.WillOnce(Invoke(DistanceToOrigin));
+  EXPECT_CALL(mock, Bar(5, _, _))
+      \&.WillOnce(Invoke(DistanceToOrigin));
+.fi
+.PP
+.SS "Sharing Actions"
+Just like matchers, a gMock action object consists of a pointer to a ref-counted implementation object\&. Therefore copying actions is also allowed and very efficient\&. When the last action that references the implementation object dies, the implementation object will be deleted\&.
+.PP
+If you have some complex action that you want to use again and again, you may not have to build it from scratch every time\&. If the action doesn't have an internal state (i\&.e\&. if it always does the same thing no matter how many times it has been called), you can assign it to an action variable and use that variable repeatedly\&. For example:
+.PP
+.PP
+.nf
+using ::testing::Action;
+using ::testing::DoAll;
+using ::testing::Return;
+using ::testing::SetArgPointee;
+\&.\&.\&.
+  Action<bool(int*)> set_flag = DoAll(SetArgPointee<0>(5),
+                                      Return(true));
+  \&.\&.\&. use set_flag in \&.WillOnce() and \&.WillRepeatedly() \&.\&.\&.
+.fi
+.PP
+.PP
+However, if the action has its own state, you may be surprised if you share the action object\&. Suppose you have an action factory \fCIncrementCounter(init)\fP which creates an action that increments and returns a counter whose initial value is \fCinit\fP, using two actions created from the same expression and using a shared action will exhibit different behaviors\&. Example:
+.PP
+.PP
+.nf
+EXPECT_CALL(foo, DoThis())
+    \&.WillRepeatedly(IncrementCounter(0));
+EXPECT_CALL(foo, DoThat())
+    \&.WillRepeatedly(IncrementCounter(0));
+foo\&.DoThis();  // Returns 1\&.
+foo\&.DoThis();  // Returns 2\&.
+foo\&.DoThat();  // Returns 1 - DoThat() uses a different
+               // counter than DoThis()'s\&.
+.fi
+.PP
+.PP
+versus
+.PP
+.PP
+.nf
+using ::testing::Action;
+\&.\&.\&.
+  Action<int()> increment = IncrementCounter(0);
+  EXPECT_CALL(foo, DoThis())
+      \&.WillRepeatedly(increment);
+  EXPECT_CALL(foo, DoThat())
+      \&.WillRepeatedly(increment);
+  foo\&.DoThis();  // Returns 1\&.
+  foo\&.DoThis();  // Returns 2\&.
+  foo\&.DoThat();  // Returns 3 - the counter is shared\&.
+.fi
+.PP
+.SS "Testing Asynchronous Behavior"
+One oft-encountered problem with gMock is that it can be hard to test asynchronous behavior\&. Suppose you had a \fCEventQueue\fP class that you wanted to test, and you created a separate \fCEventDispatcher\fP interface so that you could easily mock it out\&. However, the implementation of the class fired all the events on a background thread, which made test timings difficult\&. You could just insert \fCsleep()\fP statements and hope for the best, but that makes your test behavior nondeterministic\&. A better way is to use gMock actions and \fCNotification\fP objects to force your asynchronous test to behave synchronously\&.
+.PP
+.PP
+.nf
+class MockEventDispatcher : public EventDispatcher {
+  MOCK_METHOD(bool, DispatchEvent, (int32), (override));
+};
+
+TEST(EventQueueTest, EnqueueEventTest) {
+  MockEventDispatcher mock_event_dispatcher;
+  EventQueue event_queue(&mock_event_dispatcher);
+
+  const int32 kEventId = 321;
+  absl::Notification done;
+  EXPECT_CALL(mock_event_dispatcher, DispatchEvent(kEventId))
+      \&.WillOnce([&done] { done\&.Notify(); });
+
+  event_queue\&.EnqueueEvent(kEventId);
+  done\&.WaitForNotification();
+}
+.fi
+.PP
+.PP
+In the example above, we set our normal gMock expectations, but then add an additional action to notify the \fCNotification\fP object\&. Now we can just call \fCNotification::WaitForNotification()\fP in the main thread to wait for the asynchronous call to finish\&. After that, our test suite is complete and we can safely exit\&.
+.PP
+{: \&.callout \&.note} Note: this example has a downside: namely, if the expectation is not satisfied, our test will run forever\&. It will eventually time-out and fail, but it will take longer and be slightly harder to debug\&. To alleviate this problem, you can use \fCWaitForNotificationWithTimeout(ms)\fP instead of \fCWaitForNotification()\fP\&.
+.SH "Misc Recipes on Using gMock"
+.PP
+.SS "Mocking Methods That Use Move-Only Types"
+C++11 introduced \fImove-only types\fP\&. A move-only-typed value can be moved from one object to another, but cannot be copied\&. \fCstd::unique_ptr<T>\fP is probably the most commonly used move-only type\&.
+.PP
+Mocking a method that takes and/or returns move-only types presents some challenges, but nothing insurmountable\&. This recipe shows you how you can do it\&. Note that the support for move-only method arguments was only introduced to gMock in April 2017; in older code, you may find more complex \fCworkarounds\fP for lack of this feature\&.
+.PP
+Let’s say we are working on a fictional project that lets one post and share snippets called “buzzes”\&. Your code uses these types:
+.PP
+.PP
+.nf
+enum class AccessLevel { kInternal, kPublic };
+
+class Buzz {
+ public:
+  explicit Buzz(AccessLevel access) { \&.\&.\&. }
+  \&.\&.\&.
+};
+
+class Buzzer {
+ public:
+  virtual ~Buzzer() {}
+  virtual std::unique_ptr<Buzz> MakeBuzz(StringPiece text) = 0;
+  virtual bool ShareBuzz(std::unique_ptr<Buzz> buzz, int64_t timestamp) = 0;
+  \&.\&.\&.
+};
+.fi
+.PP
+.PP
+A \fCBuzz\fP object represents a snippet being posted\&. A class that implements the \fCBuzzer\fP interface is capable of creating and sharing \fCBuzz\fPes\&. Methods in \fCBuzzer\fP may return a \fCunique_ptr<Buzz>\fP or take a \fCunique_ptr<Buzz>\fP\&. Now we need to mock \fCBuzzer\fP in our tests\&.
+.PP
+To mock a method that accepts or returns move-only types, you just use the familiar \fCMOCK_METHOD\fP syntax as usual:
+.PP
+.PP
+.nf
+class MockBuzzer : public Buzzer {
+ public:
+  MOCK_METHOD(std::unique_ptr<Buzz>, MakeBuzz, (StringPiece text), (override));
+  MOCK_METHOD(bool, ShareBuzz, (std::unique_ptr<Buzz> buzz, int64_t timestamp),
+              (override));
+};
+.fi
+.PP
+.PP
+Now that we have the mock class defined, we can use it in tests\&. In the following code examples, we assume that we have defined a \fCMockBuzzer\fP object named \fCmock_buzzer_\fP:
+.PP
+.PP
+.nf
+MockBuzzer mock_buzzer_;
+.fi
+.PP
+.PP
+First let’s see how we can set expectations on the \fCMakeBuzz()\fP method, which returns a \fCunique_ptr<Buzz>\fP\&.
+.PP
+As usual, if you set an expectation without an action (i\&.e\&. the \fC\&.\fBWillOnce()\fP\fP or \fC\&.WillRepeatedly()\fP clause), when that expectation fires, the default action for that method will be taken\&. Since \fCunique_ptr<>\fP has a default constructor that returns a null \fCunique_ptr\fP, that’s what you’ll get if you don’t specify an action:
+.PP
+.PP
+.nf
+using ::testing::IsNull;
+\&.\&.\&.
+  // Use the default action\&.
+  EXPECT_CALL(mock_buzzer_, MakeBuzz("hello"));
+
+  // Triggers the previous EXPECT_CALL\&.
+  EXPECT_THAT(mock_buzzer_\&.MakeBuzz("hello"), IsNull());
+.fi
+.PP
+.PP
+If you are not happy with the default action, you can tweak it as usual; see \fCSetting Default Actions\fP\&.
+.PP
+If you just need to return a move-only value, you can use it in combination with \fCWillOnce\fP\&. For example:
+.PP
+.PP
+.nf
+EXPECT_CALL(mock_buzzer_, MakeBuzz("hello"))
+    \&.WillOnce(Return(std::make_unique<Buzz>(AccessLevel::kInternal)));
+EXPECT_NE(nullptr, mock_buzzer_\&.MakeBuzz("hello"));
+.fi
+.PP
+.PP
+Quiz time! What do you think will happen if a \fCReturn\fP action is performed more than once (e\&.g\&. you write \fC\&.\&.\&. \&.WillRepeatedly(Return(std::move(\&.\&.\&.)));\fP)? Come think of it, after the first time the action runs, the source value will be consumed (since it’s a move-only value), so the next time around, there’s no value to move from -- you’ll get a run-time error that \fCReturn(std::move(\&.\&.\&.))\fP can only be run once\&.
+.PP
+If you need your mock method to do more than just moving a pre-defined value, remember that you can always use a lambda or a callable object, which can do pretty much anything you want:
+.PP
+.PP
+.nf
+EXPECT_CALL(mock_buzzer_, MakeBuzz("x"))
+    \&.WillRepeatedly([](StringPiece text) {
+      return std::make_unique<Buzz>(AccessLevel::kInternal);
+    });
+
+EXPECT_NE(nullptr, mock_buzzer_\&.MakeBuzz("x"));
+EXPECT_NE(nullptr, mock_buzzer_\&.MakeBuzz("x"));
+.fi
+.PP
+.PP
+Every time this \fCEXPECT_CALL\fP fires, a new \fCunique_ptr<Buzz>\fP will be created and returned\&. You cannot do this with \fCReturn(std::make_unique<\&.\&.\&.>(\&.\&.\&.))\fP\&.
+.PP
+That covers returning move-only values; but how do we work with methods accepting move-only arguments? The answer is that they work normally, although some actions will not compile when any of method's arguments are move-only\&. You can always use \fCReturn\fP, or a \fClambda or functor\fP:
+.PP
+.PP
+.nf
+using ::testing::Unused;
+
+EXPECT_CALL(mock_buzzer_, ShareBuzz(NotNull(), _))\&.WillOnce(Return(true));
+EXPECT_TRUE(mock_buzzer_\&.ShareBuzz(std::make_unique<Buzz>(AccessLevel::kInternal)),
+            0);
+
+EXPECT_CALL(mock_buzzer_, ShareBuzz(_, _))\&.WillOnce(
+    [](std::unique_ptr<Buzz> buzz, Unused) { return buzz != nullptr; });
+EXPECT_FALSE(mock_buzzer_\&.ShareBuzz(nullptr, 0));
+.fi
+.PP
+.PP
+Many built-in actions (\fCWithArgs\fP, \fCWithoutArgs\fP,\fCDeleteArg\fP, \fCSaveArg\fP, \&.\&.\&.) could in principle support move-only arguments, but the support for this is not implemented yet\&. If this is blocking you, please file a bug\&.
+.PP
+A few actions (e\&.g\&. \fCDoAll\fP) copy their arguments internally, so they can never work with non-copyable objects; you'll have to use functors instead\&.
+.SS "Legacy workarounds for move-only types"
+Support for move-only function arguments was only introduced to gMock in April of 2017\&. In older code, you may encounter the following workaround for the lack of this feature (it is no longer necessary - we're including it just for reference):
+.PP
+.PP
+.nf
+class MockBuzzer : public Buzzer {
+ public:
+  MOCK_METHOD(bool, DoShareBuzz, (Buzz* buzz, Time timestamp));
+  bool ShareBuzz(std::unique_ptr<Buzz> buzz, Time timestamp) override {
+    return DoShareBuzz(buzz\&.get(), timestamp);
+  }
+};
+.fi
+.PP
+.PP
+The trick is to delegate the \fCShareBuzz()\fP method to a mock method (let’s call it \fCDoShareBuzz()\fP) that does not take move-only parameters\&. Then, instead of setting expectations on \fCShareBuzz()\fP, you set them on the \fCDoShareBuzz()\fP mock method:
+.PP
+.PP
+.nf
+MockBuzzer mock_buzzer_;
+EXPECT_CALL(mock_buzzer_, DoShareBuzz(NotNull(), _));
+
+// When one calls ShareBuzz() on the MockBuzzer like this, the call is
+// forwarded to DoShareBuzz(), which is mocked\&.  Therefore this statement
+// will trigger the above EXPECT_CALL\&.
+mock_buzzer_\&.ShareBuzz(std::make_unique<Buzz>(AccessLevel::kInternal), 0);
+.fi
+.PP
+.SS "Making the Compilation Faster"
+Believe it or not, the \fIvast majority\fP of the time spent on compiling a mock class is in generating its constructor and destructor, as they perform non-trivial tasks (e\&.g\&. verification of the expectations)\&. What's more, mock methods with different signatures have different types and thus their constructors/destructors need to be generated by the compiler separately\&. As a result, if you mock many different types of methods, compiling your mock class can get really slow\&.
+.PP
+If you are experiencing slow compilation, you can move the definition of your mock class' constructor and destructor out of the class body and into a \fC\&.cc\fP file\&. This way, even if you \fC#include\fP your mock class in N files, the compiler only needs to generate its constructor and destructor once, resulting in a much faster compilation\&.
+.PP
+Let's illustrate the idea using an example\&. Here's the definition of a mock class before applying this recipe:
+.PP
+.PP
+.nf
+// File mock_foo\&.h\&.
+\&.\&.\&.
+class MockFoo : public Foo {
+ public:
+  // Since we don't declare the constructor or the destructor,
+  // the compiler will generate them in every translation unit
+  // where this mock class is used\&.
+
+  MOCK_METHOD(int, DoThis, (), (override));
+  MOCK_METHOD(bool, DoThat, (const char* str), (override));
+  \&.\&.\&. more mock methods \&.\&.\&.
+};
+.fi
+.PP
+.PP
+After the change, it would look like:
+.PP
+.PP
+.nf
+// File mock_foo\&.h\&.
+\&.\&.\&.
+class MockFoo : public Foo {
+ public:
+  // The constructor and destructor are declared, but not defined, here\&.
+  MockFoo();
+  virtual ~MockFoo();
+
+  MOCK_METHOD(int, DoThis, (), (override));
+  MOCK_METHOD(bool, DoThat, (const char* str), (override));
+  \&.\&.\&. more mock methods \&.\&.\&.
+};
+.fi
+.PP
+.PP
+and
+.PP
+.PP
+.nf
+// File mock_foo\&.cc\&.
+#include "path/to/mock_foo\&.h"
+
+// The definitions may appear trivial, but the functions actually do a
+// lot of things through the constructors/destructors of the member
+// variables used to implement the mock methods\&.
+MockFoo::MockFoo() {}
+MockFoo::~MockFoo() {}
+.fi
+.PP
+.SS "Forcing a Verification"
+When it's being destroyed, your friendly mock object will automatically verify that all expectations on it have been satisfied, and will generate googletest failures if not\&. This is convenient as it leaves you with one less thing to worry about\&. That is, unless you are not sure if your mock object will be destroyed\&.
+.PP
+How could it be that your mock object won't eventually be destroyed? Well, it might be created on the heap and owned by the code you are testing\&. Suppose there's a bug in that code and it doesn't delete the mock object properly - you could end up with a passing test when there's actually a bug\&.
+.PP
+Using a heap checker is a good idea and can alleviate the concern, but its implementation is not 100% reliable\&. So, sometimes you do want to \fIforce\fP gMock to verify a mock object before it is (hopefully) destructed\&. You can do this with \fCMock::VerifyAndClearExpectations(&mock_object)\fP:
+.PP
+.PP
+.nf
+TEST(MyServerTest, ProcessesRequest) {
+  using ::testing::Mock;
+
+  MockFoo* const foo = new MockFoo;
+  EXPECT_CALL(*foo, \&.\&.\&.)\&.\&.\&.;
+  // \&.\&.\&. other expectations \&.\&.\&.
+
+  // server now owns foo\&.
+  MyServer server(foo);
+  server\&.ProcessRequest(\&.\&.\&.);
+
+  // In case that server's destructor will forget to delete foo,
+  // this will verify the expectations anyway\&.
+  Mock::VerifyAndClearExpectations(foo);
+}  // server is destroyed when it goes out of scope here\&.
+.fi
+.PP
+.PP
+{: \&.callout \&.tip} \fBTip:\fP The \fCMock::VerifyAndClearExpectations()\fP function returns a \fCbool\fP to indicate whether the verification was successful (\fCtrue\fP for yes), so you can wrap that function call inside a \fC\fBASSERT_TRUE()\fP\fP if there is no point going further when the verification has failed\&.
+.PP
+Do not set new expectations after verifying and clearing a mock after its use\&. Setting expectations after code that exercises the mock has undefined behavior\&. See \fCUsing Mocks in Tests\fP for more information\&.
+.SS "Using Checkpoints"
+Sometimes you might want to test a mock object's behavior in phases whose sizes are each manageable, or you might want to set more detailed expectations about which API calls invoke which mock functions\&.
+.PP
+A technique you can use is to put the expectations in a sequence and insert calls to a dummy 'checkpoint' function at specific places\&. Then you can verify that the mock function calls do happen at the right time\&. For example, if you are exercising the code:
+.PP
+.PP
+.nf
+Foo(1);
+Foo(2);
+Foo(3);
+.fi
+.PP
+.PP
+and want to verify that \fCFoo(1)\fP and \fCFoo(3)\fP both invoke \fCmock\&.Bar('a')\fP, but \fCFoo(2)\fP doesn't invoke anything, you can write:
+.PP
+.PP
+.nf
+using ::testing::MockFunction;
+
+TEST(FooTest, InvokesBarCorrectly) {
+  MyMock mock;
+  // Class MockFunction<F> has exactly one mock method\&.  It is named
+  // Call() and has type F\&.
+  MockFunction<void(string check_point_name)> check;
+  {
+    InSequence s;
+
+    EXPECT_CALL(mock, Bar("a"));
+    EXPECT_CALL(check, Call("1"));
+    EXPECT_CALL(check, Call("2"));
+    EXPECT_CALL(mock, Bar("a"));
+  }
+  Foo(1);
+  check\&.Call("1");
+  Foo(2);
+  check\&.Call("2");
+  Foo(3);
+}
+.fi
+.PP
+.PP
+The expectation spec says that the first \fCBar('a')\fP call must happen before checkpoint '1', the second \fCBar('a')\fP call must happen after checkpoint '2', and nothing should happen between the two checkpoints\&. The explicit checkpoints make it clear which \fCBar('a')\fP is called by which call to \fCFoo()\fP\&.
+.SS "Mocking Destructors"
+Sometimes you want to make sure a mock object is destructed at the right time, e\&.g\&. after \fCbar->A()\fP is called but before \fCbar->B()\fP is called\&. We already know that you can specify constraints on the \fCorder\fP of mock function calls, so all we need to do is to mock the destructor of the mock function\&.
+.PP
+This sounds simple, except for one problem: a destructor is a special function with special syntax and special semantics, and the \fCMOCK_METHOD\fP macro doesn't work for it:
+.PP
+.PP
+.nf
+MOCK_METHOD(void, ~MockFoo, ());  // Won't compile!
+.fi
+.PP
+.PP
+The good news is that you can use a simple pattern to achieve the same effect\&. First, add a mock function \fCDie()\fP to your mock class and call it in the destructor, like this:
+.PP
+.PP
+.nf
+class MockFoo : public Foo {
+  \&.\&.\&.
+  // Add the following two lines to the mock class\&.
+  MOCK_METHOD(void, Die, ());
+  ~MockFoo() override { Die(); }
+};
+.fi
+.PP
+.PP
+(If the name \fCDie()\fP clashes with an existing symbol, choose another name\&.) Now, we have translated the problem of testing when a \fC\fBMockFoo\fP\fP object dies to testing when its \fCDie()\fP method is called:
+.PP
+.PP
+.nf
+MockFoo* foo = new MockFoo;
+MockBar* bar = new MockBar;
+\&.\&.\&.
+{
+  InSequence s;
+
+  // Expects *foo to die after bar->A() and before bar->B()\&.
+  EXPECT_CALL(*bar, A());
+  EXPECT_CALL(*foo, Die());
+  EXPECT_CALL(*bar, B());
+}
+.fi
+.PP
+.PP
+And that's that\&.
+.SS "Using gMock and Threads"
+In a \fBunit\fP test, it's best if you could isolate and test a piece of code in a single-threaded context\&. That avoids race conditions and dead locks, and makes debugging your test much easier\&.
+.PP
+Yet most programs are multi-threaded, and sometimes to test something we need to pound on it from more than one thread\&. gMock works for this purpose too\&.
+.PP
+Remember the steps for using a mock:
+.PP
+.IP "1." 4
+Create a mock object \fCfoo\fP\&.
+.IP "2." 4
+Set its default actions and expectations using \fC\fBON_CALL()\fP\fP and \fC\fBEXPECT_CALL()\fP\fP\&.
+.IP "3." 4
+The code under test calls methods of \fCfoo\fP\&.
+.IP "4." 4
+Optionally, verify and reset the mock\&.
+.IP "5." 4
+Destroy the mock yourself, or let the code under test destroy it\&. The destructor will automatically verify it\&.
+.PP
+.PP
+If you follow the following simple rules, your mocks and threads can live happily together:
+.PP
+.IP "\(bu" 2
+Execute your \fItest code\fP (as opposed to the code being tested) in \fIone\fP thread\&. This makes your test easy to follow\&.
+.IP "\(bu" 2
+Obviously, you can do step #1 without locking\&.
+.IP "\(bu" 2
+When doing step #2 and #5, make sure no other thread is accessing \fCfoo\fP\&. Obvious too, huh?
+.IP "\(bu" 2
+#3 and #4 can be done either in one thread or in multiple threads - anyway you want\&. gMock takes care of the locking, so you don't have to do any - unless required by your test logic\&.
+.PP
+.PP
+If you violate the rules (for example, if you set expectations on a mock while another thread is calling its methods), you get undefined behavior\&. That's not fun, so don't do it\&.
+.PP
+gMock guarantees that the action for a mock function is done in the same thread that called the mock function\&. For example, in
+.PP
+.PP
+.nf
+EXPECT_CALL(mock, Foo(1))
+    \&.WillOnce(action1);
+EXPECT_CALL(mock, Foo(2))
+    \&.WillOnce(action2);
+.fi
+.PP
+.PP
+if \fCFoo(1)\fP is called in thread 1 and \fCFoo(2)\fP is called in thread 2, gMock will execute \fCaction1\fP in thread 1 and \fCaction2\fP in thread 2\&.
+.PP
+gMock does \fInot\fP impose a sequence on actions performed in different threads (doing so may create deadlocks as the actions may need to cooperate)\&. This means that the execution of \fCaction1\fP and \fCaction2\fP in the above example \fImay\fP interleave\&. If this is a problem, you should add proper synchronization logic to \fCaction1\fP and \fCaction2\fP to make the test thread-safe\&.
+.PP
+Also, remember that \fCDefaultValue<T>\fP is a global resource that potentially affects \fIall\fP living mock objects in your program\&. Naturally, you won't want to mess with it from multiple threads or when there still are mocks in action\&.
+.SS "Controlling How Much Information gMock Prints"
+When gMock sees something that has the potential of being an error (e\&.g\&. a mock function with no expectation is called, a\&.k\&.a\&. an uninteresting call, which is allowed but perhaps you forgot to explicitly ban the call), it prints some warning messages, including the arguments of the function, the return value, and the stack trace\&. Hopefully this will remind you to take a look and see if there is indeed a problem\&.
+.PP
+Sometimes you are confident that your tests are correct and may not appreciate such friendly messages\&. Some other times, you are debugging your tests or learning about the behavior of the code you are testing, and wish you could observe every mock call that happens (including argument values, the return value, and the stack trace)\&. Clearly, one size doesn't fit all\&.
+.PP
+You can control how much gMock tells you using the \fC--gmock_verbose=LEVEL\fP command-line flag, where \fCLEVEL\fP is a string with three possible values:
+.PP
+.IP "\(bu" 2
+\fCinfo\fP: gMock will print all informational messages, warnings, and errors (most verbose)\&. At this setting, gMock will also log any calls to the \fCON_CALL/EXPECT_CALL\fP macros\&. It will include a stack trace in 'uninteresting call' warnings\&.
+.IP "\(bu" 2
+\fCwarning\fP: gMock will print both warnings and errors (less verbose); it will omit the stack traces in 'uninteresting call' warnings\&. This is the default\&.
+.IP "\(bu" 2
+\fCerror\fP: gMock will print errors only (least verbose)\&.
+.PP
+.PP
+Alternatively, you can adjust the value of that flag from within your tests like so:
+.PP
+.PP
+.nf
+::testing::FLAGS_gmock_verbose = "error";
+.fi
+.PP
+.PP
+If you find gMock printing too many stack frames with its informational or warning messages, remember that you can control their amount with the \fC--gtest_stack_trace_depth=max_depth\fP flag\&.
+.PP
+Now, judiciously use the right flag to enable gMock serve you better!
+.SS "Gaining Super Vision into Mock Calls"
+You have a test using gMock\&. It fails: gMock tells you some expectations aren't satisfied\&. However, you aren't sure why: Is there a typo somewhere in the matchers? Did you mess up the order of the \fCEXPECT_CALL\fPs? Or is the code under test doing something wrong? How can you find out the cause?
+.PP
+Won't it be nice if you have X-ray vision and can actually see the trace of all \fCEXPECT_CALL\fPs and mock method calls as they are made? For each call, would you like to see its actual argument values and which \fCEXPECT_CALL\fP gMock thinks it matches? If you still need some help to figure out who made these calls, how about being able to see the complete stack trace at each mock call?
+.PP
+You can unlock this power by running your test with the \fC--gmock_verbose=info\fP flag\&. For example, given the test program:
+.PP
+.PP
+.nf
+#include <gmock/gmock\&.h>
+
+using ::testing::_;
+using ::testing::HasSubstr;
+using ::testing::Return;
+
+class MockFoo {
+ public:
+  MOCK_METHOD(void, F, (const string& x, const string& y));
+};
+
+TEST(Foo, Bar) {
+  MockFoo mock;
+  EXPECT_CALL(mock, F(_, _))\&.WillRepeatedly(Return());
+  EXPECT_CALL(mock, F("a", "b"));
+  EXPECT_CALL(mock, F("c", HasSubstr("d")));
+
+  mock\&.F("a", "good");
+  mock\&.F("a", "b");
+}
+.fi
+.PP
+.PP
+if you run it with \fC--gmock_verbose=info\fP, you will see this output:
+.PP
+.PP
+.nf
+[ RUN       ] Foo\&.Bar
+
+foo_test\&.cc:14: EXPECT_CALL(mock, F(_, _)) invoked
+Stack trace: \&.\&.\&.
+
+foo_test\&.cc:15: EXPECT_CALL(mock, F("a", "b")) invoked
+Stack trace: \&.\&.\&.
+
+foo_test\&.cc:16: EXPECT_CALL(mock, F("c", HasSubstr("d"))) invoked
+Stack trace: \&.\&.\&.
+
+foo_test\&.cc:14: Mock function call matches EXPECT_CALL(mock, F(_, _))\&.\&.\&.
+    Function call: F(@0x7fff7c8dad40"a",@0x7fff7c8dad10"good")
+Stack trace: \&.\&.\&.
+
+foo_test\&.cc:15: Mock function call matches EXPECT_CALL(mock, F("a", "b"))\&.\&.\&.
+    Function call: F(@0x7fff7c8dada0"a",@0x7fff7c8dad70"b")
+Stack trace: \&.\&.\&.
+
+foo_test\&.cc:16: Failure
+Actual function call count doesn't match EXPECT_CALL(mock, F("c", HasSubstr("d")))\&.\&.\&.
+         Expected: to be called once
+           Actual: never called - unsatisfied and active
+[  FAILED  ] Foo\&.Bar
+.fi
+.PP
+.PP
+Suppose the bug is that the \fC'c'\fP in the third \fCEXPECT_CALL\fP is a typo and should actually be \fC'a'\fP\&. With the above message, you should see that the actual \fCF('a', 'good')\fP call is matched by the first \fCEXPECT_CALL\fP, not the third as you thought\&. From that it should be obvious that the third \fCEXPECT_CALL\fP is written wrong\&. Case solved\&.
+.PP
+If you are interested in the mock call trace but not the stack traces, you can combine \fC--gmock_verbose=info\fP with \fC--gtest_stack_trace_depth=0\fP on the test command line\&.
+.SS "Running Tests in Emacs"
+If you build and run your tests in Emacs using the \fCM-x google-compile\fP command (as many googletest users do), the source file locations of gMock and googletest errors will be highlighted\&. Just press \fC<Enter>\fP on one of them and you'll be taken to the offending line\&. Or, you can just type \fCC-x\fP` to jump to the next error\&.
+.PP
+To make it even easier, you can add the following lines to your \fC~/\&.emacs\fP file:
+.PP
+.PP
+.nf
+(global-set-key "\M-m"  'google-compile)  ; m is for make
+(global-set-key [M-down] 'next-error)
+(global-set-key [M-up]  '(lambda () (interactive) (next-error -1)))
+.fi
+.PP
+.PP
+Then you can type \fCM-m\fP to start a build (if you want to run the test as well, just make sure \fCfoo_test\&.run\fP or \fCruntests\fP is in the build command you supply after typing \fCM-m\fP), or \fCM-up\fP/\fCM-down\fP to move back and forth between errors\&.
+.SH "Extending gMock"
+.PP
+.SS "Writing New Matchers Quickly"
+{: \&.callout \&.warning} WARNING: gMock does not guarantee when or how many times a matcher will be invoked\&. Therefore, all matchers must be functionally pure\&. See \fCthis section\fP for more details\&.
+.PP
+The \fCMATCHER*\fP family of macros can be used to define custom matchers easily\&. The syntax:
+.PP
+.PP
+.nf
+MATCHER(name, description_string_expression) { statements; }
+.fi
+.PP
+.PP
+will define a matcher with the given name that executes the statements, which must return a \fCbool\fP to indicate if the match succeeds\&. Inside the statements, you can refer to the value being matched by \fCarg\fP, and refer to its type by \fCarg_type\fP\&.
+.PP
+The \fIdescription string\fP is a \fCstring\fP-typed expression that documents what the matcher does, and is used to generate the failure message when the match fails\&. It can (and should) reference the special \fCbool\fP variable \fCnegation\fP, and should evaluate to the description of the matcher when \fCnegation\fP is \fCfalse\fP, or that of the matcher's negation when \fCnegation\fP is \fCtrue\fP\&.
+.PP
+For convenience, we allow the description string to be empty (\fC''\fP), in which case gMock will use the sequence of words in the matcher name as the description\&.
+.PP
+For example:
+.PP
+.PP
+.nf
+MATCHER(IsDivisibleBy7, "") { return (arg % 7) == 0; }
+.fi
+.PP
+.PP
+allows you to write
+.PP
+.PP
+.nf
+// Expects mock_foo\&.Bar(n) to be called where n is divisible by 7\&.
+EXPECT_CALL(mock_foo, Bar(IsDivisibleBy7()));
+.fi
+.PP
+.PP
+or,
+.PP
+.PP
+.nf
+using ::testing::Not;
+\&.\&.\&.
+// Verifies that a value is divisible by 7 and the other is not\&.
+EXPECT_THAT(some_expression, IsDivisibleBy7());
+EXPECT_THAT(some_other_expression, Not(IsDivisibleBy7()));
+.fi
+.PP
+.PP
+If the above assertions fail, they will print something like:
+.PP
+.PP
+.nf
+Value of: some_expression
+Expected: is divisible by 7
+  Actual: 27
+\&.\&.\&.
+Value of: some_other_expression
+Expected: not (is divisible by 7)
+  Actual: 21
+.fi
+.PP
+.PP
+where the descriptions \fC'is divisible by 7'\fP and \fC'not (is divisible by 7)'\fP are automatically calculated from the matcher name \fCIsDivisibleBy7\fP\&.
+.PP
+As you may have noticed, the auto-generated descriptions (especially those for the negation) may not be so great\&. You can always override them with a \fCstring\fP expression of your own:
+.PP
+.PP
+.nf
+MATCHER(IsDivisibleBy7,
+        absl::StrCat(negation ? "isn't" : "is", " divisible by 7")) {
+  return (arg % 7) == 0;
+}
+.fi
+.PP
+.PP
+Optionally, you can stream additional information to a hidden argument named \fCresult_listener\fP to explain the match result\&. For example, a better definition of \fCIsDivisibleBy7\fP is:
+.PP
+.PP
+.nf
+MATCHER(IsDivisibleBy7, "") {
+  if ((arg % 7) == 0)
+    return true;
+
+  *result_listener << "the remainder is " << (arg % 7);
+  return false;
+}
+.fi
+.PP
+.PP
+With this definition, the above assertion will give a better message:
+.PP
+.PP
+.nf
+Value of: some_expression
+Expected: is divisible by 7
+  Actual: 27 (the remainder is 6)
+.fi
+.PP
+.PP
+You should let \fCMatchAndExplain()\fP print \fIany additional information\fP that can help a user understand the match result\&. Note that it should explain why the match succeeds in case of a success (unless it's obvious) - this is useful when the matcher is used inside \fCNot()\fP\&. There is no need to print the argument value itself, as gMock already prints it for you\&.
+.PP
+{: \&.callout \&.note} NOTE: The type of the value being matched (\fCarg_type\fP) is determined by the context in which you use the matcher and is supplied to you by the compiler, so you don't need to worry about declaring it (nor can you)\&. This allows the matcher to be polymorphic\&. For example, \fCIsDivisibleBy7()\fP can be used to match any type where the value of \fC(arg % 7) == 0\fP can be implicitly converted to a \fCbool\fP\&. In the \fCBar(IsDivisibleBy7())\fP example above, if method \fCBar()\fP takes an \fCint\fP, \fCarg_type\fP will be \fCint\fP; if it takes an \fCunsigned long\fP, \fCarg_type\fP will be \fCunsigned long\fP; and so on\&.
+.SS "Writing New Parameterized Matchers Quickly"
+Sometimes you'll want to define a matcher that has parameters\&. For that you can use the macro:
+.PP
+.PP
+.nf
+MATCHER_P(name, param_name, description_string) { statements; }
+.fi
+.PP
+.PP
+where the description string can be either \fC''\fP or a \fCstring\fP expression that references \fCnegation\fP and \fCparam_name\fP\&.
+.PP
+For example:
+.PP
+.PP
+.nf
+MATCHER_P(HasAbsoluteValue, value, "") { return abs(arg) == value; }
+.fi
+.PP
+.PP
+will allow you to write:
+.PP
+.PP
+.nf
+EXPECT_THAT(Blah("a"), HasAbsoluteValue(n));
+.fi
+.PP
+.PP
+which may lead to this message (assuming \fCn\fP is 10):
+.PP
+.PP
+.nf
+Value of: Blah("a")
+Expected: has absolute value 10
+  Actual: -9
+.fi
+.PP
+.PP
+Note that both the matcher description and its parameter are printed, making the message human-friendly\&.
+.PP
+In the matcher definition body, you can write \fCfoo_type\fP to reference the type of a parameter named \fCfoo\fP\&. For example, in the body of \fC\fBMATCHER_P(HasAbsoluteValue, value)\fP\fP above, you can write \fCvalue_type\fP to refer to the type of \fCvalue\fP\&.
+.PP
+gMock also provides \fCMATCHER_P2\fP, \fCMATCHER_P3\fP, \&.\&.\&., up to \fCMATCHER_P10\fP to support multi-parameter matchers:
+.PP
+.PP
+.nf
+MATCHER_Pk(name, param_1, \&.\&.\&., param_k, description_string) { statements; }
+.fi
+.PP
+.PP
+Please note that the custom description string is for a particular \fIinstance\fP of the matcher, where the parameters have been bound to actual values\&. Therefore usually you'll want the parameter values to be part of the description\&. gMock lets you do that by referencing the matcher parameters in the description string expression\&.
+.PP
+For example,
+.PP
+.PP
+.nf
+using ::testing::PrintToString;
+MATCHER_P2(InClosedRange, low, hi,
+           absl::StrFormat("%s in range [%s, %s]", negation ? "isn't" : "is",
+                           PrintToString(low), PrintToString(hi))) {
+  return low <= arg && arg <= hi;
+}
+\&.\&.\&.
+EXPECT_THAT(3, InClosedRange(4, 6));
+.fi
+.PP
+.PP
+would generate a failure that contains the message:
+.PP
+.PP
+.nf
+Expected: is in range [4, 6]
+.fi
+.PP
+.PP
+If you specify \fC''\fP as the description, the failure message will contain the sequence of words in the matcher name followed by the parameter values printed as a tuple\&. For example,
+.PP
+.PP
+.nf
+MATCHER_P2(InClosedRange, low, hi, "") { \&.\&.\&. }
+\&.\&.\&.
+EXPECT_THAT(3, InClosedRange(4, 6));
+.fi
+.PP
+.PP
+would generate a failure that contains the text:
+.PP
+.PP
+.nf
+Expected: in closed range (4, 6)
+.fi
+.PP
+.PP
+For the purpose of typing, you can view
+.PP
+.PP
+.nf
+MATCHER_Pk(Foo, p1, \&.\&.\&., pk, description_string) { \&.\&.\&. }
+.fi
+.PP
+.PP
+as shorthand for
+.PP
+.PP
+.nf
+template <typename p1_type, \&.\&.\&., typename pk_type>
+FooMatcherPk<p1_type, \&.\&.\&., pk_type>
+Foo(p1_type p1, \&.\&.\&., pk_type pk) { \&.\&.\&. }
+.fi
+.PP
+.PP
+When you write \fCFoo(v1, \&.\&.\&., vk)\fP, the compiler infers the types of the parameters \fCv1\fP, \&.\&.\&., and \fCvk\fP for you\&. If you are not happy with the result of the type inference, you can specify the types by explicitly instantiating the template, as in \fCFoo<long, bool>(5, false)\fP\&. As said earlier, you don't get to (or need to) specify \fCarg_type\fP as that's determined by the context in which the matcher is used\&.
+.PP
+You can assign the result of expression \fCFoo(p1, \&.\&.\&., pk)\fP to a variable of type \fCFooMatcherPk<p1_type, \&.\&.\&., pk_type>\fP\&. This can be useful when composing matchers\&. Matchers that don't have a parameter or have only one parameter have special types: you can assign \fCFoo()\fP to a \fCFooMatcher\fP-typed variable, and assign \fCFoo(p)\fP to a \fCFooMatcherP<p_type>\fP-typed variable\&.
+.PP
+While you can instantiate a matcher template with reference types, passing the parameters by pointer usually makes your code more readable\&. If, however, you still want to pass a parameter by reference, be aware that in the failure message generated by the matcher you will see the value of the referenced object but not its address\&.
+.PP
+You can overload matchers with different numbers of parameters:
+.PP
+.PP
+.nf
+MATCHER_P(Blah, a, description_string_1) { \&.\&.\&. }
+MATCHER_P2(Blah, a, b, description_string_2) { \&.\&.\&. }
+.fi
+.PP
+.PP
+While it's tempting to always use the \fCMATCHER*\fP macros when defining a new matcher, you should also consider implementing the matcher interface directly instead (see the recipes that follow), especially if you need to use the matcher a lot\&. While these approaches require more work, they give you more control on the types of the value being matched and the matcher parameters, which in general leads to better compiler error messages that pay off in the long run\&. They also allow overloading matchers based on parameter types (as opposed to just based on the number of parameters)\&.
+.SS "Writing New Monomorphic Matchers"
+A matcher of argument type \fCT\fP implements the matcher interface for \fCT\fP and does two things: it tests whether a value of type \fCT\fP matches the matcher, and can describe what kind of values it matches\&. The latter ability is used for generating readable error messages when expectations are violated\&.
+.PP
+A matcher of \fCT\fP must declare a typedef like:
+.PP
+.PP
+.nf
+using is_gtest_matcher = void;
+.fi
+.PP
+.PP
+and supports the following operations:
+.PP
+.PP
+.nf
+// Match a value and optionally explain into an ostream\&.
+bool matched = matcher\&.MatchAndExplain(value, maybe_os);
+// where `value` is of type `T` and
+// `maybe_os` is of type `std::ostream*`, where it can be null if the caller
+// is not interested in there textual explanation\&.
+
+matcher\&.DescribeTo(os);
+matcher\&.DescribeNegationTo(os);
+// where `os` is of type `std::ostream*`\&.
+.fi
+.PP
+.PP
+If you need a custom matcher but \fCTruly()\fP is not a good option (for example, you may not be happy with the way \fCTruly(predicate)\fP describes itself, or you may want your matcher to be polymorphic as \fCEq(value)\fP is), you can define a matcher to do whatever you want in two steps: first implement the matcher interface, and then define a factory function to create a matcher instance\&. The second step is not strictly needed but it makes the syntax of using the matcher nicer\&.
+.PP
+For example, you can define a matcher to test whether an \fCint\fP is divisible by 7 and then use it like this:
+.PP
+.PP
+.nf
+using ::testing::Matcher;
+
+class DivisibleBy7Matcher {
+ public:
+  using is_gtest_matcher = void;
+
+  bool MatchAndExplain(int n, std::ostream*) const {
+    return (n % 7) == 0;
+  }
+
+  void DescribeTo(std::ostream* os) const {
+    *os << "is divisible by 7";
+  }
+
+  void DescribeNegationTo(std::ostream* os) const {
+    *os << "is not divisible by 7";
+  }
+};
+
+Matcher<int> DivisibleBy7() {
+  return DivisibleBy7Matcher();
+}
+
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(DivisibleBy7()));
+.fi
+.PP
+.PP
+You may improve the matcher message by streaming additional information to the \fCos\fP argument in \fCMatchAndExplain()\fP:
+.PP
+.PP
+.nf
+class DivisibleBy7Matcher {
+ public:
+  bool MatchAndExplain(int n, std::ostream* os) const {
+    const int remainder = n % 7;
+    if (remainder != 0 && os != nullptr) {
+      *os << "the remainder is " << remainder;
+    }
+    return remainder == 0;
+  }
+  \&.\&.\&.
+};
+.fi
+.PP
+.PP
+Then, \fC\fBEXPECT_THAT(x, DivisibleBy7())\fP;\fP may generate a message like this:
+.PP
+.PP
+.nf
+Value of: x
+Expected: is divisible by 7
+  Actual: 23 (the remainder is 2)
+.fi
+.PP
+.PP
+{: \&.callout \&.tip} Tip: for convenience, \fCMatchAndExplain()\fP can take a \fCMatchResultListener*\fP instead of \fCstd::ostream*\fP\&.
+.SS "Writing New Polymorphic Matchers"
+Expanding what we learned above to \fIpolymorphic\fP matchers is now just as simple as adding templates in the right place\&.
+.PP
+.PP
+.nf
+class NotNullMatcher {
+ public:
+  using is_gtest_matcher = void;
+
+  // To implement a polymorphic matcher, we just need to make MatchAndExplain a
+  // template on its first argument\&.
+
+  // In this example, we want to use NotNull() with any pointer, so
+  // MatchAndExplain() accepts a pointer of any type as its first argument\&.
+  // In general, you can define MatchAndExplain() as an ordinary method or
+  // a method template, or even overload it\&.
+  template <typename T>
+  bool MatchAndExplain(T* p, std::ostream*) const {
+    return p != nullptr;
+  }
+
+  // Describes the property of a value matching this matcher\&.
+  void DescribeTo(std::ostream* os) const { *os << "is not NULL"; }
+
+  // Describes the property of a value NOT matching this matcher\&.
+  void DescribeNegationTo(std::ostream* os) const { *os << "is NULL"; }
+};
+
+NotNullMatcher NotNull() {
+  return NotNullMatcher();
+}
+
+\&.\&.\&.
+
+  EXPECT_CALL(foo, Bar(NotNull()));  // The argument must be a non-NULL pointer\&.
+.fi
+.PP
+.SS "Legacy Matcher Implementation"
+Defining matchers used to be somewhat more complicated, in which it required several supporting classes and virtual functions\&. To implement a matcher for type \fCT\fP using the legacy API you have to derive from \fCMatcherInterface<T>\fP and call \fCMakeMatcher\fP to construct the object\&.
+.PP
+The interface looks like this:
+.PP
+.PP
+.nf
+class MatchResultListener {
+ public:
+  \&.\&.\&.
+  // Streams x to the underlying ostream; does nothing if the ostream
+  // is NULL\&.
+  template <typename T>
+  MatchResultListener& operator<<(const T& x);
+
+  // Returns the underlying ostream\&.
+  std::ostream* stream();
+};
+
+template <typename T>
+class MatcherInterface {
+ public:
+  virtual ~MatcherInterface();
+
+  // Returns true if and only if the matcher matches x; also explains the match
+  // result to 'listener'\&.
+  virtual bool MatchAndExplain(T x, MatchResultListener* listener) const = 0;
+
+  // Describes this matcher to an ostream\&.
+  virtual void DescribeTo(std::ostream* os) const = 0;
+
+  // Describes the negation of this matcher to an ostream\&.
+  virtual void DescribeNegationTo(std::ostream* os) const;
+};
+.fi
+.PP
+.PP
+Fortunately, most of the time you can define a polymorphic matcher easily with the help of \fCMakePolymorphicMatcher()\fP\&. Here's how you can define \fCNotNull()\fP as an example:
+.PP
+.PP
+.nf
+using ::testing::MakePolymorphicMatcher;
+using ::testing::MatchResultListener;
+using ::testing::PolymorphicMatcher;
+
+class NotNullMatcher {
+ public:
+  // To implement a polymorphic matcher, first define a COPYABLE class
+  // that has three members MatchAndExplain(), DescribeTo(), and
+  // DescribeNegationTo(), like the following\&.
+
+  // In this example, we want to use NotNull() with any pointer, so
+  // MatchAndExplain() accepts a pointer of any type as its first argument\&.
+  // In general, you can define MatchAndExplain() as an ordinary method or
+  // a method template, or even overload it\&.
+  template <typename T>
+  bool MatchAndExplain(T* p,
+                       MatchResultListener* /* listener */) const {
+    return p != NULL;
+  }
+
+  // Describes the property of a value matching this matcher\&.
+  void DescribeTo(std::ostream* os) const { *os << "is not NULL"; }
+
+  // Describes the property of a value NOT matching this matcher\&.
+  void DescribeNegationTo(std::ostream* os) const { *os << "is NULL"; }
+};
+
+// To construct a polymorphic matcher, pass an instance of the class
+// to MakePolymorphicMatcher()\&.  Note the return type\&.
+PolymorphicMatcher<NotNullMatcher> NotNull() {
+  return MakePolymorphicMatcher(NotNullMatcher());
+}
+
+\&.\&.\&.
+
+  EXPECT_CALL(foo, Bar(NotNull()));  // The argument must be a non-NULL pointer\&.
+.fi
+.PP
+.PP
+{: \&.callout \&.note} \fBNote:\fP Your polymorphic matcher class does \fBnot\fP need to inherit from \fCMatcherInterface\fP or any other class, and its methods do \fBnot\fP need to be virtual\&.
+.PP
+Like in a monomorphic matcher, you may explain the match result by streaming additional information to the \fClistener\fP argument in \fCMatchAndExplain()\fP\&.
+.SS "Writing New Cardinalities"
+A cardinality is used in \fCTimes()\fP to tell gMock how many times you expect a call to occur\&. It doesn't have to be exact\&. For example, you can say \fCAtLeast(5)\fP or \fCBetween(2, 4)\fP\&.
+.PP
+If the \fCbuilt-in set\fP of cardinalities doesn't suit you, you are free to define your own by implementing the following interface (in namespace \fCtesting\fP):
+.PP
+.PP
+.nf
+class CardinalityInterface {
+ public:
+  virtual ~CardinalityInterface();
+
+  // Returns true if and only if call_count calls will satisfy this cardinality\&.
+  virtual bool IsSatisfiedByCallCount(int call_count) const = 0;
+
+  // Returns true if and only if call_count calls will saturate this
+  // cardinality\&.
+  virtual bool IsSaturatedByCallCount(int call_count) const = 0;
+
+  // Describes self to an ostream\&.
+  virtual void DescribeTo(std::ostream* os) const = 0;
+};
+.fi
+.PP
+.PP
+For example, to specify that a call must occur even number of times, you can write
+.PP
+.PP
+.nf
+using ::testing::Cardinality;
+using ::testing::CardinalityInterface;
+using ::testing::MakeCardinality;
+
+class EvenNumberCardinality : public CardinalityInterface {
+ public:
+  bool IsSatisfiedByCallCount(int call_count) const override {
+    return (call_count % 2) == 0;
+  }
+
+  bool IsSaturatedByCallCount(int call_count) const override {
+    return false;
+  }
+
+  void DescribeTo(std::ostream* os) const {
+    *os << "called even number of times";
+  }
+};
+
+Cardinality EvenNumber() {
+  return MakeCardinality(new EvenNumberCardinality);
+}
+
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(3))
+      \&.Times(EvenNumber());
+.fi
+.PP
+.SS "Writing New Actions"
+If the built-in actions don't work for you, you can easily define your own one\&. All you need is a call operator with a signature compatible with the mocked function\&. So you can use a lambda:
+.PP
+.PP
+.nf
+MockFunction<int(int)> mock;
+EXPECT_CALL(mock, Call)\&.WillOnce([](const int input) { return input * 7; });
+EXPECT_EQ(mock\&.AsStdFunction()(2), 14);
+.fi
+.PP
+.PP
+Or a struct with a call operator (even a templated one):
+.PP
+.PP
+.nf
+struct MultiplyBy {
+  template <typename T>
+  T operator()(T arg) { return arg * multiplier; }
+
+  int multiplier;
+};
+
+// Then use:
+// EXPECT_CALL(\&.\&.\&.)\&.WillOnce(MultiplyBy{7});
+.fi
+.PP
+.PP
+It's also fine for the callable to take no arguments, ignoring the arguments supplied to the mock function:
+.PP
+.PP
+.nf
+MockFunction<int(int)> mock;
+EXPECT_CALL(mock, Call)\&.WillOnce([] { return 17; });
+EXPECT_EQ(mock\&.AsStdFunction()(0), 17);
+.fi
+.PP
+.PP
+When used with \fCWillOnce\fP, the callable can assume it will be called at most once and is allowed to be a move-only type:
+.PP
+.PP
+.nf
+// An action that contains move-only types and has an &&-qualified operator,
+// demanding in the type system that it be called at most once\&. This can be
+// used with WillOnce, but the compiler will reject it if handed to
+// WillRepeatedly\&.
+struct MoveOnlyAction {
+  std::unique_ptr<int> move_only_state;
+  std::unique_ptr<int> operator()() && { return std::move(move_only_state); }
+};
+
+MockFunction<std::unique_ptr<int>()> mock;
+EXPECT_CALL(mock, Call)\&.WillOnce(MoveOnlyAction{std::make_unique<int>(17)});
+EXPECT_THAT(mock\&.AsStdFunction()(), Pointee(Eq(17)));
+.fi
+.PP
+.PP
+More generally, to use with a mock function whose signature is \fCR(Args\&.\&.\&.)\fP the object can be anything convertible to \fCOnceAction<R(Args\&.\&.\&.)>\fP or \fCAction<R(Args\&.\&.\&.)\fP>\&. The difference between the two is that \fCOnceAction\fP has weaker requirements (\fCAction\fP requires a copy-constructible input that can be called repeatedly whereas \fCOnceAction\fP requires only move-constructible and supports \fC&&\fP-qualified call operators), but can be used only with \fCWillOnce\fP\&. \fCOnceAction\fP is typically relevant only when supporting move-only types or actions that want a type-system guarantee that they will be called at most once\&.
+.PP
+Typically the \fCOnceAction\fP and \fCAction\fP templates need not be referenced directly in your actions: a struct or class with a call operator is sufficient, as in the examples above\&. But fancier polymorphic actions that need to know the specific return type of the mock function can define templated conversion operators to make that possible\&. See \fC\fBgmock-actions\&.h\fP\fP for examples\&.
+.SS "Legacy macro-based Actions"
+Before C++11, the functor-based actions were not supported; the old way of writing actions was through a set of \fCACTION*\fP macros\&. We suggest to avoid them in new code; they hide a lot of logic behind the macro, potentially leading to harder-to-understand compiler errors\&. Nevertheless, we cover them here for completeness\&.
+.PP
+By writing
+.PP
+.PP
+.nf
+ACTION(name) { statements; }
+.fi
+.PP
+.PP
+in a namespace scope (i\&.e\&. not inside a class or function), you will define an action with the given name that executes the statements\&. The value returned by \fCstatements\fP will be used as the return value of the action\&. Inside the statements, you can refer to the K-th (0-based) argument of the mock function as \fCargK\fP\&. For example:
+.PP
+.PP
+.nf
+ACTION(IncrementArg1) { return ++(*arg1); }
+.fi
+.PP
+.PP
+allows you to write
+.PP
+.PP
+.nf
+\&.\&.\&. WillOnce(IncrementArg1());
+.fi
+.PP
+.PP
+Note that you don't need to specify the types of the mock function arguments\&. Rest assured that your code is type-safe though: you'll get a compiler error if \fC*arg1\fP doesn't support the \fC++\fP operator, or if the type of \fC++(*arg1)\fP isn't compatible with the mock function's return type\&.
+.PP
+Another example:
+.PP
+.PP
+.nf
+ACTION(Foo) {
+  (*arg2)(5);
+  Blah();
+  *arg1 = 0;
+  return arg0;
+}
+.fi
+.PP
+.PP
+defines an action \fCFoo()\fP that invokes argument #2 (a function pointer) with 5, calls function \fCBlah()\fP, sets the value pointed to by argument #1 to 0, and returns argument #0\&.
+.PP
+For more convenience and flexibility, you can also use the following pre-defined symbols in the body of \fCACTION\fP:
+.PP
+\fCargK_type\fP   The type of the K-th (0-based) argument of the mock function    \fCargs\fP   All arguments of the mock function as a tuple    \fCargs_type\fP   The type of all arguments of the mock function as a tuple    \fCreturn_type\fP   The return type of the mock function    \fCfunction_type\fP   The type of the mock function   
+.PP
+For example, when using an \fCACTION\fP as a stub action for mock function:
+.PP
+.PP
+.nf
+int DoSomething(bool flag, int* ptr);
+.fi
+.PP
+.PP
+we have:
+.PP
+Pre-defined Symbol   Is Bound To    \fCarg0\fP   the value of \fCflag\fP    \fCarg0_type\fP   the type \fCbool\fP    \fCarg1\fP   the value of \fCptr\fP    \fCarg1_type\fP   the type \fCint*\fP    \fCargs\fP   the tuple \fC(flag, ptr)\fP    \fCargs_type\fP   the type \fCstd::tuple<bool, int*>\fP    \fCreturn_type\fP   the type \fCint\fP    \fCfunction_type\fP   the type \fCint(bool, int*)\fP   
+.SS "Legacy macro-based parameterized Actions"
+Sometimes you'll want to parameterize an action you define\&. For that we have another macro
+.PP
+.PP
+.nf
+ACTION_P(name, param) { statements; }
+.fi
+.PP
+.PP
+For example,
+.PP
+.PP
+.nf
+ACTION_P(Add, n) { return arg0 + n; }
+.fi
+.PP
+.PP
+will allow you to write
+.PP
+.PP
+.nf
+// Returns argument #0 + 5\&.
+\&.\&.\&. WillOnce(Add(5));
+.fi
+.PP
+.PP
+For convenience, we use the term \fIarguments\fP for the values used to invoke the mock function, and the term \fIparameters\fP for the values used to instantiate an action\&.
+.PP
+Note that you don't need to provide the type of the parameter either\&. Suppose the parameter is named \fCparam\fP, you can also use the gMock-defined symbol \fCparam_type\fP to refer to the type of the parameter as inferred by the compiler\&. For example, in the body of \fC\fBACTION_P(Add, n)\fP\fP above, you can write \fCn_type\fP for the type of \fCn\fP\&.
+.PP
+gMock also provides \fCACTION_P2\fP, \fCACTION_P3\fP, and etc to support multi-parameter actions\&. For example,
+.PP
+.PP
+.nf
+ACTION_P2(ReturnDistanceTo, x, y) {
+  double dx = arg0 - x;
+  double dy = arg1 - y;
+  return sqrt(dx*dx + dy*dy);
+}
+.fi
+.PP
+.PP
+lets you write
+.PP
+.PP
+.nf
+\&.\&.\&. WillOnce(ReturnDistanceTo(5\&.0, 26\&.5));
+.fi
+.PP
+.PP
+You can view \fCACTION\fP as a degenerated parameterized action where the number of parameters is 0\&.
+.PP
+You can also easily define actions overloaded on the number of parameters:
+.PP
+.PP
+.nf
+ACTION_P(Plus, a) { \&.\&.\&. }
+ACTION_P2(Plus, a, b) { \&.\&.\&. }
+.fi
+.PP
+.SS "Restricting the Type of an Argument or Parameter in an ACTION"
+For maximum brevity and reusability, the \fCACTION*\fP macros don't ask you to provide the types of the mock function arguments and the action parameters\&. Instead, we let the compiler infer the types for us\&.
+.PP
+Sometimes, however, we may want to be more explicit about the types\&. There are several tricks to do that\&. For example:
+.PP
+.PP
+.nf
+ACTION(Foo) {
+  // Makes sure arg0 can be converted to int\&.
+  int n = arg0;
+  \&.\&.\&. use n instead of arg0 here \&.\&.\&.
+}
+
+ACTION_P(Bar, param) {
+  // Makes sure the type of arg1 is const char*\&.
+  ::testing::StaticAssertTypeEq<const char*, arg1_type>();
+
+  // Makes sure param can be converted to bool\&.
+  bool flag = param;
+}
+.fi
+.PP
+.PP
+where \fCStaticAssertTypeEq\fP is a compile-time assertion in googletest that verifies two types are the same\&.
+.SS "Writing New Action Templates Quickly"
+Sometimes you want to give an action explicit template parameters that cannot be inferred from its value parameters\&. \fC\fBACTION_TEMPLATE()\fP\fP supports that and can be viewed as an extension to \fC\fBACTION()\fP\fP and \fCACTION_P*()\fP\&.
+.PP
+The syntax:
+.PP
+.PP
+.nf
+ACTION_TEMPLATE(ActionName,
+                HAS_m_TEMPLATE_PARAMS(kind1, name1, \&.\&.\&., kind_m, name_m),
+                AND_n_VALUE_PARAMS(p1, \&.\&.\&., p_n)) { statements; }
+.fi
+.PP
+.PP
+defines an action template that takes \fIm\fP explicit template parameters and \fIn\fP value parameters, where \fIm\fP is in [1, 10] and \fIn\fP is in [0, 10]\&. \fCname_i\fP is the name of the \fIi\fP-th template parameter, and \fCkind_i\fP specifies whether it's a \fCtypename\fP, an integral constant, or a template\&. \fCp_i\fP is the name of the \fIi\fP-th value parameter\&.
+.PP
+Example:
+.PP
+.PP
+.nf
+// DuplicateArg<k, T>(output) converts the k-th argument of the mock
+// function to type T and copies it to *output\&.
+ACTION_TEMPLATE(DuplicateArg,
+                // Note the comma between int and k:
+                HAS_2_TEMPLATE_PARAMS(int, k, typename, T),
+                AND_1_VALUE_PARAMS(output)) {
+  *output = T(std::get<k>(args));
+}
+.fi
+.PP
+.PP
+To create an instance of an action template, write:
+.PP
+.PP
+.nf
+ActionName<t1, \&.\&.\&., t_m>(v1, \&.\&.\&., v_n)
+.fi
+.PP
+.PP
+where the \fCt\fPs are the template arguments and the \fCv\fPs are the value arguments\&. The value argument types are inferred by the compiler\&. For example:
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  int n;
+  EXPECT_CALL(mock, Foo)\&.WillOnce(DuplicateArg<1, unsigned char>(&n));
+.fi
+.PP
+.PP
+If you want to explicitly specify the value argument types, you can provide additional template arguments:
+.PP
+.PP
+.nf
+ActionName<t1, \&.\&.\&., t_m, u1, \&.\&.\&., u_k>(v1, \&.\&.\&., v_n)
+.fi
+.PP
+.PP
+where \fCu_i\fP is the desired type of \fCv_i\fP\&.
+.PP
+\fCACTION_TEMPLATE\fP and \fCACTION\fP/\fCACTION_P*\fP can be overloaded on the number of value parameters, but not on the number of template parameters\&. Without the restriction, the meaning of the following is unclear:
+.PP
+.PP
+.nf
+OverloadedAction<int, bool>(x);
+.fi
+.PP
+.PP
+Are we using a single-template-parameter action where \fCbool\fP refers to the type of \fCx\fP, or a two-template-parameter action where the compiler is asked to infer the type of \fCx\fP?
+.SS "Using the ACTION Object's Type"
+If you are writing a function that returns an \fCACTION\fP object, you'll need to know its type\&. The type depends on the macro used to define the action and the parameter types\&. The rule is relatively simple:
+.PP
+Given Definition   Expression   Has Type    \fC\fBACTION(Foo)\fP\fP   \fCFoo()\fP   \fCFooAction\fP    \fCACTION_TEMPLATE(Foo, HAS_m_TEMPLATE_PARAMS(\&.\&.\&.), AND_0_VALUE_PARAMS())\fP   \fCFoo<t1, \&.\&.\&., t_m>()\fP   \fCFooAction<t1, \&.\&.\&., t_m>\fP    \fC\fBACTION_P(Bar, param)\fP\fP   \fCBar(int_value)\fP   \fCBarActionP<int>\fP    \fCACTION_TEMPLATE(Bar, HAS_m_TEMPLATE_PARAMS(\&.\&.\&.), AND_1_VALUE_PARAMS(p1))\fP   \fCBar<t1, \&.\&.\&., t_m>(int_value)\fP   \fCBarActionP<t1, \&.\&.\&., t_m, int>\fP    \fC\fBACTION_P2(Baz, p1, p2)\fP\fP   \fCBaz(bool_value, int_value)\fP   \fCBazActionP2<bool, int>\fP    \fCACTION_TEMPLATE(Baz, HAS_m_TEMPLATE_PARAMS(\&.\&.\&.), AND_2_VALUE_PARAMS(p1, p2))\fP   \fCBaz<t1, \&.\&.\&., t_m>(bool_value, int_value)\fP   \fCBazActionP2<t1, \&.\&.\&., t_m, bool, int>\fP    \&.\&.\&.   \&.\&.\&.   \&.\&.\&.   
+.PP
+Note that we have to pick different suffixes (\fCAction\fP, \fCActionP\fP, \fCActionP2\fP, and etc) for actions with different numbers of value parameters, or the action definitions cannot be overloaded on the number of them\&.
+.SS "Writing New Monomorphic Actions"
+While the \fCACTION*\fP macros are very convenient, sometimes they are inappropriate\&. For example, despite the tricks shown in the previous recipes, they don't let you directly specify the types of the mock function arguments and the action parameters, which in general leads to unoptimized compiler error messages that can baffle unfamiliar users\&. They also don't allow overloading actions based on parameter types without jumping through some hoops\&.
+.PP
+An alternative to the \fCACTION*\fP macros is to implement \fC\fBtesting::ActionInterface\fP<F>\fP, where \fCF\fP is the type of the mock function in which the action will be used\&. For example:
+.PP
+.PP
+.nf
+template <typename F>
+class ActionInterface {
+ public:
+  virtual ~ActionInterface();
+
+  // Performs the action\&.  Result is the return type of function type
+  // F, and ArgumentTuple is the tuple of arguments of F\&.
+  //
+
+  // For example, if F is int(bool, const string&), then Result would
+  // be int, and ArgumentTuple would be std::tuple<bool, const string&>\&.
+  virtual Result Perform(const ArgumentTuple& args) = 0;
+};
+.fi
+.PP
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Action;
+using ::testing::ActionInterface;
+using ::testing::MakeAction;
+
+typedef int IncrementMethod(int*);
+
+class IncrementArgumentAction : public ActionInterface<IncrementMethod> {
+ public:
+  int Perform(const std::tuple<int*>& args) override {
+    int* p = std::get<0>(args);  // Grabs the first argument\&.
+    return *p++;
+  }
+};
+
+Action<IncrementMethod> IncrementArgument() {
+  return MakeAction(new IncrementArgumentAction);
+}
+
+\&.\&.\&.
+  EXPECT_CALL(foo, Baz(_))
+      \&.WillOnce(IncrementArgument());
+
+  int n = 5;
+  foo\&.Baz(&n);  // Should return 5 and change n to 6\&.
+.fi
+.PP
+.SS "Writing New Polymorphic Actions"
+The previous recipe showed you how to define your own action\&. This is all good, except that you need to know the type of the function in which the action will be used\&. Sometimes that can be a problem\&. For example, if you want to use the action in functions with \fIdifferent\fP types (e\&.g\&. like \fC\fBReturn()\fP\fP and \fC\fBSetArgPointee()\fP\fP)\&.
+.PP
+If an action can be used in several types of mock functions, we say it's \fIpolymorphic\fP\&. The \fC\fBMakePolymorphicAction()\fP\fP function template makes it easy to define such an action:
+.PP
+.PP
+.nf
+namespace testing {
+template <typename Impl>
+PolymorphicAction<Impl> MakePolymorphicAction(const Impl& impl);
+}  // namespace testing
+.fi
+.PP
+.PP
+As an example, let's define an action that returns the second argument in the mock function's argument list\&. The first step is to define an implementation class:
+.PP
+.PP
+.nf
+class ReturnSecondArgumentAction {
+ public:
+  template <typename Result, typename ArgumentTuple>
+  Result Perform(const ArgumentTuple& args) const {
+    // To get the i-th (0-based) argument, use std::get(args)\&.
+    return std::get<1>(args);
+  }
+};
+.fi
+.PP
+.PP
+This implementation class does \fInot\fP need to inherit from any particular class\&. What matters is that it must have a \fCPerform()\fP method template\&. This method template takes the mock function's arguments as a tuple in a \fBsingle\fP argument, and returns the result of the action\&. It can be either \fCconst\fP or not, but must be invocable with exactly one template argument, which is the result type\&. In other words, you must be able to call \fCPerform<R>(args)\fP where \fCR\fP is the mock function's return type and \fCargs\fP is its arguments in a tuple\&.
+.PP
+Next, we use \fC\fBMakePolymorphicAction()\fP\fP to turn an instance of the implementation class into the polymorphic action we need\&. It will be convenient to have a wrapper for this:
+.PP
+.PP
+.nf
+using ::testing::MakePolymorphicAction;
+using ::testing::PolymorphicAction;
+
+PolymorphicAction<ReturnSecondArgumentAction> ReturnSecondArgument() {
+  return MakePolymorphicAction(ReturnSecondArgumentAction());
+}
+.fi
+.PP
+.PP
+Now, you can use this polymorphic action the same way you use the built-in ones:
+.PP
+.PP
+.nf
+using ::testing::_;
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(int, DoThis, (bool flag, int n), (override));
+  MOCK_METHOD(string, DoThat, (int x, const char* str1, const char* str2),
+              (override));
+};
+
+  \&.\&.\&.
+  MockFoo foo;
+  EXPECT_CALL(foo, DoThis)\&.WillOnce(ReturnSecondArgument());
+  EXPECT_CALL(foo, DoThat)\&.WillOnce(ReturnSecondArgument());
+  \&.\&.\&.
+  foo\&.DoThis(true, 5);  // Will return 5\&.
+  foo\&.DoThat(1, "Hi", "Bye");  // Will return "Hi"\&.
+.fi
+.PP
+.SS "Teaching gMock How to Print Your Values"
+When an uninteresting or unexpected call occurs, gMock prints the argument values and the stack trace to help you debug\&. Assertion macros like \fCEXPECT_THAT\fP and \fCEXPECT_EQ\fP also print the values in question when the assertion fails\&. gMock and googletest do this using googletest's user-extensible value printer\&.
+.PP
+This printer knows how to print built-in C++ types, native arrays, STL containers, and any type that supports the \fC<<\fP operator\&. For other types, it prints the raw bytes in the value and hopes that you the user can figure it out\&. \fCThe GoogleTest advanced guide\fP explains how to extend the printer to do a better job at printing your particular type than to dump the bytes\&.
+.SH "Useful Mocks Created Using gMock"
+.PP
+.SS "Mock std::function"
+\fCstd::function\fP is a general function type introduced in C++11\&. It is a preferred way of passing callbacks to new interfaces\&. Functions are copyable, and are not usually passed around by pointer, which makes them tricky to mock\&. But fear not - \fCMockFunction\fP can help you with that\&.
+.PP
+\fCMockFunction<R(T1, \&.\&.\&., Tn)>\fP has a mock method \fCCall()\fP with the signature:
+.PP
+.PP
+.nf
+R Call(T1, \&.\&.\&., Tn);
+.fi
+.PP
+.PP
+It also has a \fCAsStdFunction()\fP method, which creates a \fCstd::function\fP proxy forwarding to Call:
+.PP
+.PP
+.nf
+std::function<R(T1, \&.\&.\&., Tn)> AsStdFunction();
+.fi
+.PP
+.PP
+To use \fCMockFunction\fP, first create \fCMockFunction\fP object and set up expectations on its \fCCall\fP method\&. Then pass proxy obtained from \fCAsStdFunction()\fP to the code you are testing\&. For example:
+.PP
+.PP
+.nf
+TEST(FooTest, RunsCallbackWithBarArgument) {
+  // 1\&. Create a mock object\&.
+  MockFunction<int(string)> mock_function;
+
+  // 2\&. Set expectations on Call() method\&.
+  EXPECT_CALL(mock_function, Call("bar"))\&.WillOnce(Return(1));
+
+  // 3\&. Exercise code that uses std::function\&.
+  Foo(mock_function\&.AsStdFunction());
+  // Foo's signature can be either of:
+  // void Foo(const std::function<int(string)>& fun);
+  // void Foo(std::function<int(string)> fun);
+
+  // 4\&. All expectations will be verified when mock_function
+  //     goes out of scope and is destroyed\&.
+}
+.fi
+.PP
+.PP
+Remember that function objects created with \fCAsStdFunction()\fP are just forwarders\&. If you create multiple of them, they will share the same set of expectations\&.
+.PP
+Although \fCstd::function\fP supports unlimited number of arguments, \fCMockFunction\fP implementation is limited to ten\&. If you ever hit that limit\&.\&.\&. well, your callback has bigger problems than being mockable\&. :-) 

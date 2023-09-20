@@ -1,0 +1,156 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock-nice-strict_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock-nice-strict_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/gmock\-nice\-strict\&.h'\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBMock\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::NotDefaultConstructible\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::CallsMockMethodInDestructor\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::Foo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::MockFoo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::MockBar\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::MockBaz\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_nice_strict_test::MockBaz::MoveOnly\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::gmock_nice_strict_test\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, AllowsExpectedCall)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, ThrowsExceptionForUnknownReturnTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, UnexpectedCallFails)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, NonDefaultConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, NonDefaultConstructor10)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, AllowLeak)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, MoveOnlyConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, AcceptsClassNamedMock)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, IsNiceInDestructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NiceMockTest, IsNaggy_IsNice_IsStrict)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, AllowsExpectedCall)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, UnexpectedCallFails)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, NonDefaultConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, NonDefaultConstructor10)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, AllowLeak)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, MoveOnlyConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, AcceptsClassNamedMock)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, IsNaggyInDestructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (NaggyMockTest, IsNaggy_IsNice_IsStrict)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, AllowsExpectedCall)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, UnexpectedCallFails)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, UninterestingCallFails)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, UninterestingCallFailsAfterDeath)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, NonDefaultConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, NonDefaultConstructor10)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, AllowLeak)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, MoveOnlyConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, AcceptsClassNamedMock)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, IsStrictInDestructor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_nice_strict_test::TEST\fP (StrictMockTest, IsNaggy_IsNice_IsStrict)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

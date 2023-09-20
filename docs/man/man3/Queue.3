@@ -1,0 +1,108 @@
+.TH "Queue< E >" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Queue< E >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <sample3\-inl\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBQueue\fP ()"
+.br
+.ti -1c
+.RI "\fB~Queue\fP ()"
+.br
+.ti -1c
+.RI "void \fBClear\fP ()"
+.br
+.ti -1c
+.RI "size_t \fBSize\fP () const"
+.br
+.ti -1c
+.RI "\fBQueueNode\fP< E > * \fBHead\fP ()"
+.br
+.ti -1c
+.RI "const \fBQueueNode\fP< E > * \fBHead\fP () const"
+.br
+.ti -1c
+.RI "\fBQueueNode\fP< E > * \fBLast\fP ()"
+.br
+.ti -1c
+.RI "const \fBQueueNode\fP< E > * \fBLast\fP () const"
+.br
+.ti -1c
+.RI "void \fBEnqueue\fP (const E &element)"
+.br
+.ti -1c
+.RI "E * \fBDequeue\fP ()"
+.br
+.ti -1c
+.RI "template<typename F > \fBQueue\fP * \fBMap\fP (F function) const"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename E>
+.br
+class Queue< E >"
+
+.PP
+Definition at line 72 of file sample3\-inl\&.h\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename E > \fBQueue\fP< E >::\fBQueue\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 75 of file sample3\-inl\&.h\&.
+.SS "template<typename E > \fBQueue\fP< E >::~\fBQueue\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 78 of file sample3\-inl\&.h\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename E > void \fBQueue\fP< E >::Clear ()\fC [inline]\fP"
+
+.PP
+Definition at line 81 of file sample3\-inl\&.h\&.
+.SS "template<typename E > E* \fBQueue\fP< E >::Dequeue ()\fC [inline]\fP"
+
+.PP
+Definition at line 129 of file sample3\-inl\&.h\&.
+.SS "template<typename E > void \fBQueue\fP< E >::Enqueue (const E & element)\fC [inline]\fP"
+
+.PP
+Definition at line 114 of file sample3\-inl\&.h\&.
+.SS "template<typename E > \fBQueueNode\fP<E>* \fBQueue\fP< E >::Head ()\fC [inline]\fP"
+
+.PP
+Definition at line 103 of file sample3\-inl\&.h\&.
+.SS "template<typename E > const \fBQueueNode\fP<E>* \fBQueue\fP< E >::Head () const\fC [inline]\fP"
+
+.PP
+Definition at line 104 of file sample3\-inl\&.h\&.
+.SS "template<typename E > \fBQueueNode\fP<E>* \fBQueue\fP< E >::Last ()\fC [inline]\fP"
+
+.PP
+Definition at line 107 of file sample3\-inl\&.h\&.
+.SS "template<typename E > const \fBQueueNode\fP<E>* \fBQueue\fP< E >::Last () const\fC [inline]\fP"
+
+.PP
+Definition at line 108 of file sample3\-inl\&.h\&.
+.SS "template<typename E > template<typename F > \fBQueue\fP* \fBQueue\fP< E >::Map (F function) const\fC [inline]\fP"
+
+.PP
+Definition at line 151 of file sample3\-inl\&.h\&.
+.SS "template<typename E > size_t \fBQueue\fP< E >::Size () const\fC [inline]\fP"
+
+.PP
+Definition at line 100 of file sample3\-inl\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

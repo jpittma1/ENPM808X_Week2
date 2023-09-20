@@ -1,0 +1,719 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-output-test_.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-output-test_.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBFailingParamTest\fP"
+.br
+.ti -1c
+.RI "class \fBEmptyBasenameParamInst\fP"
+.br
+.ti -1c
+.RI "class \fBNonFatalFailureInFixtureConstructorTest\fP"
+.br
+.ti -1c
+.RI "class \fBFatalFailureInFixtureConstructorTest\fP"
+.br
+.ti -1c
+.RI "class \fBNonFatalFailureInSetUpTest\fP"
+.br
+.ti -1c
+.RI "class \fBFatalFailureInSetUpTest\fP"
+.br
+.ti -1c
+.RI "class \fBfoo::MixedUpTestSuiteTest\fP"
+.br
+.ti -1c
+.RI "class \fBfoo::MixedUpTestSuiteWithSameTestNameTest\fP"
+.br
+.ti -1c
+.RI "class \fBbar::MixedUpTestSuiteTest\fP"
+.br
+.ti -1c
+.RI "class \fBbar::MixedUpTestSuiteWithSameTestNameTest\fP"
+.br
+.ti -1c
+.RI "class \fBTEST_F_before_TEST_in_same_test_case\fP"
+.br
+.ti -1c
+.RI "class \fBTEST_before_TEST_F_in_same_test_case\fP"
+.br
+.ti -1c
+.RI "class \fBParamTest\fP"
+.br
+.ti -1c
+.RI "class \fBDetectNotInstantiatedTest\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestWithNames< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestNames\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestP< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTestPNames\fP"
+.br
+.ti -1c
+.RI "class \fBDetectNotInstantiatedTypesTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBExpectFailureTest\fP"
+.br
+.ti -1c
+.RI "class \fBDynamicFixture\fP"
+.br
+.ti -1c
+.RI "class \fBDynamicTest< Pass >\fP"
+.br
+.ti -1c
+.RI "class \fBFooEnvironment\fP"
+.br
+.ti -1c
+.RI "class \fBBarEnvironment\fP"
+.br
+.ti -1c
+.RI "class \fBTestSuiteThatFailsToSetUp\fP"
+.br
+.ti -1c
+.RI "class \fBTestSuiteThatSkipsInSetUp\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBfoo\fP"
+.br
+.ti -1c
+.RI " \fBbar\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBNoTests\fP = \fBParamTest\fP"
+.br
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< char, int > \fBTypesForTestWithNames\fP"
+.br
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< unsigned char, unsigned int > \fBUnsignedTypes\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBTestEq1\fP (int \fBx\fP)"
+.br
+.ti -1c
+.RI "void \fBTryTestSubroutine\fP ()"
+.br
+.ti -1c
+.RI "\fBTEST\fP (PassingTest, PassingTest1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (PassingTest, PassingTest2)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBFailingParamTest\fP, Fails)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (PrintingFailingParams, \fBFailingParamTest\fP, \fBtesting::Values\fP(2))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBEmptyBasenameParamInst\fP, Passes)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (, \fBEmptyBasenameParamInst\fP, \fBtesting::Values\fP(1))"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NonfatalFailureTest, EscapesStringOperands)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NonfatalFailureTest, DiffForLongStrings)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FatalFailureTest, FatalFailureInSubroutine)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FatalFailureTest, FatalFailureInNestedSubroutine)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (FatalFailureTest, NonfatalFailureInSubroutine)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (LoggingTest, InterleavingLoggingAndAssertions)"
+.br
+.ti -1c
+.RI "void \fBSubWithoutTrace\fP (int n)"
+.br
+.ti -1c
+.RI "void \fBSubWithTrace\fP (int n)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SCOPED_TRACETest, AcceptedValues)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SCOPED_TRACETest, ObeysScopes)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SCOPED_TRACETest, WorksInLoop)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SCOPED_TRACETest, WorksInSubroutine)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SCOPED_TRACETest, CanBeNested)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (SCOPED_TRACETest, CanBeRepeated)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ScopedTraceTest, WithExplicitFileAndLine)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (DisabledTestsWarningTest, DISABLED_AlsoRunDisabledTestsFlagSuppressesWarning)"
+.br
+.ti -1c
+.RI "void \fBAdHocTest\fP ()"
+.br
+.ti -1c
+.RI "int \fBRunAllTests\fP ()"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBNonFatalFailureInFixtureConstructorTest\fP, FailureInConstructor)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFatalFailureInFixtureConstructorTest\fP, FailureInConstructor)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBNonFatalFailureInSetUpTest\fP, FailureInSetUp)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFatalFailureInSetUpTest\fP, FailureInSetUp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (AddFailureAtTest, MessageContainsSpecifiedFileAndLineNumber)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (GtestFailAtTest, MessageContainsSpecifiedFileAndLineNumber)"
+.br
+.ti -1c
+.RI "\fBfoo::TEST_F\fP (MixedUpTestSuiteTest, FirstTestFromNamespaceFoo)"
+.br
+.ti -1c
+.RI "\fBfoo::TEST_F\fP (MixedUpTestSuiteTest, SecondTestFromNamespaceFoo)"
+.br
+.ti -1c
+.RI "\fBfoo::TEST_F\fP (MixedUpTestSuiteWithSameTestNameTest, TheSecondTestWithThisNameShouldFail)"
+.br
+.ti -1c
+.RI "\fBbar::TEST_F\fP (MixedUpTestSuiteTest, ThisShouldFail)"
+.br
+.ti -1c
+.RI "\fBbar::TEST_F\fP (MixedUpTestSuiteTest, ThisShouldFailToo)"
+.br
+.ti -1c
+.RI "\fBbar::TEST_F\fP (MixedUpTestSuiteWithSameTestNameTest, TheSecondTestWithThisNameShouldFail)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTEST_F_before_TEST_in_same_test_case\fP, DefinedUsingTEST_F)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBTEST_F_before_TEST_in_same_test_case\fP, DefinedUsingTESTAndShouldFail)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBTEST_before_TEST_F_in_same_test_case\fP, DefinedUsingTEST)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTEST_before_TEST_F_in_same_test_case\fP, DefinedUsingTEST_FAndShouldFail)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, CanReferenceGlobalVariables)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, CanReferenceLocalVariables)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, SucceedsWhenThereIsOneNonfatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, FailsWhenThereIsNoNonfatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, FailsWhenThereAreTwoNonfatalFailures)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, FailsWhenThereIsOneFatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectNonfatalFailureTest, FailsWhenStatementReturns)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, CanReferenceGlobalVariables)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, CanReferenceLocalStaticVariables)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, SucceedsWhenThereIsOneFatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, FailsWhenThereIsNoFatalFailure)"
+.br
+.ti -1c
+.RI "void \fBFatalFailure\fP ()"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, FailsWhenThereAreTwoFatalFailures)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, FailsWhenThereIsOneNonfatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ExpectFatalFailureTest, FailsWhenStatementReturns)"
+.br
+.ti -1c
+.RI "std::string \fBParamNameFunc\fP (const \fBtesting::TestParamInfo\fP< std::string > &info)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBParamTest\fP, Success)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBParamTest\fP, Failure)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (PrintingStrings, \fBParamTest\fP, \fBtesting::Values\fP(std::string('a')), ParamNameFunc)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (ThisIsOdd, \fBNoTests\fP, ::\fBtesting::Values\fP('Hello'))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBDetectNotInstantiatedTest\fP, Used)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTest\fP, \fBtesting::Types\fP< int >)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, Success)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, Failure)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTestWithNames\fP, \fBTypesForTestWithNames\fP, \fBTypedTestNames\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTestWithNames\fP, Success)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTestWithNames\fP, Failure)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypedTestP\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypedTestP\fP, Success)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypedTestP\fP, Failure)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypedTestP\fP, Success, Failure)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (Unsigned, \fBTypedTestP\fP, \fBUnsignedTypes\fP)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (UnsignedCustomName, \fBTypedTestP\fP, \fBUnsignedTypes\fP, \fBTypedTestPNames\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBDetectNotInstantiatedTypesTest\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBDetectNotInstantiatedTypesTest\fP, Used)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBDetectNotInstantiatedTypesTest\fP, Used)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBExpectFailureTest\fP, ExpectFatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBExpectFailureTest\fP, ExpectNonFatalFailure)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBExpectFailureTest\fP, ExpectFatalFailureOnAllThreads)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBExpectFailureTest\fP, ExpectNonFatalFailureOnAllThreads)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTestSuiteThatFailsToSetUp\fP, ShouldNotRun)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBTestSuiteThatSkipsInSetUp\fP, ShouldNotRun)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "int \fBglobal_integer\fP = 0"
+.br
+.ti -1c
+.RI "auto \fBdynamic_test\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBNoTests\fP =  \fBParamTest\fP"
+
+.PP
+Definition at line 689 of file googletest\-output\-test_\&.cc\&.
+.SS "typedef \fBtesting::Types\fP<char, int> \fBTypesForTestWithNames\fP"
+
+.PP
+Definition at line 710 of file googletest\-output\-test_\&.cc\&.
+.SS "typedef \fBtesting::Types\fP<unsigned char, unsigned int> \fBUnsignedTypes\fP"
+
+.PP
+Definition at line 745 of file googletest\-output\-test_\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "void AdHocTest ()"
+
+.PP
+Definition at line 343 of file googletest\-output\-test_\&.cc\&.
+.SS "void FatalFailure ()"
+
+.PP
+Definition at line 631 of file googletest\-output\-test_\&.cc\&.
+.SS "INSTANTIATE_TEST_SUITE_P (\fBEmptyBasenameParamInst\fP, \fBtesting::Values\fP(1))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (PrintingFailingParams, \fBFailingParamTest\fP, \fBtesting::Values\fP(2))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (PrintingStrings, \fBParamTest\fP, \fBtesting::Values\fP(std::string('a')), \fBParamNameFunc\fP)"
+
+.SS "INSTANTIATE_TEST_SUITE_P (ThisIsOdd, \fBNoTests\fP, ::\fBtesting::Values\fP('Hello'))"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (Unsigned, \fBTypedTestP\fP, \fBUnsignedTypes\fP)"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (UnsignedCustomName, \fBTypedTestP\fP, \fBUnsignedTypes\fP, \fBTypedTestPNames\fP)"
+
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 1021 of file googletest\-output\-test_\&.cc\&.
+.SS "std::string ParamNameFunc (const \fBtesting::TestParamInfo\fP< std::string > & info)"
+
+.PP
+Definition at line 675 of file googletest\-output\-test_\&.cc\&.
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBDetectNotInstantiatedTypesTest\fP, Used)"
+
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypedTestP\fP, Success, Failure)"
+
+.SS "int RunAllTests ()"
+
+.PP
+Definition at line 350 of file googletest\-output\-test_\&.cc\&.
+.SS "void SubWithoutTrace (int n)"
+
+.PP
+Definition at line 161 of file googletest\-output\-test_\&.cc\&.
+.SS "void SubWithTrace (int n)"
+
+.PP
+Definition at line 167 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (AddFailureAtTest, MessageContainsSpecifiedFileAndLineNumber)"
+
+.PP
+Definition at line 453 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (DisabledTestsWarningTest, DISABLED_AlsoRunDisabledTestsFlagSuppressesWarning)"
+
+.PP
+Definition at line 332 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, CanReferenceGlobalVariables)"
+
+.PP
+Definition at line 600 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, CanReferenceLocalStaticVariables)"
+
+.PP
+Definition at line 609 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, FailsWhenStatementReturns)"
+
+.PP
+Definition at line 654 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, FailsWhenThereAreTwoFatalFailures)"
+
+.PP
+Definition at line 635 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, FailsWhenThereIsNoFatalFailure)"
+
+.PP
+Definition at line 625 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, FailsWhenThereIsOneNonfatalFailure)"
+
+.PP
+Definition at line 647 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectFatalFailureTest, SucceedsWhenThereIsOneFatalFailure)"
+
+.PP
+Definition at line 618 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, CanReferenceGlobalVariables)"
+
+.PP
+Definition at line 528 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, CanReferenceLocalVariables)"
+
+.PP
+Definition at line 537 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, FailsWhenStatementReturns)"
+
+.PP
+Definition at line 580 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, FailsWhenThereAreTwoNonfatalFailures)"
+
+.PP
+Definition at line 561 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, FailsWhenThereIsNoNonfatalFailure)"
+
+.PP
+Definition at line 554 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, FailsWhenThereIsOneFatalFailure)"
+
+.PP
+Definition at line 573 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ExpectNonfatalFailureTest, SucceedsWhenThereIsOneNonfatalFailure)"
+
+.PP
+Definition at line 547 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (FatalFailureTest, FatalFailureInNestedSubroutine)"
+
+.PP
+Definition at line 124 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (FatalFailureTest, FatalFailureInSubroutine)"
+
+.PP
+Definition at line 117 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (FatalFailureTest, NonfatalFailureInSubroutine)"
+
+.PP
+Definition at line 141 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (GtestFailAtTest, MessageContainsSpecifiedFileAndLineNumber)"
+
+.PP
+Definition at line 457 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (LoggingTest, InterleavingLoggingAndAssertions)"
+
+.PP
+Definition at line 148 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (NonfatalFailureTest, DiffForLongStrings)"
+
+.PP
+Definition at line 111 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (NonfatalFailureTest, EscapesStringOperands)"
+
+.PP
+Definition at line 103 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (PassingTest, PassingTest1)"
+
+.PP
+Definition at line 78 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (PassingTest, PassingTest2)"
+
+.PP
+Definition at line 80 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (SCOPED_TRACETest, AcceptedValues)"
+
+.PP
+Definition at line 173 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (SCOPED_TRACETest, CanBeNested)"
+
+.PP
+Definition at line 222 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (SCOPED_TRACETest, CanBeRepeated)"
+
+.PP
+Definition at line 231 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (SCOPED_TRACETest, ObeysScopes)"
+
+.PP
+Definition at line 184 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (SCOPED_TRACETest, WorksInLoop)"
+
+.PP
+Definition at line 203 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (SCOPED_TRACETest, WorksInSubroutine)"
+
+.PP
+Definition at line 214 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (ScopedTraceTest, WithExplicitFileAndLine)"
+
+.PP
+Definition at line 327 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (\fBTEST_before_TEST_F_in_same_test_case\fP, DefinedUsingTEST)"
+
+.PP
+Definition at line 518 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST (\fBTEST_F_before_TEST_in_same_test_case\fP, DefinedUsingTESTAndShouldFail)"
+
+.PP
+Definition at line 514 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBExpectFailureTest\fP, ExpectFatalFailure)"
+
+.PP
+Definition at line 827 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBExpectFailureTest\fP, ExpectFatalFailureOnAllThreads)"
+
+.PP
+Definition at line 901 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBExpectFailureTest\fP, ExpectNonFatalFailure)"
+
+.PP
+Definition at line 843 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBExpectFailureTest\fP, ExpectNonFatalFailureOnAllThreads)"
+
+.PP
+Definition at line 915 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBFatalFailureInFixtureConstructorTest\fP, FailureInConstructor)"
+
+.PP
+Definition at line 406 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBFatalFailureInSetUpTest\fP, FailureInSetUp)"
+
+.PP
+Definition at line 448 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBNonFatalFailureInFixtureConstructorTest\fP, FailureInConstructor)"
+
+.PP
+Definition at line 374 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBNonFatalFailureInSetUpTest\fP, FailureInSetUp)"
+
+.PP
+Definition at line 428 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBTEST_before_TEST_F_in_same_test_case\fP, DefinedUsingTEST_FAndShouldFail)"
+
+.PP
+Definition at line 522 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBTEST_F_before_TEST_in_same_test_case\fP, DefinedUsingTEST_F)"
+
+.PP
+Definition at line 510 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBTestSuiteThatFailsToSetUp\fP, ShouldNotRun)"
+
+.PP
+Definition at line 1008 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_F (\fBTestSuiteThatSkipsInSetUp\fP, ShouldNotRun)"
+
+.PP
+Definition at line 1014 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_P (\fBDetectNotInstantiatedTest\fP, Used)"
+
+.PP
+Definition at line 694 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_P (\fBEmptyBasenameParamInst\fP, Passes)"
+
+.PP
+Definition at line 97 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_P (\fBFailingParamTest\fP, Fails)"
+
+.PP
+Definition at line 86 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_P (\fBParamTest\fP, Failure)"
+
+.PP
+Definition at line 683 of file googletest\-output\-test_\&.cc\&.
+.SS "TEST_P (\fBParamTest\fP, Success)"
+
+.PP
+Definition at line 681 of file googletest\-output\-test_\&.cc\&.
+.SS "void TestEq1 (int x)"
+
+.PP
+Definition at line 60 of file googletest\-output\-test_\&.cc\&.
+.SS "void TryTestSubroutine ()"
+
+.PP
+Definition at line 64 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, Failure)"
+
+.PP
+Definition at line 706 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, Success)"
+
+.PP
+Definition at line 704 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTestWithNames\fP, Failure)"
+
+.PP
+Definition at line 730 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTestWithNames\fP, Success)"
+
+.PP
+Definition at line 728 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST_P (\fBDetectNotInstantiatedTypesTest\fP, Used)"
+
+.PP
+Definition at line 767 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypedTestP\fP, Failure)"
+
+.PP
+Definition at line 739 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypedTestP\fP, Success)"
+
+.PP
+Definition at line 737 of file googletest\-output\-test_\&.cc\&.
+.SS "TYPED_TEST_SUITE (\fBTypedTest\fP, \fBtesting::Types\fP< int >)"
+
+.SS "TYPED_TEST_SUITE (\fBTypedTestWithNames\fP, \fBTypesForTestWithNames\fP, \fBTypedTestNames\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBDetectNotInstantiatedTypesTest\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypedTestP\fP)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "auto dynamic_test"
+
+.PP
+Definition at line 950 of file googletest\-output\-test_\&.cc\&.
+.SS "int global_integer = 0"
+
+.PP
+Definition at line 525 of file googletest\-output\-test_\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

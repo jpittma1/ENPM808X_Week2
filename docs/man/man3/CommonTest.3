@@ -1,0 +1,128 @@
+.TH "CommonTest< T >" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CommonTest< T >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBtesting::Test\fP\&.
+.PP
+Inherited by \fBDerivedTest< T >\fP\&.
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBSetUpTestSuite\fP ()"
+.br
+.ti -1c
+.RI "static void \fBTearDownTestSuite\fP ()"
+.br
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "typedef std::vector< T > \fBVector\fP"
+.br
+.ti -1c
+.RI "typedef std::set< int > \fBIntSet\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCommonTest\fP ()"
+.br
+.ti -1c
+.RI "\fB~CommonTest\fP () override"
+.br
+.ti -1c
+.RI "void \fBSetUp\fP () override"
+.br
+.ti -1c
+.RI "void \fBTearDown\fP () override"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "T \fBvalue_\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static T * \fBshared_\fP = nullptr"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>
+.br
+class CommonTest< T >"
+
+.PP
+Definition at line 47 of file gtest\-typed\-test_test\&.cc\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename T > typedef std::set<int> \fBCommonTest\fP< T >::\fBIntSet\fP\fC [protected]\fP"
+
+.PP
+Definition at line 64 of file gtest\-typed\-test_test\&.cc\&.
+.SS "template<typename T > typedef std::vector<T> \fBCommonTest\fP< T >::\fBVector\fP\fC [protected]\fP"
+
+.PP
+Definition at line 63 of file gtest\-typed\-test_test\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T > \fBCommonTest\fP< T >::\fBCommonTest\fP ()\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Definition at line 66 of file gtest\-typed\-test_test\&.cc\&.
+.SS "template<typename T > \fBCommonTest\fP< T >::~\fBCommonTest\fP ()\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP"
+
+.PP
+Definition at line 68 of file gtest\-typed\-test_test\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > void \fBCommonTest\fP< T >::SetUp ()\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::Test\fP\&.
+.PP
+Definition at line 70 of file gtest\-typed\-test_test\&.cc\&.
+.SS "template<typename T > static void \fBCommonTest\fP< T >::SetUpTestSuite ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Definition at line 51 of file gtest\-typed\-test_test\&.cc\&.
+.SS "template<typename T > void \fBCommonTest\fP< T >::TearDown ()\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::Test\fP\&.
+.PP
+Definition at line 75 of file gtest\-typed\-test_test\&.cc\&.
+.SS "template<typename T > static void \fBCommonTest\fP< T >::TearDownTestSuite ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Definition at line 53 of file gtest\-typed\-test_test\&.cc\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename T > T * \fBCommonTest\fP< T >::shared_ = nullptr\fC [static]\fP, \fC [protected]\fP"
+
+.PP
+Definition at line 81 of file gtest\-typed\-test_test\&.cc\&.
+.SS "template<typename T > T \fBCommonTest\fP< T >::value_\fC [protected]\fP"
+
+.PP
+Definition at line 80 of file gtest\-typed\-test_test\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

@@ -1,0 +1,764 @@
+.TH "build/_deps/googletest-src/googlemock/include/gmock/internal/gmock-pp.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/include/gmock/internal/gmock-pp.h
+.SH SYNOPSIS
+.br
+.PP
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_PP_CAT\fP(_1,  _2)   \fBGMOCK_PP_INTERNAL_CAT\fP(_1, _2)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_STRINGIZE\fP(\&.\&.\&.)   \fBGMOCK_PP_INTERNAL_STRINGIZE\fP(__VA_ARGS__)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_EMPTY\fP(\&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_COMMA\fP(\&.\&.\&.)   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_IDENTITY\fP(_1)   _1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_NARG\fP(\&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_HAS_COMMA\fP(\&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_HEAD\fP(\&.\&.\&.)   \fBGMOCK_PP_INTERNAL_HEAD\fP((__VA_ARGS__, unusedArg))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_TAIL\fP(\&.\&.\&.)   \fBGMOCK_PP_INTERNAL_TAIL\fP((__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_VARIADIC_CALL\fP(_Macro, \&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_IS_EMPTY\fP(\&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_IF\fP(_Cond,  _Then,  _Else)     \fBGMOCK_PP_CAT\fP(GMOCK_PP_INTERNAL_IF_, _Cond)(_Then, _Else)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_GENERIC_IF\fP(_Cond,  _Then,  _Else)     \fBGMOCK_PP_REMOVE_PARENS\fP(\fBGMOCK_PP_IF\fP(_Cond, _Then, _Else))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_NARG0\fP(\&.\&.\&.)     \fBGMOCK_PP_IF\fP(\fBGMOCK_PP_IS_EMPTY\fP(__VA_ARGS__), 0, \fBGMOCK_PP_NARG\fP(__VA_ARGS__))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_IS_BEGIN_PARENS\fP(\&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_IS_ENCLOSED_PARENS\fP(\&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_REMOVE_PARENS\fP(\&.\&.\&.)   \fBGMOCK_PP_INTERNAL_REMOVE_PARENS\fP __VA_ARGS__"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_FOR_EACH\fP(_Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_REPEAT\fP(_Macro,  _Data,  _N)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INC\fP(_i)   \fBGMOCK_PP_CAT\fP(GMOCK_PP_INTERNAL_INC_, _i)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_COMMA_IF\fP(_i)   \fBGMOCK_PP_CAT\fP(GMOCK_PP_INTERNAL_COMMA_IF_, _i)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTENRAL_EMPTY_TUPLE\fP   (, , , , , , , , , , , , , , , )"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_CAT\fP(_1,  _2)   _1##_2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_STRINGIZE\fP(\&.\&.\&.)   #__VA_ARGS__"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_CAT_5\fP(_1,  _2,  _3,  _4,  _5)   _1##_2##_3##_4##_5"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IS_EMPTY\fP(_1,  _2,  _3,  _4)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IS_EMPTY_CASE_0001\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IF_1\fP(_Then,  _Else)   _Then"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IF_0\fP(_Then,  _Else)   _Else"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INTERNAL_16TH\fP(_1,  _2,  _3,  _4,  _5,  _6,  _7,  _8,  _9,  _10,  _11,  _12,  _13,  _14,  _15,  _16,  \&.\&.\&.)     _16"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_16TH\fP(_Args)     \fBGMOCK_PP_IDENTITY\fP(\fBGMOCK_PP_INTERNAL_INTERNAL_16TH\fP _Args)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INTERNAL_HEAD\fP(_1, \&.\&.\&.)   _1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_HEAD\fP(_Args)     \fBGMOCK_PP_IDENTITY\fP(\fBGMOCK_PP_INTERNAL_INTERNAL_HEAD\fP _Args)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INTERNAL_TAIL\fP(_1, \&.\&.\&.)   __VA_ARGS__"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_TAIL\fP(_Args)     \fBGMOCK_PP_IDENTITY\fP(\fBGMOCK_PP_INTERNAL_INTERNAL_TAIL\fP _Args)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C\fP(\&.\&.\&.)   1 _"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_1\fP   1,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C\fP     0,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_REMOVE_PARENS\fP(\&.\&.\&.)   __VA_ARGS__"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_0\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_1\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_2\fP   3"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_3\fP   4"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_4\fP   5"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_5\fP   6"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_6\fP   7"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_7\fP   8"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_8\fP   9"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_9\fP   10"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_10\fP   11"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_11\fP   12"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_12\fP   13"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_13\fP   14"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_14\fP   15"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_INC_15\fP   16"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_0\fP"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_1\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_2\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_3\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_4\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_5\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_6\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_7\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_8\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_9\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_10\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_11\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_12\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_13\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_14\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_COMMA_IF_15\fP   ,"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_CALL_MACRO\fP(_Macro,  _i,  _Data,  _element)     _Macro(_i, _Data, _element)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_0\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_1\fP(_i,  _Macro,  _Data,  _Tuple)     \fBGMOCK_PP_INTERNAL_CALL_MACRO\fP(_Macro, _i, _Data, \fBGMOCK_PP_HEAD\fP _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_2\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_3\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_4\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_5\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_6\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_7\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_8\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_9\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_10\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_11\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_12\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_13\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_14\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_FOR_EACH_IMPL_15\fP(_i,  _Macro,  _Data,  _Tuple)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GMOCK_PP_CAT(_1, _2)   \fBGMOCK_PP_INTERNAL_CAT\fP(_1, _2)"
+
+.PP
+Definition at line 5 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_COMMA( \&.\&.\&.)   ,"
+
+.PP
+Definition at line 14 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_COMMA_IF(_i)   \fBGMOCK_PP_CAT\fP(GMOCK_PP_INTERNAL_COMMA_IF_, _i)"
+
+.PP
+Definition at line 147 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_EMPTY( \&.\&.\&.)"
+
+.PP
+Definition at line 11 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_FOR_EACH(_Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_CAT(GMOCK_PP_INTERNAL_FOR_EACH_IMPL_, GMOCK_PP_NARG0 _Tuple) \
+  (0, _Macro, _Data, _Tuple)
+.fi
+.PP
+Definition at line 131 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_GENERIC_IF(_Cond, _Then, _Else)     \fBGMOCK_PP_REMOVE_PARENS\fP(\fBGMOCK_PP_IF\fP(_Cond, _Then, _Else))"
+
+.PP
+Definition at line 94 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_HAS_COMMA( \&.\&.\&.)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_16TH(       \
+      (__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0))
+.fi
+.PP
+Definition at line 35 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_HEAD( \&.\&.\&.)   \fBGMOCK_PP_INTERNAL_HEAD\fP((__VA_ARGS__, unusedArg))"
+
+.PP
+Definition at line 40 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_IDENTITY(_1)   _1"
+
+.PP
+Definition at line 17 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_IF(_Cond, _Then, _Else)     \fBGMOCK_PP_CAT\fP(GMOCK_PP_INTERNAL_IF_, _Cond)(_Then, _Else)"
+
+.PP
+Definition at line 86 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INC(_i)   \fBGMOCK_PP_CAT\fP(GMOCK_PP_INTERNAL_INC_, _i)"
+
+.PP
+Definition at line 144 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTENRAL_EMPTY_TUPLE   (, , , , , , , , , , , , , , , )"
+
+.PP
+Definition at line 151 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_16TH(_Args)     \fBGMOCK_PP_IDENTITY\fP(\fBGMOCK_PP_INTERNAL_INTERNAL_16TH\fP _Args)"
+
+.PP
+Definition at line 171 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, _element)     _Macro(_i, _Data, _element)"
+
+.PP
+Definition at line 217 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_CAT(_1, _2)   _1##_2"
+
+.PP
+Definition at line 152 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_CAT_5(_1, _2, _3, _4, _5)   _1##_2##_3##_4##_5"
+
+.PP
+Definition at line 154 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_0"
+
+.PP
+Definition at line 201 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_1   ,"
+
+.PP
+Definition at line 202 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_10   ,"
+
+.PP
+Definition at line 211 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_11   ,"
+
+.PP
+Definition at line 212 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_12   ,"
+
+.PP
+Definition at line 213 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_13   ,"
+
+.PP
+Definition at line 214 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_14   ,"
+
+.PP
+Definition at line 215 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_15   ,"
+
+.PP
+Definition at line 216 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_2   ,"
+
+.PP
+Definition at line 203 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_3   ,"
+
+.PP
+Definition at line 204 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_4   ,"
+
+.PP
+Definition at line 205 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_5   ,"
+
+.PP
+Definition at line 206 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_6   ,"
+
+.PP
+Definition at line 207 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_7   ,"
+
+.PP
+Definition at line 208 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_8   ,"
+
+.PP
+Definition at line 209 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_COMMA_IF_9   ,"
+
+.PP
+Definition at line 210 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_0(_i, _Macro, _Data, _Tuple)"
+
+.PP
+Definition at line 219 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_1(_i, _Macro, _Data, _Tuple)     \fBGMOCK_PP_INTERNAL_CALL_MACRO\fP(_Macro, _i, _Data, \fBGMOCK_PP_HEAD\fP _Tuple)"
+
+.PP
+Definition at line 220 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_10(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_9(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 254 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_11(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_10(GMOCK_PP_INC(_i), _Macro, _Data,   \
+                                     (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 258 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_12(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_11(GMOCK_PP_INC(_i), _Macro, _Data,   \
+                                     (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 262 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_13(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_12(GMOCK_PP_INC(_i), _Macro, _Data,   \
+                                     (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 266 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_14(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_13(GMOCK_PP_INC(_i), _Macro, _Data,   \
+                                     (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 270 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_15(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_14(GMOCK_PP_INC(_i), _Macro, _Data,   \
+                                     (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 274 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_2(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_1(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 222 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_3(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_2(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 226 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_4(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_3(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 230 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_5(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_4(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 234 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_6(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_5(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 238 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_7(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_6(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 242 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_8(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_7(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 246 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_FOR_EACH_IMPL_9(_i, _Macro, _Data, _Tuple)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro, _i, _Data, GMOCK_PP_HEAD _Tuple) \
+  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_8(GMOCK_PP_INC(_i), _Macro, _Data,    \
+                                    (GMOCK_PP_TAIL _Tuple))
+.fi
+.PP
+Definition at line 250 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_HEAD(_Args)     \fBGMOCK_PP_IDENTITY\fP(\fBGMOCK_PP_INTERNAL_INTERNAL_HEAD\fP _Args)"
+
+.PP
+Definition at line 174 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C( \&.\&.\&.)   1 _"
+
+.PP
+Definition at line 180 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_1   1,"
+
+.PP
+Definition at line 181 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C     0,"
+
+.PP
+Definition at line 182 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IF_0(_Then, _Else)   _Else"
+
+.PP
+Definition at line 160 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IF_1(_Then, _Else)   _Then"
+
+.PP
+Definition at line 159 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_0   1"
+
+.PP
+Definition at line 185 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_1   2"
+
+.PP
+Definition at line 186 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_10   11"
+
+.PP
+Definition at line 195 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_11   12"
+
+.PP
+Definition at line 196 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_12   13"
+
+.PP
+Definition at line 197 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_13   14"
+
+.PP
+Definition at line 198 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_14   15"
+
+.PP
+Definition at line 199 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_15   16"
+
+.PP
+Definition at line 200 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_2   3"
+
+.PP
+Definition at line 187 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_3   4"
+
+.PP
+Definition at line 188 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_4   5"
+
+.PP
+Definition at line 189 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_5   6"
+
+.PP
+Definition at line 190 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_6   7"
+
+.PP
+Definition at line 191 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_7   8"
+
+.PP
+Definition at line 192 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_8   9"
+
+.PP
+Definition at line 193 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INC_9   10"
+
+.PP
+Definition at line 194 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INTERNAL_16TH(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16,  \&.\&.\&.)     _16"
+
+.PP
+Definition at line 167 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INTERNAL_HEAD(_1,  \&.\&.\&.)   _1"
+
+.PP
+Definition at line 173 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_INTERNAL_TAIL(_1,  \&.\&.\&.)   __VA_ARGS__"
+
+.PP
+Definition at line 176 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IS_EMPTY(_1, _2, _3, _4)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_HAS_COMMA(GMOCK_PP_INTERNAL_CAT_5(GMOCK_PP_INTERNAL_IS_EMPTY_CASE_, \
+                                             _1, _2, _3, _4))
+.fi
+.PP
+Definition at line 155 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_IS_EMPTY_CASE_0001   ,"
+
+.PP
+Definition at line 158 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_REMOVE_PARENS( \&.\&.\&.)   __VA_ARGS__"
+
+.PP
+Definition at line 184 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_STRINGIZE( \&.\&.\&.)   #__VA_ARGS__"
+
+.PP
+Definition at line 153 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_INTERNAL_TAIL(_Args)     \fBGMOCK_PP_IDENTITY\fP(\fBGMOCK_PP_INTERNAL_INTERNAL_TAIL\fP _Args)"
+
+.PP
+Definition at line 177 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_IS_BEGIN_PARENS( \&.\&.\&.)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_HEAD(GMOCK_PP_CAT(GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_, \
+                             GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C __VA_ARGS__))
+.fi
+.PP
+Definition at line 115 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_IS_EMPTY( \&.\&.\&.)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_IS_EMPTY(GMOCK_PP_HAS_COMMA(__VA_ARGS__),                \
+                             GMOCK_PP_HAS_COMMA(GMOCK_PP_COMMA __VA_ARGS__), \
+                             GMOCK_PP_HAS_COMMA(__VA_ARGS__()),              \
+                             GMOCK_PP_HAS_COMMA(GMOCK_PP_COMMA __VA_ARGS__()))
+.fi
+.PP
+Definition at line 79 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_IS_ENCLOSED_PARENS( \&.\&.\&.)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_IF(GMOCK_PP_IS_BEGIN_PARENS(__VA_ARGS__), \
+              GMOCK_PP_IS_EMPTY(GMOCK_PP_EMPTY __VA_ARGS__), 0)
+.fi
+.PP
+Definition at line 120 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_NARG( \&.\&.\&.)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_INTERNAL_16TH(  \
+      (__VA_ARGS__, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
+.fi
+.PP
+Definition at line 29 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_NARG0( \&.\&.\&.)     \fBGMOCK_PP_IF\fP(\fBGMOCK_PP_IS_EMPTY\fP(__VA_ARGS__), 0, \fBGMOCK_PP_NARG\fP(__VA_ARGS__))"
+
+.PP
+Definition at line 110 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_REMOVE_PARENS( \&.\&.\&.)   \fBGMOCK_PP_INTERNAL_REMOVE_PARENS\fP __VA_ARGS__"
+
+.PP
+Definition at line 125 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_REPEAT(_Macro, _Data, _N)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_CAT(GMOCK_PP_INTERNAL_FOR_EACH_IMPL_, _N) \
+  (0, _Macro, _Data, GMOCK_PP_INTENRAL_EMPTY_TUPLE)
+.fi
+.PP
+Definition at line 139 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_STRINGIZE( \&.\&.\&.)   \fBGMOCK_PP_INTERNAL_STRINGIZE\fP(__VA_ARGS__)"
+
+.PP
+Definition at line 8 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_TAIL( \&.\&.\&.)   \fBGMOCK_PP_INTERNAL_TAIL\fP((__VA_ARGS__))"
+
+.PP
+Definition at line 44 of file gmock\-pp\&.h\&.
+.SS "#define GMOCK_PP_VARIADIC_CALL(_Macro,  \&.\&.\&.)"
+\fBValue:\fP
+.PP
+.nf
+  GMOCK_PP_IDENTITY(                        \
+      GMOCK_PP_CAT(_Macro, GMOCK_PP_NARG(__VA_ARGS__))(__VA_ARGS__))
+.fi
+.PP
+Definition at line 47 of file gmock\-pp\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

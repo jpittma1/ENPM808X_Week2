@@ -1,0 +1,111 @@
+.TH "build/_deps/googletest-src/googletest/src/gtest-printers.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/src/gtest-printers.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\-printers\&.h'\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <cctype>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <cwchar>\fP
+.br
+\fC#include <iomanip>\fP
+.br
+\fC#include <ios>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtesting::internal::CharFormat\fP { \fBtesting::internal::kAsIs\fP, \fBtesting::internal::kHexEscape\fP, \fBtesting::internal::kSpecialEscape\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBtesting::internal::PrintBytesInObjectTo\fP (const unsigned char *obj_bytes, size_t \fBcount\fP, ostream *os)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsPrintableAscii\fP (char32_t c)"
+.br
+.ti -1c
+.RI "template<typename Char > void \fBtesting::internal::PrintCharAndCodeTo\fP (Char c, ostream *os)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::PrintTo\fP (unsigned char c, ::std::ostream *os)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::PrintTo\fP (signed char c, ::std::ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintTo\fP (wchar_t wc, ostream *os)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::PrintTo\fP (char32_t c, ::std::ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::UniversalPrintArray\fP (const char *begin, size_t len, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::UniversalPrintArray\fP (const char16_t *begin, size_t len, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::UniversalPrintArray\fP (const char32_t *begin, size_t len, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::UniversalPrintArray\fP (const wchar_t *begin, size_t len, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintTo\fP (const char *s, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintTo\fP (const char16_t *s, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintTo\fP (const char32_t *s, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintTo\fP (const wchar_t *s, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintStringTo\fP (const ::std::string &s, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintU16StringTo\fP (const ::std::u16string &s, ostream *os)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::PrintU32StringTo\fP (const ::std::u32string &s, ostream *os)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

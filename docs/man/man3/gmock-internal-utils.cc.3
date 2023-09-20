@@ -1,0 +1,95 @@
+.TH "build/_deps/googletest-src/googlemock/src/gmock-internal-utils.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/src/gmock-internal-utils.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/internal/gmock\-internal\-utils\&.h'\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <array>\fP
+.br
+\fC#include <cctype>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-port\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::GoogleTestFailureReporter\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::JoinAsKeyValueTuple\fP (const std::vector< const char * > &names, const Strings &values)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::ConvertIdentifierNameToWords\fP (const char *id_name)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP FailureReporterInterface * \fBtesting::internal::GetFailureReporter\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::LogIsVisible\fP (LogSeverity severity)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::Log\fP (LogSeverity severity, const std::string &message, int stack_frames_to_skip)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP WithoutMatchers \fBtesting::internal::GetWithoutMatchers\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::IllegalDoDefault\fP (const char *file, int line)"
+.br
+.ti -1c
+.RI "constexpr char \fBtesting::internal::UndoWebSafeEncoding\fP (char c)"
+.br
+.ti -1c
+.RI "constexpr char \fBtesting::internal::UnBase64Impl\fP (char c, const char *const base64, char carry)"
+.br
+.ti -1c
+.RI "template<size_t\&.\&.\&. I> constexpr std::array< char, 256 > \fBtesting::internal::UnBase64Impl\fP (IndexSequence< I\&.\&.\&. >, const char *const base64)"
+.br
+.ti -1c
+.RI "constexpr std::array< char, 256 > \fBtesting::internal::UnBase64\fP (const char *const base64)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::Base64Unescape\fP (const std::string &encoded, std::string *decoded)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

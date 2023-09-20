@@ -1,0 +1,158 @@
+.TH "build/_deps/googletest-src/googletest/test/gtest_list_output_unittest_.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/gtest_list_output_unittest_.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBFooTestFixture\fP"
+.br
+.ti -1c
+.RI "class \fBValueParamTest\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypeParameterizedTestSuite< T >\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< int, bool > \fBTypedTestTypes\fP"
+.br
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< int, bool > \fBTypeParameterizedTestSuiteTypes\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST\fP (\fBFooTest\fP, Test1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBFooTest\fP, Test2)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFooTestFixture\fP, Test3)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFooTestFixture\fP, Test4)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBValueParamTest\fP, Test5)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBValueParamTest\fP, Test6)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (ValueParam, \fBValueParamTest\fP, ::\fBtesting::Values\fP(33, 42))"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTest\fP, \fBTypedTestTypes\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, Test7)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, Test8)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypeParameterizedTestSuite\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypeParameterizedTestSuite\fP, Test9)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypeParameterizedTestSuite\fP, Test10)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypeParameterizedTestSuite\fP, Test9, Test10)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (Single, \fBTypeParameterizedTestSuite\fP, \fBTypeParameterizedTestSuiteTypes\fP)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBtesting::Types\fP<int, bool> \fBTypedTestTypes\fP"
+
+.PP
+Definition at line 58 of file gtest_list_output_unittest_\&.cc\&.
+.SS "typedef \fBtesting::Types\fP<int, bool> \fBTypeParameterizedTestSuiteTypes\fP"
+
+.PP
+Definition at line 69 of file gtest_list_output_unittest_\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "INSTANTIATE_TEST_SUITE_P (ValueParam, \fBValueParamTest\fP, ::\fBtesting::Values\fP(33, 42))"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (Single, \fBTypeParameterizedTestSuite\fP, \fBTypeParameterizedTestSuiteTypes\fP)"
+
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 73 of file gtest_list_output_unittest_\&.cc\&.
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypeParameterizedTestSuite\fP, Test9, Test10)"
+
+.SS "TEST (\fBFooTest\fP, Test1)"
+
+.PP
+Definition at line 43 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TEST (\fBFooTest\fP, Test2)"
+
+.PP
+Definition at line 45 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBFooTestFixture\fP, Test3)"
+
+.PP
+Definition at line 48 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBFooTestFixture\fP, Test4)"
+
+.PP
+Definition at line 49 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TEST_P (\fBValueParamTest\fP, Test5)"
+
+.PP
+Definition at line 52 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TEST_P (\fBValueParamTest\fP, Test6)"
+
+.PP
+Definition at line 53 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, Test7)"
+
+.PP
+Definition at line 60 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, Test8)"
+
+.PP
+Definition at line 61 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypeParameterizedTestSuite\fP, Test10)"
+
+.PP
+Definition at line 67 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypeParameterizedTestSuite\fP, Test9)"
+
+.PP
+Definition at line 66 of file gtest_list_output_unittest_\&.cc\&.
+.SS "TYPED_TEST_SUITE (\fBTypedTest\fP, \fBTypedTestTypes\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypeParameterizedTestSuite\fP)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

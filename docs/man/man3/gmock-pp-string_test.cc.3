@@ -1,0 +1,57 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock-pp-string_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock-pp-string_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-pp\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEXPECT_EXPANSION\fP(Result,  Macro)     \fBEXPECT_THAT\fP('' \fBGMOCK_PP_STRINGIZE\fP(Macro), SameExceptSpaces(Result))"
+.br
+.ti -1c
+.RI "#define \fBGMOCK_PP_INTERNAL_IS_EMPTY_TEST_1\fP"
+.br
+.ti -1c
+.RI "#define \fBJOINER_CAT\fP(a,  b)   a##b"
+.br
+.ti -1c
+.RI "#define \fBJOINER\fP(_N,  _Data,  _Elem)   \fBJOINER_CAT\fP(_Data, _N) = _Elem"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define EXPECT_EXPANSION(Result, Macro)     \fBEXPECT_THAT\fP('' \fBGMOCK_PP_STRINGIZE\fP(Macro), SameExceptSpaces(Result))"
+
+.PP
+Definition at line 55 of file gmock\-pp\-string_test\&.cc\&.
+.SS "#define GMOCK_PP_INTERNAL_IS_EMPTY_TEST_1"
+
+.SS "#define JOINER(_N, _Data, _Elem)   \fBJOINER_CAT\fP(_Data, _N) = _Elem"
+
+.PP
+Definition at line 133 of file gmock\-pp\-string_test\&.cc\&.
+.SS "#define JOINER_CAT(a, b)   a##b"
+
+.PP
+Definition at line 132 of file gmock\-pp\-string_test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

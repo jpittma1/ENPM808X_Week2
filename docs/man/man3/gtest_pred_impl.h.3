@@ -1,0 +1,303 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\-assertion\-result\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-internal\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_ASSERT_\fP(expression,  on_failure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED_FORMAT1_\fP(pred_format,  v1,  on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, v1), on_failure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED1_\fP(pred,  v1,  on_failure)     \fBGTEST_ASSERT_\fP(::\fBtesting::AssertPred1Helper\fP(#pred, #v1, pred, v1), on_failure)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED_FORMAT1\fP(pred_format,  v1)     \fBGTEST_PRED_FORMAT1_\fP(pred_format, v1, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED1\fP(pred,  v1)   \fBGTEST_PRED1_\fP(pred, v1, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED_FORMAT1\fP(pred_format,  v1)     \fBGTEST_PRED_FORMAT1_\fP(pred_format, v1, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED1\fP(pred,  v1)   \fBGTEST_PRED1_\fP(pred, v1, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED_FORMAT2_\fP(pred_format,  v1,  v2,  on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, #v2, v1, v2), on_failure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED2_\fP(pred,  v1,  v2,  on_failure)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED_FORMAT2\fP(pred_format,  v1,  v2)     \fBGTEST_PRED_FORMAT2_\fP(pred_format, v1, v2, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED2\fP(pred,  v1,  v2)     \fBGTEST_PRED2_\fP(pred, v1, v2, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED_FORMAT2\fP(pred_format,  v1,  v2)     \fBGTEST_PRED_FORMAT2_\fP(pred_format, v1, v2, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED2\fP(pred,  v1,  v2)     \fBGTEST_PRED2_\fP(pred, v1, v2, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED_FORMAT3_\fP(pred_format,  v1,  v2,  v3,  on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, #v2, #v3, v1, v2, v3), on_failure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED3_\fP(pred,  v1,  v2,  v3,  on_failure)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED_FORMAT3\fP(pred_format,  v1,  v2,  v3)     \fBGTEST_PRED_FORMAT3_\fP(pred_format, v1, v2, v3, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED3\fP(pred,  v1,  v2,  v3)     \fBGTEST_PRED3_\fP(pred, v1, v2, v3, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED_FORMAT3\fP(pred_format,  v1,  v2,  v3)     \fBGTEST_PRED_FORMAT3_\fP(pred_format, v1, v2, v3, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED3\fP(pred,  v1,  v2,  v3)     \fBGTEST_PRED3_\fP(pred, v1, v2, v3, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED_FORMAT4_\fP(pred_format,  v1,  v2,  v3,  v4,  on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, #v2, #v3, #v4, v1, v2, v3, v4), on_failure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED4_\fP(pred,  v1,  v2,  v3,  v4,  on_failure)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED_FORMAT4\fP(pred_format,  v1,  v2,  v3,  v4)     \fBGTEST_PRED_FORMAT4_\fP(pred_format, v1, v2, v3, v4, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED4\fP(pred,  v1,  v2,  v3,  v4)     \fBGTEST_PRED4_\fP(pred, v1, v2, v3, v4, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED_FORMAT4\fP(pred_format,  v1,  v2,  v3,  v4)     \fBGTEST_PRED_FORMAT4_\fP(pred_format, v1, v2, v3, v4, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED4\fP(pred,  v1,  v2,  v3,  v4)     \fBGTEST_PRED4_\fP(pred, v1, v2, v3, v4, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED_FORMAT5_\fP(pred_format,  v1,  v2,  v3,  v4,  v5,  on_failure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_PRED5_\fP(pred,  v1,  v2,  v3,  v4,  v5,  on_failure)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED_FORMAT5\fP(pred_format,  v1,  v2,  v3,  v4,  v5)     \fBGTEST_PRED_FORMAT5_\fP(pred_format, v1, v2, v3, v4, v5, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_PRED5\fP(pred,  v1,  v2,  v3,  v4,  v5)     \fBGTEST_PRED5_\fP(pred, v1, v2, v3, v4, v5, \fBGTEST_NONFATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED_FORMAT5\fP(pred_format,  v1,  v2,  v3,  v4,  v5)     \fBGTEST_PRED_FORMAT5_\fP(pred_format, v1, v2, v3, v4, v5, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.ti -1c
+.RI "#define \fBASSERT_PRED5\fP(pred,  v1,  v2,  v3,  v4,  v5)     \fBGTEST_PRED5_\fP(pred, v1, v2, v3, v4, v5, \fBGTEST_FATAL_FAILURE_\fP)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename Pred , typename T1 > AssertionResult \fBtesting::AssertPred1Helper\fP (const char *pred_text, const char *e1, Pred pred, const T1 &v1)"
+.br
+.ti -1c
+.RI "template<typename Pred , typename T1 , typename T2 > AssertionResult \fBtesting::AssertPred2Helper\fP (const char *pred_text, const char *e1, const char *e2, Pred pred, const T1 &v1, const T2 &v2)"
+.br
+.ti -1c
+.RI "template<typename Pred , typename T1 , typename T2 , typename T3 > AssertionResult \fBtesting::AssertPred3Helper\fP (const char *pred_text, const char *e1, const char *e2, const char *e3, Pred pred, const T1 &v1, const T2 &v2, const T3 &v3)"
+.br
+.ti -1c
+.RI "template<typename Pred , typename T1 , typename T2 , typename T3 , typename T4 > AssertionResult \fBtesting::AssertPred4Helper\fP (const char *pred_text, const char *e1, const char *e2, const char *e3, const char *e4, Pred pred, const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4)"
+.br
+.ti -1c
+.RI "template<typename Pred , typename T1 , typename T2 , typename T3 , typename T4 , typename T5 > AssertionResult \fBtesting::AssertPred5Helper\fP (const char *pred_text, const char *e1, const char *e2, const char *e3, const char *e4, const char *e5, Pred pred, const T1 &v1, const T2 &v2, const T3 &v3, const T4 &v4, const T5 &v5)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ASSERT_PRED1(pred, v1)   \fBGTEST_PRED1_\fP(pred, v1, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 113 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED2(pred, v1, v2)     \fBGTEST_PRED2_\fP(pred, v1, v2, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 149 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED3(pred, v1, v2, v3)     \fBGTEST_PRED3_\fP(pred, v1, v2, v3, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 188 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED4(pred, v1, v2, v3, v4)     \fBGTEST_PRED4_\fP(pred, v1, v2, v3, v4, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 229 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED5(pred, v1, v2, v3, v4, v5)     \fBGTEST_PRED5_\fP(pred, v1, v2, v3, v4, v5, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 274 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED_FORMAT1(pred_format, v1)     \fBGTEST_PRED_FORMAT1_\fP(pred_format, v1, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 111 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED_FORMAT2(pred_format, v1, v2)     \fBGTEST_PRED_FORMAT2_\fP(pred_format, v1, v2, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 147 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED_FORMAT3(pred_format, v1, v2, v3)     \fBGTEST_PRED_FORMAT3_\fP(pred_format, v1, v2, v3, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 186 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED_FORMAT4(pred_format, v1, v2, v3, v4)     \fBGTEST_PRED_FORMAT4_\fP(pred_format, v1, v2, v3, v4, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 227 of file gtest_pred_impl\&.h\&.
+.SS "#define ASSERT_PRED_FORMAT5(pred_format, v1, v2, v3, v4, v5)     \fBGTEST_PRED_FORMAT5_\fP(pred_format, v1, v2, v3, v4, v5, \fBGTEST_FATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 272 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED1(pred, v1)   \fBGTEST_PRED1_\fP(pred, v1, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 110 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED2(pred, v1, v2)     \fBGTEST_PRED2_\fP(pred, v1, v2, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 145 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED3(pred, v1, v2, v3)     \fBGTEST_PRED3_\fP(pred, v1, v2, v3, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 184 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED4(pred, v1, v2, v3, v4)     \fBGTEST_PRED4_\fP(pred, v1, v2, v3, v4, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 225 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED5(pred, v1, v2, v3, v4, v5)     \fBGTEST_PRED5_\fP(pred, v1, v2, v3, v4, v5, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 270 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED_FORMAT1(pred_format, v1)     \fBGTEST_PRED_FORMAT1_\fP(pred_format, v1, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 108 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED_FORMAT2(pred_format, v1, v2)     \fBGTEST_PRED_FORMAT2_\fP(pred_format, v1, v2, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 143 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED_FORMAT3(pred_format, v1, v2, v3)     \fBGTEST_PRED_FORMAT3_\fP(pred_format, v1, v2, v3, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 182 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED_FORMAT4(pred_format, v1, v2, v3, v4)     \fBGTEST_PRED_FORMAT4_\fP(pred_format, v1, v2, v3, v4, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 223 of file gtest_pred_impl\&.h\&.
+.SS "#define EXPECT_PRED_FORMAT5(pred_format, v1, v2, v3, v4, v5)     \fBGTEST_PRED_FORMAT5_\fP(pred_format, v1, v2, v3, v4, v5, \fBGTEST_NONFATAL_FAILURE_\fP)"
+
+.PP
+Definition at line 268 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_ASSERT_(expression, on_failure)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                 \
+  if (const ::testing::AssertionResult gtest_ar = (expression)) \
+    ;                                                           \
+  else                                                          \
+    on_failure(gtest_ar\&.failure_message())
+.fi
+.PP
+Definition at line 77 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED1_(pred, v1, on_failure)     \fBGTEST_ASSERT_\fP(::\fBtesting::AssertPred1Helper\fP(#pred, #v1, pred, v1), on_failure)"
+
+.PP
+Definition at line 104 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED2_(pred, v1, v2, on_failure)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_ASSERT_(::testing::AssertPred2Helper(#pred, #v1, #v2, pred, v1, v2), \
+                on_failure)
+.fi
+.PP
+Definition at line 138 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED3_(pred, v1, v2, v3, on_failure)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_ASSERT_(                                                            \
+      ::testing::AssertPred3Helper(#pred, #v1, #v2, #v3, pred, v1, v2, v3), \
+      on_failure)
+.fi
+.PP
+Definition at line 176 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED4_(pred, v1, v2, v3, v4, on_failure)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_ASSERT_(::testing::AssertPred4Helper(#pred, #v1, #v2, #v3, #v4, pred, \
+                                             v1, v2, v3, v4),                 \
+                on_failure)
+.fi
+.PP
+Definition at line 217 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED5_(pred, v1, v2, v3, v4, v5, on_failure)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_ASSERT_(::testing::AssertPred5Helper(#pred, #v1, #v2, #v3, #v4, #v5, \
+                                             pred, v1, v2, v3, v4, v5),      \
+                on_failure)
+.fi
+.PP
+Definition at line 262 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED_FORMAT1_(pred_format, v1, on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, v1), on_failure)"
+
+.PP
+Definition at line 99 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED_FORMAT2_(pred_format, v1, v2, on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, #v2, v1, v2), on_failure)"
+
+.PP
+Definition at line 133 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED_FORMAT3_(pred_format, v1, v2, v3, on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, #v2, #v3, v1, v2, v3), on_failure)"
+
+.PP
+Definition at line 171 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED_FORMAT4_(pred_format, v1, v2, v3, v4, on_failure)     \fBGTEST_ASSERT_\fP(pred_format(#v1, #v2, #v3, #v4, v1, v2, v3, v4), on_failure)"
+
+.PP
+Definition at line 212 of file gtest_pred_impl\&.h\&.
+.SS "#define GTEST_PRED_FORMAT5_(pred_format, v1, v2, v3, v4, v5, on_failure)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_ASSERT_(pred_format(#v1, #v2, #v3, #v4, #v5, v1, v2, v3, v4, v5), \
+                on_failure)
+.fi
+.PP
+Definition at line 256 of file gtest_pred_impl\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

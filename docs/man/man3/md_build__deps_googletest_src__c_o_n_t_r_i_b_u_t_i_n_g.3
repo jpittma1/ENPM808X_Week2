@@ -1,0 +1,110 @@
+.TH "md_build__deps_googletest_src__c_o_n_t_r_i_b_u_t_i_n_g" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src__c_o_n_t_r_i_b_u_t_i_n_g \- How to become a contributor and submit your own code 
+
+.SH "Contributor License Agreements"
+.PP
+We'd love to accept your patches! Before we can take them, we have to jump a couple of legal hurdles\&.
+.PP
+Please fill out either the individual or corporate Contributor License Agreement (CLA)\&.
+.PP
+.IP "\(bu" 2
+If you are an individual writing original source code and you're sure you own the intellectual property, then you'll need to sign an \fCindividual CLA\fP\&.
+.IP "\(bu" 2
+If you work for a company that wants to allow you to contribute your work, then you'll need to sign a \fCcorporate CLA\fP\&.
+.PP
+.PP
+Follow either of the two links above to access the appropriate CLA and instructions for how to sign and return it\&. Once we receive it, we'll be able to accept your pull requests\&.
+.SH "Are you a Googler?"
+.PP
+If you are a Googler, please make an attempt to submit an internal contribution rather than a GitHub Pull Request\&. If you are not able to submit internally, a PR is acceptable as an alternative\&.
+.SH "Contributing A Patch"
+.PP
+.IP "1." 4
+Submit an issue describing your proposed change to the \fCissue tracker\fP\&.
+.IP "2." 4
+Please don't mix more than one logical change per submittal, because it makes the history hard to follow\&. If you want to make a change that doesn't have a corresponding issue in the issue tracker, please create one\&.
+.IP "3." 4
+Also, coordinate with team members that are listed on the issue in question\&. This ensures that work isn't being duplicated and communicating your plan early also generally leads to better patches\&.
+.IP "4." 4
+If your proposed change is accepted, and you haven't already done so, sign a Contributor License Agreement (\fCsee details above\fP)\&.
+.IP "5." 4
+Fork the desired repo, develop and test your code changes\&.
+.IP "6." 4
+Ensure that your code adheres to the existing style in the sample to which you are contributing\&.
+.IP "7." 4
+Ensure that your code has an appropriate set of unit tests which all pass\&.
+.IP "8." 4
+Submit a pull request\&.
+.PP
+.SH "The Google Test and Google Mock Communities"
+.PP
+The Google Test community exists primarily through the \fCdiscussion group\fP and the GitHub repository\&. Likewise, the Google \fBMock\fP community exists primarily through their own \fCdiscussion group\fP\&. You are definitely encouraged to contribute to the discussion and you can also help us to keep the effectiveness of the group high by following and promoting the guidelines listed here\&.
+.SS "Please Be Friendly"
+Showing courtesy and respect to others is a vital part of the Google culture, and we strongly encourage everyone participating in Google Test development to join us in accepting nothing less\&. Of course, being courteous is not the same as failing to constructively disagree with each other, but it does mean that we should be respectful of each other when enumerating the 42 technical reasons that a particular proposal may not be the best choice\&. There's never a reason to be antagonistic or dismissive toward anyone who is sincerely trying to contribute to a discussion\&.
+.PP
+Sure, C++ testing is serious business and all that, but it's also a lot of fun\&. Let's keep it that way\&. Let's strive to be one of the friendliest communities in all of open source\&.
+.PP
+As always, discuss Google Test in the official GoogleTest discussion group\&. You don't have to actually submit code in order to sign up\&. Your participation itself is a valuable contribution\&.
+.SH "Style"
+.PP
+To keep the source consistent, readable, diffable and easy to merge, we use a fairly rigid coding style, as defined by the \fCgoogle-styleguide\fP project\&. All patches will be expected to conform to the style outlined \fChere\fP\&. Use \fC\&.clang-format\fP to check your formatting\&.
+.SH "Requirements for Contributors"
+.PP
+If you plan to contribute a patch, you need to build Google Test, Google \fBMock\fP, and their own tests from a git checkout, which has further requirements:
+.PP
+.IP "\(bu" 2
+\fCPython\fP v3\&.6 or newer (for running some of the tests and re-generating certain source files from templates)
+.IP "\(bu" 2
+\fCCMake\fP v2\&.8\&.12 or newer
+.PP
+.SH "Developing Google Test and Google Mock"
+.PP
+This section discusses how to make your own changes to the Google Test project\&.
+.SS "Testing Google Test and Google Mock Themselves"
+To make sure your changes work as intended and don't break existing functionality, you'll want to compile and run Google Test and GoogleMock's own tests\&. For that you can use CMake:
+.PP
+.PP
+.nf
+mkdir mybuild
+cd mybuild
+cmake -Dgtest_build_tests=ON -Dgmock_build_tests=ON ${GTEST_REPO_DIR}
+.fi
+.PP
+.PP
+To choose between building only Google Test or Google \fBMock\fP, you may modify your cmake command to be one of each
+.PP
+.PP
+.nf
+cmake -Dgtest_build_tests=ON ${GTEST_DIR} # sets up Google Test tests
+cmake -Dgmock_build_tests=ON ${GMOCK_DIR} # sets up Google Mock tests
+.fi
+.PP
+.PP
+Make sure you have Python installed, as some of Google Test's tests are written in Python\&. If the cmake command complains about not being able to find Python (\fCCould NOT find PythonInterp (missing: PYTHON_EXECUTABLE)\fP), try telling it explicitly where your Python executable can be found:
+.PP
+.PP
+.nf
+cmake -DPYTHON_EXECUTABLE=path/to/python \&.\&.\&.
+.fi
+.PP
+.PP
+Next, you can build Google Test and / or Google \fBMock\fP and all desired tests\&. On *nix, this is usually done by
+.PP
+.PP
+.nf
+make
+.fi
+.PP
+.PP
+To run the tests, do
+.PP
+.PP
+.nf
+make test
+.fi
+.PP
+.PP
+All tests should pass\&. 

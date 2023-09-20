@@ -1,0 +1,288 @@
+.TH "md_build__deps_googletest_src_docs_gmock_faq" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src_docs_gmock_faq \- Legacy gMock FAQ 
+
+.SS "When I call a method on my mock object, the method for the real object is invoked instead\&. What's the problem?"
+In order for a method to be mocked, it must be \fIvirtual\fP, unless you use the \fChigh-perf dependency injection technique\fP\&.
+.SS "Can I mock a variadic function?"
+You cannot mock a variadic function (i\&.e\&. a function taking ellipsis (\fC\&.\&.\&.\fP) arguments) directly in gMock\&.
+.PP
+The problem is that in general, there is \fIno way\fP for a mock object to know how many arguments are passed to the variadic method, and what the arguments' types are\&. Only the \fIauthor of the base class\fP knows the protocol, and we cannot look into his or her head\&.
+.PP
+Therefore, to mock such a function, the \fIuser\fP must teach the mock object how to figure out the number of arguments and their types\&. One way to do it is to provide overloaded versions of the function\&.
+.PP
+Ellipsis arguments are inherited from C and not really a C++ feature\&. They are unsafe to use and don't work with arguments that have constructors or destructors\&. Therefore we recommend to avoid them in C++ as much as possible\&.
+.SS "MSVC gives me warning C4301 or C4373 when I define a mock method with a const parameter\&. Why?"
+If you compile this using Microsoft Visual C++ 2005 SP1:
+.PP
+.PP
+.nf
+class Foo {
+  \&.\&.\&.
+  virtual void Bar(const int i) = 0;
+};
+
+class MockFoo : public Foo {
+  \&.\&.\&.
+  MOCK_METHOD(void, Bar, (const int i), (override));
+};
+.fi
+.PP
+.PP
+You may get the following warning:
+.PP
+.PP
+.nf
+warning C4301: 'MockFoo::Bar': overriding virtual function only differs from 'Foo::Bar' by const/volatile qualifier
+.fi
+.PP
+.PP
+This is a MSVC bug\&. The same code compiles fine with gcc, for example\&. If you use Visual C++ 2008 SP1, you would get the warning:
+.PP
+.PP
+.nf
+warning C4373: 'MockFoo::Bar': virtual function overrides 'Foo::Bar', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+.fi
+.PP
+.PP
+In C++, if you \fIdeclare\fP a function with a \fCconst\fP parameter, the \fCconst\fP modifier is ignored\&. Therefore, the \fCFoo\fP base class above is equivalent to:
+.PP
+.PP
+.nf
+class Foo {
+  \&.\&.\&.
+  virtual void Bar(int i) = 0;  // int or const int?  Makes no difference\&.
+};
+.fi
+.PP
+.PP
+In fact, you can \fIdeclare\fP \fCBar()\fP with an \fCint\fP parameter, and define it with a \fCconst int\fP parameter\&. The compiler will still match them up\&.
+.PP
+Since making a parameter \fCconst\fP is meaningless in the method declaration, we recommend to remove it in both \fCFoo\fP and \fC\fBMockFoo\fP\fP\&. That should workaround the VC bug\&.
+.PP
+Note that we are talking about the \fItop-level\fP \fCconst\fP modifier here\&. If the function parameter is passed by pointer or reference, declaring the pointee or referee as \fCconst\fP is still meaningful\&. For example, the following two declarations are \fInot\fP equivalent:
+.PP
+.PP
+.nf
+void Bar(int* p);         // Neither p nor *p is const\&.
+void Bar(const int* p);  // p is not const, but *p is\&.
+.fi
+.PP
+.SS "I can't figure out why gMock thinks my expectations are not satisfied\&. What should I do?"
+You might want to run your test with \fC--gmock_verbose=info\fP\&. This flag lets gMock print a trace of every mock function call it receives\&. By studying the trace, you'll gain insights on why the expectations you set are not met\&.
+.PP
+If you see the message 'The mock function has no default action set, and its
+return type has no default value set\&.', then try \fCadding a default action\fP\&. Due to a known issue, unexpected calls on mocks without default actions don't print out a detailed comparison between the actual arguments and the expected arguments\&.
+.SS "My program crashed and <tt>ScopedMockLog</tt> spit out tons of messages\&. Is it a gMock bug?"
+gMock and \fCScopedMockLog\fP are likely doing the right thing here\&.
+.PP
+When a test crashes, the failure signal handler will try to log a lot of information (the stack trace, and the address map, for example)\&. The messages are compounded if you have many threads with depth stacks\&. When \fCScopedMockLog\fP intercepts these messages and finds that they don't match any expectations, it prints an error for each of them\&.
+.PP
+You can learn to ignore the errors, or you can rewrite your expectations to make your test more robust, for example, by adding something like:
+.PP
+.PP
+.nf
+using ::testing::AnyNumber;
+using ::testing::Not;
+\&.\&.\&.
+  // Ignores any log not done by us\&.
+  EXPECT_CALL(log, Log(_, Not(EndsWith("/my_file\&.cc")), _))
+      \&.Times(AnyNumber());
+.fi
+.PP
+.SS "How can I assert that a function is NEVER called?"
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(_))
+      \&.Times(0);
+.fi
+.PP
+.SS "I have a failed test where gMock tells me TWICE that a particular expectation is not satisfied\&. Isn't this redundant?"
+When gMock detects a failure, it prints relevant information (the mock function arguments, the state of relevant expectations, and etc) to help the user debug\&. If another failure is detected, gMock will do the same, including printing the state of relevant expectations\&.
+.PP
+Sometimes an expectation's state didn't change between two failures, and you'll see the same description of the state twice\&. They are however \fInot\fP redundant, as they refer to \fIdifferent points in time\fP\&. The fact they are the same \fIis\fP interesting information\&.
+.SS "I get a heapcheck failure when using a mock object, but using a real object is fine\&. What can be wrong?"
+Does the class (hopefully a pure interface) you are mocking have a virtual destructor?
+.PP
+Whenever you derive from a base class, make sure its destructor is virtual\&. Otherwise Bad Things will happen\&. Consider the following code:
+.PP
+.PP
+.nf
+class Base {
+ public:
+  // Not virtual, but should be\&.
+  ~Base() { \&.\&.\&. }
+  \&.\&.\&.
+};
+
+class Derived : public Base {
+ public:
+  \&.\&.\&.
+ private:
+  std::string value_;
+};
+
+\&.\&.\&.
+  Base* p = new Derived;
+  \&.\&.\&.
+  delete p;  // Surprise! ~Base() will be called, but ~Derived() will not
+                 // - value_ is leaked\&.
+.fi
+.PP
+.PP
+By changing \fC~Base()\fP to virtual, \fC~Derived()\fP will be correctly called when \fCdelete p\fP is executed, and the heap checker will be happy\&.
+.SS "The 'newer expectations override older ones' rule makes writing expectations awkward\&. Why does gMock do that?"
+When people complain about this, often they are referring to code like:
+.PP
+.PP
+.nf
+using ::testing::Return;
+\&.\&.\&.
+  // foo\&.Bar() should be called twice, return 1 the first time, and return
+  // 2 the second time\&.  However, I have to write the expectations in the
+  // reverse order\&.  This sucks big time!!!
+  EXPECT_CALL(foo, Bar())
+      \&.WillOnce(Return(2))
+      \&.RetiresOnSaturation();
+  EXPECT_CALL(foo, Bar())
+      \&.WillOnce(Return(1))
+      \&.RetiresOnSaturation();
+.fi
+.PP
+.PP
+The problem, is that they didn't pick the \fBbest\fP way to express the test's intent\&.
+.PP
+By default, expectations don't have to be matched in \fIany\fP particular order\&. If you want them to match in a certain order, you need to be explicit\&. This is gMock's (and jMock's) fundamental philosophy: it's easy to accidentally over-specify your tests, and we want to make it harder to do so\&.
+.PP
+There are two better ways to write the test spec\&. You could either put the expectations in sequence:
+.PP
+.PP
+.nf
+using ::testing::Return;
+\&.\&.\&.
+  // foo\&.Bar() should be called twice, return 1 the first time, and return
+  // 2 the second time\&.  Using a sequence, we can write the expectations
+  // in their natural order\&.
+  {
+    InSequence s;
+    EXPECT_CALL(foo, Bar())
+        \&.WillOnce(Return(1))
+        \&.RetiresOnSaturation();
+    EXPECT_CALL(foo, Bar())
+        \&.WillOnce(Return(2))
+        \&.RetiresOnSaturation();
+  }
+.fi
+.PP
+.PP
+or you can put the sequence of actions in the same expectation:
+.PP
+.PP
+.nf
+using ::testing::Return;
+\&.\&.\&.
+  // foo\&.Bar() should be called twice, return 1 the first time, and return
+  // 2 the second time\&.
+  EXPECT_CALL(foo, Bar())
+      \&.WillOnce(Return(1))
+      \&.WillOnce(Return(2))
+      \&.RetiresOnSaturation();
+.fi
+.PP
+.PP
+Back to the original questions: why does gMock search the expectations (and \fCON_CALL\fPs) from back to front? Because this allows a user to set up a mock's behavior for the common case early (e\&.g\&. in the mock's constructor or the test fixture's set-up phase) and customize it with more specific rules later\&. If gMock searches from front to back, this very useful pattern won't be possible\&.
+.SS "gMock prints a warning when a function without EXPECT_CALL is called, even if I have set its behavior using ON_CALL\&. Would it be reasonable not to show the warning in this case?"
+When choosing between being neat and being safe, we lean toward the latter\&. So the answer is that we think it's better to show the warning\&.
+.PP
+Often people write \fCON_CALL\fPs in the mock object's constructor or \fCSetUp()\fP, as the default behavior rarely changes from test to test\&. Then in the test body they set the expectations, which are often different for each test\&. Having an \fCON_CALL\fP in the set-up part of a test doesn't mean that the calls are expected\&. If there's no \fCEXPECT_CALL\fP and the method is called, it's possibly an error\&. If we quietly let the call go through without notifying the user, bugs may creep in unnoticed\&.
+.PP
+If, however, you are sure that the calls are OK, you can write
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  EXPECT_CALL(foo, Bar(_))
+      \&.WillRepeatedly(\&.\&.\&.);
+.fi
+.PP
+.PP
+instead of
+.PP
+.PP
+.nf
+using ::testing::_;
+\&.\&.\&.
+  ON_CALL(foo, Bar(_))
+      \&.WillByDefault(\&.\&.\&.);
+.fi
+.PP
+.PP
+This tells gMock that you do expect the calls and no warning should be printed\&.
+.PP
+Also, you can control the verbosity by specifying \fC--gmock_verbose=error\fP\&. Other values are \fCinfo\fP and \fCwarning\fP\&. If you find the output too noisy when debugging, just choose a less verbose level\&.
+.SS "How can I delete the mock function's argument in an action?"
+If your mock function takes a pointer argument and you want to delete that argument, you can use \fBtesting::DeleteArg<N>()\fP to delete the N'th (zero-indexed) argument:
+.PP
+.PP
+.nf
+using ::testing::_;
+  \&.\&.\&.
+  MOCK_METHOD(void, Bar, (X* x, const Y& y));
+  \&.\&.\&.
+  EXPECT_CALL(mock_foo_, Bar(_, _))
+      \&.WillOnce(testing::DeleteArg<0>()));
+.fi
+.PP
+.SS "How can I perform an arbitrary action on a mock function's argument?"
+If you find yourself needing to perform some action that's not supported by gMock directly, remember that you can define your own actions using \fC\fCMakeAction()\fP\fP or \fC\fCMakePolymorphicAction()\fP\fP, or you can write a stub function and invoke it using \fC\fCInvoke()\fP\fP\&.
+.PP
+.PP
+.nf
+using ::testing::_;
+using ::testing::Invoke;
+  \&.\&.\&.
+  MOCK_METHOD(void, Bar, (X* p));
+  \&.\&.\&.
+  EXPECT_CALL(mock_foo_, Bar(_))
+      \&.WillOnce(Invoke(MyAction(\&.\&.\&.)));
+.fi
+.PP
+.SS "My code calls a static/global function\&. Can I mock it?"
+You can, but you need to make some changes\&.
+.PP
+In general, if you find yourself needing to mock a static function, it's a sign that your modules are too tightly coupled (and less flexible, less reusable, less testable, etc)\&. You are probably better off defining a small interface and call the function through that interface, which then can be easily mocked\&. It's a bit of work initially, but usually pays for itself quickly\&.
+.PP
+This Google Testing Blog \fCpost\fP says it excellently\&. Check it out\&.
+.SS "My mock object needs to do complex stuff\&. It's a lot of pain to specify the actions\&. gMock sucks!"
+I know it's not a question, but you get an answer for free any way\&. :-)
+.PP
+With gMock, you can create mocks in C++ easily\&. And people might be tempted to use them everywhere\&. Sometimes they work great, and sometimes you may find them, well, a pain to use\&. So, what's wrong in the latter case?
+.PP
+When you write a test without using mocks, you exercise the code and assert that it returns the correct value or that the system is in an expected state\&. This is sometimes called 'state-based testing'\&.
+.PP
+Mocks are great for what some call 'interaction-based' testing: instead of checking the system state at the very end, mock objects verify that they are invoked the right way and report an error as soon as it arises, giving you a handle on the precise context in which the error was triggered\&. This is often more effective and economical to do than state-based testing\&.
+.PP
+If you are doing state-based testing and using a test double just to simulate the real object, you are probably better off using a fake\&. Using a mock in this case causes pain, as it's not a strong point for mocks to perform complex actions\&. If you experience this and think that mocks suck, you are just not using the right tool for your problem\&. Or, you might be trying to solve the wrong problem\&. :-)
+.SS "I got a warning 'Uninteresting function call encountered - default action taken\&.\&.' Should I panic?"
+By all means, NO! It's just an FYI\&. :-)
+.PP
+What it means is that you have a mock function, you haven't set any expectations on it (by gMock's rule this means that you are not interested in calls to this function and therefore it can be called any number of times), and it is called\&. That's OK - you didn't say it's not OK to call the function!
+.PP
+What if you actually meant to disallow this function to be called, but forgot to write \fC\fBEXPECT_CALL(foo, Bar())\fP\&.Times(0)\fP? While one can argue that it's the user's fault, gMock tries to be nice and prints you a note\&.
+.PP
+So, when you see the message and believe that there shouldn't be any uninteresting calls, you should investigate what's going on\&. To make your life easier, gMock dumps the stack trace when an uninteresting call is encountered\&. From that you can figure out which mock function it is, and how it is called\&.
+.SS "I want to define a custom action\&. Should I use Invoke() or implement the ActionInterface interface?"
+Either way is fine - you want to choose the one that's more convenient for your circumstance\&.
+.PP
+Usually, if your action is for a particular function type, defining it using \fC\fBInvoke()\fP\fP should be easier; if your action can be used in functions of different types (e\&.g\&. if you are defining \fCReturn(*value*)\fP), \fC\fBMakePolymorphicAction()\fP\fP is easiest\&. Sometimes you want precise control on what types of functions the action can be used in, and implementing \fCActionInterface\fP is the way to go here\&. See the implementation of \fC\fBReturn()\fP\fP in \fC\fBgmock-actions\&.h\fP\fP for an example\&.
+.SS "I use SetArgPointee() in WillOnce(), but gcc complains about 'conflicting return type specified'\&. What does it mean?"
+You got this error as gMock has no idea what value it should return when the mock method is called\&. \fC\fBSetArgPointee()\fP\fP says what the side effect is, but doesn't say what the return value should be\&. You need \fC\fBDoAll()\fP\fP to chain a \fC\fBSetArgPointee()\fP\fP with a \fC\fBReturn()\fP\fP that provides a value appropriate to the API being mocked\&.
+.PP
+See this \fCrecipe\fP for more details and an example\&.
+.SS "I have a huge mock class, and Microsoft Visual C++ runs out of memory when compiling it\&. What can I do?"
+We've noticed that when the \fC/clr\fP compiler flag is used, Visual C++ uses 5~6 times as much memory when compiling a mock class\&. We suggest to avoid \fC/clr\fP when compiling native C++ mocks\&. 

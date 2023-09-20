@@ -1,0 +1,157 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/gtest-param-test.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/gtest-param-test.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iterator>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include 'gtest/internal/gtest\-internal\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-param\-util\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTEST_P\fP(test_suite_name,  test_name)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_EXPAND_\fP(arg)   arg"
+.br
+.ti -1c
+.RI "#define \fBGTEST_GET_FIRST_\fP(first, \&.\&.\&.)   first"
+.br
+.ti -1c
+.RI "#define \fBGTEST_GET_SECOND_\fP(first,  second, \&.\&.\&.)   second"
+.br
+.ti -1c
+.RI "#define \fBINSTANTIATE_TEST_SUITE_P\fP(prefix,  test_suite_name, \&.\&.\&.)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST\fP(T)"
+.br
+.ti -1c
+.RI "#define \fBINSTANTIATE_TEST_CASE_P\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T , typename IncrementT > internal::ParamGenerator< T > \fBtesting::Range\fP (T start, T end, IncrementT step)"
+.br
+.ti -1c
+.RI "template<typename T > internal::ParamGenerator< T > \fBtesting::Range\fP (T start, T end)"
+.br
+.ti -1c
+.RI "template<typename ForwardIterator > internal::ParamGenerator< typename std::iterator_traits< ForwardIterator >::value_type > \fBtesting::ValuesIn\fP (ForwardIterator begin, ForwardIterator end)"
+.br
+.ti -1c
+.RI "template<typename T , size_t N> internal::ParamGenerator< T > \fBtesting::ValuesIn\fP (const T(&array)[N])"
+.br
+.ti -1c
+.RI "template<class Container > internal::ParamGenerator< typename Container::value_type > \fBtesting::ValuesIn\fP (const Container &container)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. T> internal::ValueArray< T\&.\&.\&. > \fBtesting::Values\fP (T\&.\&.\&. v)"
+.br
+.ti -1c
+.RI "internal::ParamGenerator< bool > \fBtesting::Bool\fP ()"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. Generator> internal::CartesianProductHolder< Generator\&.\&.\&. > \fBtesting::Combine\fP (const Generator &\&.\&.\&. g)"
+.br
+.ti -1c
+.RI "template<typename T > internal::ParamConverterGenerator< T > \fBtesting::ConvertGenerator\fP (internal::ParamGenerator< T > gen)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(T)"
+\fBValue:\fP
+.PP
+.nf
+  namespace gtest_do_not_use_outside_namespace_scope {}                   \
+  static const ::testing::internal::MarkAsIgnored gtest_allow_ignore_##T( \
+      GTEST_STRINGIFY_(T))
+.fi
+.PP
+Definition at line 531 of file gtest\-param\-test\&.h\&.
+.SS "#define GTEST_EXPAND_(arg)   arg"
+
+.PP
+Definition at line 492 of file gtest\-param\-test\&.h\&.
+.SS "#define GTEST_GET_FIRST_(first,  \&.\&.\&.)   first"
+
+.PP
+Definition at line 493 of file gtest\-param\-test\&.h\&.
+.SS "#define GTEST_GET_SECOND_(first, second,  \&.\&.\&.)   second"
+
+.PP
+Definition at line 494 of file gtest\-param\-test\&.h\&.
+.SS "#define INSTANTIATE_TEST_CASE_P"
+\fBValue:\fP
+.PP
+.nf
+  static_assert(::testing::internal::InstantiateTestCase_P_IsDeprecated(), \
+                "");                                                       \
+  INSTANTIATE_TEST_SUITE_P
+.fi
+.PP
+Definition at line 538 of file gtest\-param\-test\&.h\&.
+.SS "#define INSTANTIATE_TEST_SUITE_P(prefix, test_suite_name,  \&.\&.\&.)"
+
+.PP
+Definition at line 496 of file gtest\-param\-test\&.h\&.
+.SS "#define TEST_P(test_suite_name, test_name)"
+\fBValue:\fP
+.PP
+.nf
+  class GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)                     \
+      : public test_suite_name,                                                \
+        private ::testing::internal::GTestNonCopyable {                        \
+   public:                                                                     \
+    GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)() {}                    \
+    void TestBody() override;                                                  \
+                                                                               \
+   private:                                                                    \
+    static int AddToRegistry() {                                               \\
+      ::testing::UnitTest::GetInstance()                                       \
+          ->parameterized_test_registry()                                      \
+          \&.GetTestSuitePatternHolder<test_suite_name>(                         \
+              GTEST_STRINGIFY_(test_suite_name),                               \
+              ::testing::internal::CodeLocation(__FILE__, __LINE__))           \
+          ->AddTestPattern(                                                    \
+              GTEST_STRINGIFY_(test_suite_name), GTEST_STRINGIFY_(test_name),  \
+              new ::testing::internal::TestMetaFactory<GTEST_TEST_CLASS_NAME_( \
+                  test_suite_name, test_name)>(),                              \
+              ::testing::internal::CodeLocation(__FILE__, __LINE__));          \
+      return 0;                                                                \
+    }                                                                          \
+    static int gtest_registering_dummy_ GTEST_ATTRIBUTE_UNUSED_;               \
+  };                                                                           \
+  int GTEST_TEST_CLASS_NAME_(test_suite_name,                                  \
+                             test_name)::gtest_registering_dummy_ =            \
+      GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)::AddToRegistry();     \
+  void GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)::TestBody()
+.fi
+.PP
+Definition at line 450 of file gtest\-param\-test\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

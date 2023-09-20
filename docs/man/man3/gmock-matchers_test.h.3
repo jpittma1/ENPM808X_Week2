@@ -1,0 +1,125 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock-matchers_test.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock-matchers_test.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include <array>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <deque>\fP
+.br
+\fC#include <forward_list>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <iterator>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <unordered_map>\fP
+.br
+\fC#include <unordered_set>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gmock/gmock\-matchers\&.h'\fP
+.br
+\fC#include 'gmock/gmock\-more\-matchers\&.h'\fP
+.br
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::gmock_matchers_test::ContainerHelper\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_matchers_test::GtestGreaterThanMatcher< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_matchers_test::GreaterThanMatcher< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_matchers_test::GTestMatcherTestP\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::gmock_matchers_test\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBINSTANTIATE_GTEST_MATCHER_TEST_P\fP(TestSuite)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > GtestGreaterThanMatcher< typename std::decay< T >::type > \fBtesting::gmock_matchers_test::GtestGreaterThan\fP (T &&rhs)"
+.br
+.ti -1c
+.RI "template<typename T > std::string \fBtesting::gmock_matchers_test::Describe\fP (const Matcher< T > &m)"
+.br
+.ti -1c
+.RI "template<typename T > std::string \fBtesting::gmock_matchers_test::DescribeNegation\fP (const Matcher< T > &m)"
+.br
+.ti -1c
+.RI "template<typename MatcherType , typename Value > std::string \fBtesting::gmock_matchers_test::Explain\fP (const MatcherType &m, const Value &\fBx\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define INSTANTIATE_GTEST_MATCHER_TEST_P(TestSuite)"
+\fBValue:\fP
+.PP
+.nf
+  using TestSuite##P = GTestMatcherTestP;                                  \
+  INSTANTIATE_TEST_SUITE_P(MatcherInterface, TestSuite##P, Values(false)); \
+  INSTANTIATE_TEST_SUITE_P(GtestMatcher, TestSuite##P, Values(true))
+.fi
+.PP
+Definition at line 151 of file gmock\-matchers_test\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

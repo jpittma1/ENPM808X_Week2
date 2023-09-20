@@ -1,0 +1,757 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-param-test-test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-param-test-test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'test/googletest\-param\-test\-test\&.h'\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <tuple>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBDogAdder\fP"
+.br
+.ti -1c
+.RI "class \fBIntWrapper\fP"
+.br
+.ti -1c
+.RI "class \fBNonDefaultConstructAssignString\fP"
+.br
+.ti -1c
+.RI "class \fBConstructFromT< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTestGenerationEnvironment< kExpectedCalls >\fP"
+.br
+.ti -1c
+.RI "class \fBTestGenerationTest\fP"
+.br
+.ti -1c
+.RI "class \fBGeneratorEvaluationTest\fP"
+.br
+.ti -1c
+.RI "class \fBExternalGeneratorTest\fP"
+.br
+.ti -1c
+.RI "class \fBMultipleInstantiationTest\fP"
+.br
+.ti -1c
+.RI "class \fBSeparateInstanceTest\fP"
+.br
+.ti -1c
+.RI "class \fBNamingTest\fP"
+.br
+.ti -1c
+.RI "class \fBMacroNamingTest\fP"
+.br
+.ti -1c
+.RI "class \fBMacroNamingTestNonParametrized\fP"
+.br
+.ti -1c
+.RI "class \fBCustomFunctorNamingTest\fP"
+.br
+.ti -1c
+.RI "struct \fBCustomParamNameFunctor\fP"
+.br
+.ti -1c
+.RI "class \fBCustomFunctionNamingTest\fP"
+.br
+.ti -1c
+.RI "class \fBCustomLambdaNamingTest\fP"
+.br
+.ti -1c
+.RI "class \fBCustomIntegerNamingTest\fP"
+.br
+.ti -1c
+.RI "struct \fBCustomStruct\fP"
+.br
+.ti -1c
+.RI "class \fBCustomStructNamingTest\fP"
+.br
+.ti -1c
+.RI "struct \fBStatefulNamingFunctor\fP"
+.br
+.ti -1c
+.RI "class \fBStatefulNamingTest\fP"
+.br
+.ti -1c
+.RI "class \fBUnstreamable\fP"
+.br
+.ti -1c
+.RI "class \fBCommentTest\fP"
+.br
+.ti -1c
+.RI "class \fBNonParameterizedBaseTest\fP"
+.br
+.ti -1c
+.RI "class \fBParameterizedDerivedTest\fP"
+.br
+.ti -1c
+.RI "class \fBParameterizedDeathTest\fP"
+.br
+.ti -1c
+.RI "class \fBMyEnumTest\fP"
+.br
+.ti -1c
+.RI "class \fBworks_here::NotUsedTest\fP"
+.br
+.ti -1c
+.RI "class \fBworks_here::NotUsedTypeTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBworks_here::NotInstantiatedTest\fP"
+.br
+.ti -1c
+.RI "class \fBworks_here::NotInstantiatedTypeTest< T >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBworks_here\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPREFIX_WITH_FOO\fP(test_name)   Foo##test_name"
+.br
+.ti -1c
+.RI "#define \fBPREFIX_WITH_MACRO\fP(test_name)   Macro##test_name"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBworks_here::OtherName\fP = NotInstantiatedTest"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBMyEnums\fP { \fBENUM1\fP = 1, \fBENUM2\fP = 3, \fBENUM3\fP = 8 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > ::std::string \fBPrintValue\fP (const T &\fBvalue\fP)"
+.br
+.ti -1c
+.RI "template<typename T , size_t N> void \fBVerifyGenerator\fP (const ParamGenerator< T > &generator, const T(&expected_values)[N])"
+.br
+.ti -1c
+.RI "template<typename T > void \fBVerifyGeneratorIsEmpty\fP (const ParamGenerator< T > &generator)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (IteratorTest, ParamIteratorConformsToForwardIteratorConcept)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, IntRangeWithDefaultStep)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, IntRangeSingleValue)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, IntRangeEmpty)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, IntRangeWithCustomStep)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, IntRangeWithCustomStepOverUpperBound)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, WorksWithACustomType)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (RangeTest, WorksWithACustomTypeWithDifferentIncrementType)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInConstArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInSingleElementArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInVector)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInIteratorRange)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInSingleElementIteratorRange)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesInTest, ValuesInEmptyIteratorRange)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesTest, ValuesWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesTest, ValuesWorksForValuesOfCompatibleTypes)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesTest, ValuesWorksForMaxLengthList)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ValuesTest, ValuesWithSingleParameter)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (BoolTest, BoolWorks)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithTwoParameters)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithThreeParameters)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithFirstParameterSingleValue)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithSecondParameterSingleValue)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithFirstParameterEmptyRange)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithSecondParameterEmptyRange)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, CombineWithMaxNumberOfParameters)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CombineTest, NonDefaultConstructAssign)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ConvertTest, CombineWithTwoParameters)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ConvertTest, NonDefaultConstructAssign)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (ParamGeneratorTest, AssignmentWorks)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBTestGenerationTest\fP, TestsExpandedAndRun)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (TestExpansionModule, \fBTestGenerationTest\fP, ValuesIn(\fBtest_generation_params\fP))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBGeneratorEvaluationTest\fP, GeneratorsEvaluatedInMain)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (GenEvalModule, \fBGeneratorEvaluationTest\fP, Values(\fBGeneratorEvaluationTest::param_value\fP()))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBExternalGeneratorTest\fP, ExternalGenerator)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (ExternalGeneratorModule, \fBExternalGeneratorTest\fP, \fBextern_gen\fP)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBExternalInstantiationTest\fP, IsMultipleOf33)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBMultipleInstantiationTest\fP, AllowsMultipleInstances)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (Sequence1, \fBMultipleInstantiationTest\fP, Values(1, 2))"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (Sequence2, \fBMultipleInstantiationTest\fP, Range(3, 5))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBInstantiationInMultipleTranslationUnitsTest\fP, IsMultipleOf42)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (Sequence1, \fBInstantiationInMultipleTranslationUnitsTest\fP, Values(42, 42 *2))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBSeparateInstanceTest\fP, TestsRunInSeparateInstances)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (FourElemSequence, \fBSeparateInstanceTest\fP, Range(1, 4))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBNamingTest\fP, TestsReportCorrectNamesAndParameters)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (ZeroToFiveSequence, \fBNamingTest\fP, Range(0, 5))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBPREFIX_WITH_MACRO\fP(\fBNamingTest\fP), \fBPREFIX_WITH_FOO\fP(SomeTestName))"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (FortyTwo, \fBMacroNamingTest\fP, Values(42))"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBPREFIX_WITH_MACRO\fP(NamingTestNonParametrized), \fBPREFIX_WITH_FOO\fP(SomeTestName))"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MacroNameing, LookupNames)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBCustomFunctorNamingTest\fP, CustomTestNames)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (\fBCustomParamNameFunctor\fP, \fBCustomFunctorNamingTest\fP, Values(std::string('FunctorName')), CustomParamNameFunctor())"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (AllAllowedCharacters, \fBCustomFunctorNamingTest\fP, Values('abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '01234567890_'), CustomParamNameFunctor())"
+.br
+.ti -1c
+.RI "std::string \fBCustomParamNameFunction\fP (const ::\fBtesting::TestParamInfo\fP< std::string > &inf)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBCustomFunctionNamingTest\fP, CustomTestNames)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (\fBCustomParamNameFunction\fP, \fBCustomFunctionNamingTest\fP, Values(std::string('FunctionName')), CustomParamNameFunction)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (CustomParamNameFunctionP, \fBCustomFunctionNamingTest\fP, Values(std::string('FunctionNameP')), &CustomParamNameFunction)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBCustomLambdaNamingTest\fP, CustomTestNames)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (CustomParamNameLambda, \fBCustomLambdaNamingTest\fP, Values(std::string('LambdaName')), [](const ::\fBtesting::TestParamInfo\fP< std::string > &inf) { return inf\&.param;})"
+.br
+.ti -1c
+.RI "\fBTEST\fP (CustomNamingTest, CheckNameRegistry)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBCustomIntegerNamingTest\fP, TestsReportCorrectNames)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (PrintToString, \fBCustomIntegerNamingTest\fP, Range(0, 5), ::\fBtesting::PrintToStringParamName\fP())"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &stream, const \fBCustomStruct\fP &val)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBCustomStructNamingTest\fP, TestsReportCorrectNames)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (PrintToString, \fBCustomStructNamingTest\fP, Values(\fBCustomStruct\fP(0), \fBCustomStruct\fP(1)), ::\fBtesting::PrintToStringParamName\fP())"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBStatefulNamingTest\fP, TestsReportCorrectNames)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (\fBStatefulNamingFunctor\fP, \fBStatefulNamingTest\fP, Range(0, 5), \fBStatefulNamingFunctor\fP())"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBCommentTest\fP, TestsCorrectlyReportUnstreamableParams)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (InstantiationWithComments, \fBCommentTest\fP, Values(\fBUnstreamable\fP(1)))"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBNonParameterizedBaseTest\fP, FixtureIsInitialized)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBParameterizedDerivedTest\fP, SeesSequence)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBParameterizedDeathTest\fP, GetParamDiesFromTestF)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (RangeZeroToFive, \fBParameterizedDerivedTest\fP, Range(0, 5))"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBMyEnumTest\fP, ChecksParamMoreThanZero)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (MyEnumTests, \fBMyEnumTest\fP, ::\fBtesting::Values\fP(\fBENUM1\fP, \fBENUM2\fP, 0))"
+.br
+.ti -1c
+.RI "\fBworks_here::TYPED_TEST_SUITE_P\fP (NotUsedTypeTest)"
+.br
+.ti -1c
+.RI "\fBworks_here::GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST\fP (NotInstantiatedTest)"
+.br
+.ti -1c
+.RI "\fBworks_here::TEST_P\fP (NotInstantiatedTest, Used)"
+.br
+.ti -1c
+.RI "\fBworks_here::TYPED_TEST_SUITE_P\fP (NotInstantiatedTypeTest)"
+.br
+.ti -1c
+.RI "\fBworks_here::GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST\fP (NotInstantiatedTypeTest)"
+.br
+.ti -1c
+.RI "\fBworks_here::TYPED_TEST_P\fP (NotInstantiatedTypeTest, Used)"
+.br
+.ti -1c
+.RI "\fBworks_here::REGISTER_TYPED_TEST_SUITE_P\fP (NotInstantiatedTypeTest, Used)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBtest_generation_params\fP [] = {36, 42, 72}"
+.br
+.ti -1c
+.RI "ParamGenerator< int > \fBextern_gen\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define PREFIX_WITH_FOO(test_name)   Foo##test_name"
+
+.PP
+Definition at line 856 of file googletest\-param\-test\-test\&.cc\&.
+.SS "#define PREFIX_WITH_MACRO(test_name)   Macro##test_name"
+
+.PP
+Definition at line 857 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBMyEnums\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIENUM1 \fP\fP
+.TP
+\fB\fIENUM2 \fP\fP
+.TP
+\fB\fIENUM3 \fP\fP
+.PP
+Definition at line 1114 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "std::string CustomParamNameFunction (const ::\fBtesting::TestParamInfo\fP< std::string > & inf)\fC [inline]\fP"
+
+.PP
+Definition at line 932 of file googletest\-param\-test\-test\&.cc\&.
+.SS "INSTANTIATE_TEST_SUITE_P (AllAllowedCharacters, \fBCustomFunctorNamingTest\fP, Values('abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '01234567890_'), \fBCustomParamNameFunctor\fP())"
+
+.SS "INSTANTIATE_TEST_SUITE_P (\fBCustomParamNameFunction\fP, \fBCustomFunctionNamingTest\fP, Values(std::string('FunctionName')), \fBCustomParamNameFunction\fP)"
+
+.SS "INSTANTIATE_TEST_SUITE_P (CustomParamNameFunctionP, \fBCustomFunctionNamingTest\fP, Values(std::string('FunctionNameP')), & CustomParamNameFunction)"
+
+.SS "INSTANTIATE_TEST_SUITE_P (\fBCustomParamNameFunctor\fP, \fBCustomFunctorNamingTest\fP, Values(std::string('FunctorName')), \fBCustomParamNameFunctor\fP())"
+
+.SS "INSTANTIATE_TEST_SUITE_P (CustomParamNameLambda, \fBCustomLambdaNamingTest\fP, Values(std::string('LambdaName')), [] (const ::\fBtesting::TestParamInfo\fP< std::string > &inf) { return inf\&.param;})"
+
+.SS "INSTANTIATE_TEST_SUITE_P (ExternalGeneratorModule, \fBExternalGeneratorTest\fP, \fBextern_gen\fP)"
+
+.SS "INSTANTIATE_TEST_SUITE_P (FortyTwo, \fBMacroNamingTest\fP, Values(42))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (FourElemSequence, \fBSeparateInstanceTest\fP, Range(1, 4))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (GenEvalModule, \fBGeneratorEvaluationTest\fP, Values(\fBGeneratorEvaluationTest::param_value\fP()))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (InstantiationWithComments, \fBCommentTest\fP, Values(\fBUnstreamable\fP(1)))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (MyEnumTests, \fBMyEnumTest\fP, ::\fBtesting::Values\fP(\fBENUM1\fP, \fBENUM2\fP, 0))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (PrintToString, \fBCustomIntegerNamingTest\fP, Range(0, 5), ::\fBtesting::PrintToStringParamName\fP())"
+
+.SS "INSTANTIATE_TEST_SUITE_P (PrintToString, \fBCustomStructNamingTest\fP, Values(\fBCustomStruct\fP(0), \fBCustomStruct\fP(1)), ::\fBtesting::PrintToStringParamName\fP())"
+
+.SS "INSTANTIATE_TEST_SUITE_P (RangeZeroToFive, \fBParameterizedDerivedTest\fP, Range(0, 5))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (Sequence1, \fBInstantiationInMultipleTranslationUnitsTest\fP, Values(42, 42 *2))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (Sequence1, \fBMultipleInstantiationTest\fP, Values(1, 2))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (Sequence2, \fBMultipleInstantiationTest\fP, Range(3, 5))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (\fBStatefulNamingFunctor\fP, \fBStatefulNamingTest\fP, Range(0, 5), \fBStatefulNamingFunctor\fP())"
+
+.SS "INSTANTIATE_TEST_SUITE_P (TestExpansionModule, \fBTestGenerationTest\fP, ValuesIn(\fBtest_generation_params\fP))"
+
+.SS "INSTANTIATE_TEST_SUITE_P (ZeroToFiveSequence, \fBNamingTest\fP, Range(0, 5))"
+
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 1158 of file googletest\-param\-test\-test\&.cc\&.
+.SS "std::ostream& operator<< (std::ostream & stream, const \fBCustomStruct\fP & val)"
+
+.PP
+Definition at line 999 of file googletest\-param\-test\-test\&.cc\&.
+.SS "template<typename T > ::std::string PrintValue (const T & value)"
+
+.PP
+Definition at line 72 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (BoolTest, BoolWorks)"
+
+.PP
+Definition at line 396 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithFirstParameterEmptyRange)"
+
+.PP
+Definition at line 454 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithFirstParameterSingleValue)"
+
+.PP
+Definition at line 431 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithMaxNumberOfParameters)"
+
+.PP
+Definition at line 470 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithSecondParameterEmptyRange)"
+
+.PP
+Definition at line 462 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithSecondParameterSingleValue)"
+
+.PP
+Definition at line 443 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithThreeParameters)"
+
+.PP
+Definition at line 417 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, CombineWithTwoParameters)"
+
+.PP
+Definition at line 404 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CombineTest, NonDefaultConstructAssign)"
+
+.PP
+Definition at line 501 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ConvertTest, CombineWithTwoParameters)"
+
+.PP
+Definition at line 544 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ConvertTest, NonDefaultConstructAssign)"
+
+.PP
+Definition at line 556 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (CustomNamingTest, CheckNameRegistry)"
+
+.PP
+Definition at line 959 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (IteratorTest, ParamIteratorConformsToForwardIteratorConcept)"
+
+.PP
+Definition at line 137 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (MacroNameing, LookupNames)"
+
+.PP
+Definition at line 881 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ParamGeneratorTest, AssignmentWorks)"
+
+.PP
+Definition at line 588 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, IntRangeEmpty)"
+
+.PP
+Definition at line 188 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, IntRangeSingleValue)"
+
+.PP
+Definition at line 180 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, IntRangeWithCustomStep)"
+
+.PP
+Definition at line 195 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, IntRangeWithCustomStepOverUpperBound)"
+
+.PP
+Definition at line 205 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, IntRangeWithDefaultStep)"
+
+.PP
+Definition at line 172 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, WorksWithACustomType)"
+
+.PP
+Definition at line 234 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (RangeTest, WorksWithACustomTypeWithDifferentIncrementType)"
+
+.PP
+Definition at line 268 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInArray)"
+
+.PP
+Definition at line 283 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInConstArray)"
+
+.PP
+Definition at line 291 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInEmptyIteratorRange)"
+
+.PP
+Definition at line 346 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInIteratorRange)"
+
+.PP
+Definition at line 320 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInSingleElementArray)"
+
+.PP
+Definition at line 299 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInSingleElementIteratorRange)"
+
+.PP
+Definition at line 334 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesInTest, ValuesInVector)"
+
+.PP
+Definition at line 307 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesTest, ValuesWithSingleParameter)"
+
+.PP
+Definition at line 388 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesTest, ValuesWorks)"
+
+.PP
+Definition at line 355 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesTest, ValuesWorksForMaxLengthList)"
+
+.PP
+Definition at line 371 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST (ValuesTest, ValuesWorksForValuesOfCompatibleTypes)"
+
+.PP
+Definition at line 364 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_F (\fBNonParameterizedBaseTest\fP, FixtureIsInitialized)"
+
+.PP
+Definition at line 1096 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_F (\fBParameterizedDeathTest\fP, GetParamDiesFromTestF)"
+
+.PP
+Definition at line 1106 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_F (\fBPREFIX_WITH_MACRO\fP(NamingTestNonParametrized), \fBPREFIX_WITH_FOO\fP(SomeTestName))"
+
+.PP
+Definition at line 872 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBCommentTest\fP, TestsCorrectlyReportUnstreamableParams)"
+
+.PP
+Definition at line 1064 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBCustomFunctionNamingTest\fP, CustomTestNames)"
+
+.PP
+Definition at line 938 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBCustomFunctorNamingTest\fP, CustomTestNames)"
+
+.PP
+Definition at line 915 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBCustomIntegerNamingTest\fP, TestsReportCorrectNames)"
+
+.PP
+Definition at line 981 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBCustomLambdaNamingTest\fP, CustomTestNames)"
+
+.PP
+Definition at line 951 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBCustomStructNamingTest\fP, TestsReportCorrectNames)"
+
+.PP
+Definition at line 1006 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBExternalGeneratorTest\fP, ExternalGenerator)"
+
+.PP
+Definition at line 771 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBExternalInstantiationTest\fP, IsMultipleOf33)"
+
+.PP
+Definition at line 783 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBGeneratorEvaluationTest\fP, GeneratorsEvaluatedInMain)"
+
+.PP
+Definition at line 761 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBInstantiationInMultipleTranslationUnitsTest\fP, IsMultipleOf42)"
+
+.PP
+Definition at line 799 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBMultipleInstantiationTest\fP, AllowsMultipleInstances)"
+
+.PP
+Definition at line 790 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBMyEnumTest\fP, ChecksParamMoreThanZero)"
+
+.PP
+Definition at line 1122 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBNamingTest\fP, TestsReportCorrectNamesAndParameters)"
+
+.PP
+Definition at line 838 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBParameterizedDerivedTest\fP, SeesSequence)"
+
+.PP
+Definition at line 1098 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBPREFIX_WITH_MACRO\fP(\fBNamingTest\fP), \fBPREFIX_WITH_FOO\fP(SomeTestName))"
+
+.PP
+Definition at line 859 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBSeparateInstanceTest\fP, TestsRunInSeparateInstances)"
+
+.PP
+Definition at line 825 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBStatefulNamingTest\fP, TestsReportCorrectNames)"
+
+.PP
+Definition at line 1036 of file googletest\-param\-test\-test\&.cc\&.
+.SS "TEST_P (\fBTestGenerationTest\fP, TestsExpandedAndRun)"
+
+.PP
+Definition at line 733 of file googletest\-param\-test\-test\&.cc\&.
+.SS "template<typename T , size_t N> void VerifyGenerator (const ParamGenerator< T > & generator, const T(&) expected_values[N])"
+
+.PP
+Definition at line 80 of file googletest\-param\-test\-test\&.cc\&.
+.SS "template<typename T > void VerifyGeneratorIsEmpty (const ParamGenerator< T > & generator)"
+
+.PP
+Definition at line 120 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Variable Documentation"
+.PP 
+.SS "ParamGenerator<int> extern_gen\fC [extern]\fP"
+
+.PP
+Definition at line 43 of file googletest\-param\-test2\-test\&.cc\&.
+.SS "const int test_generation_params[] = {36, 42, 72}"
+
+.PP
+Definition at line 666 of file googletest\-param\-test\-test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

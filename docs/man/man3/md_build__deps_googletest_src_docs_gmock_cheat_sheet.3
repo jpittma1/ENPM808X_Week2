@@ -1,0 +1,226 @@
+.TH "md_build__deps_googletest_src_docs_gmock_cheat_sheet" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src_docs_gmock_cheat_sheet \- gMock Cheat Sheet 
+
+.SH "Defining a Mock Class"
+.PP
+.SS "Mocking a Normal Class"
+Given
+.PP
+.PP
+.nf
+class Foo {
+ public:
+  virtual ~Foo();
+  virtual int GetSize() const = 0;
+  virtual string Describe(const char* name) = 0;
+  virtual string Describe(int type) = 0;
+  virtual bool Process(Bar elem, int count) = 0;
+};
+.fi
+.PP
+.PP
+(note that \fC~Foo()\fP \fBmust\fP be virtual) we can define its mock as
+.PP
+.PP
+.nf
+#include <gmock/gmock\&.h>
+
+class MockFoo : public Foo {
+ public:
+  MOCK_METHOD(int, GetSize, (), (const, override));
+  MOCK_METHOD(string, Describe, (const char* name), (override));
+  MOCK_METHOD(string, Describe, (int type), (override));
+  MOCK_METHOD(bool, Process, (Bar elem, int count), (override));
+};
+.fi
+.PP
+.PP
+To create a 'nice' mock, which ignores all uninteresting calls, a 'naggy' mock, which warns on all uninteresting calls, or a 'strict' mock, which treats them as failures:
+.PP
+.PP
+.nf
+using ::testing::NiceMock;
+using ::testing::NaggyMock;
+using ::testing::StrictMock;
+
+NiceMock<MockFoo> nice_foo;      // The type is a subclass of MockFoo\&.
+NaggyMock<MockFoo> naggy_foo;    // The type is a subclass of MockFoo\&.
+StrictMock<MockFoo> strict_foo;  // The type is a subclass of MockFoo\&.
+.fi
+.PP
+.PP
+{: \&.callout \&.note} \fBNote:\fP A mock object is currently naggy by default\&. We may make it nice by default in the future\&.
+.SS "Mocking a Class Template"
+Class templates can be mocked just like any class\&.
+.PP
+To mock
+.PP
+.PP
+.nf
+template <typename Elem>
+class StackInterface {
+ public:
+  virtual ~StackInterface();
+  virtual int GetSize() const = 0;
+  virtual void Push(const Elem& x) = 0;
+};
+.fi
+.PP
+.PP
+(note that all member functions that are mocked, including \fC~StackInterface()\fP \fBmust\fP be virtual)\&.
+.PP
+.PP
+.nf
+template <typename Elem>
+class MockStack : public StackInterface<Elem> {
+ public:
+  MOCK_METHOD(int, GetSize, (), (const, override));
+  MOCK_METHOD(void, Push, (const Elem& x), (override));
+};
+.fi
+.PP
+.SS "Specifying Calling Conventions for Mock Functions"
+If your mock function doesn't use the default calling convention, you can specify it by adding \fCCalltype(convention)\fP to \fCMOCK_METHOD\fP's 4th parameter\&. For example,
+.PP
+.PP
+.nf
+MOCK_METHOD(bool, Foo, (int n), (Calltype(STDMETHODCALLTYPE)));
+MOCK_METHOD(int, Bar, (double x, double y),
+            (const, Calltype(STDMETHODCALLTYPE)));
+.fi
+.PP
+.PP
+where \fCSTDMETHODCALLTYPE\fP is defined by \fC<objbase\&.h>\fP on Windows\&.
+.SH "Using Mocks in Tests"
+.PP
+The typical work flow is:
+.PP
+.IP "1." 4
+Import the gMock names you need to use\&. All gMock symbols are in the \fCtesting\fP namespace unless they are macros or otherwise noted\&.
+.IP "2." 4
+Create the mock objects\&.
+.IP "3." 4
+Optionally, set the default actions of the mock objects\&.
+.IP "4." 4
+Set your expectations on the mock objects (How will they be called? What will they do?)\&.
+.IP "5." 4
+Exercise code that uses the mock objects; if necessary, check the result using googletest assertions\&.
+.IP "6." 4
+When a mock object is destructed, gMock automatically verifies that all expectations on it have been satisfied\&.
+.PP
+.PP
+Here's an example:
+.PP
+.PP
+.nf
+using ::testing::Return;                          // #1
+
+TEST(BarTest, DoesThis) {
+  MockFoo foo;                                    // #2
+
+  ON_CALL(foo, GetSize())                         // #3
+      \&.WillByDefault(Return(1));
+  // \&.\&.\&. other default actions \&.\&.\&.
+
+  EXPECT_CALL(foo, Describe(5))                   // #4
+      \&.Times(3)
+      \&.WillRepeatedly(Return("Category 5"));
+  // \&.\&.\&. other expectations \&.\&.\&.
+
+  EXPECT_EQ(MyProductionFunction(&foo), "good");  // #5
+}                                                 // #6
+.fi
+.PP
+.SH "Setting Default Actions"
+.PP
+gMock has a \fBbuilt-in default action\fP for any function that returns \fCvoid\fP, \fCbool\fP, a numeric value, or a pointer\&. In C++11, it will additionally returns the default-constructed value, if one exists for the given type\&.
+.PP
+To customize the default action for functions with return type \fCT\fP, use \fC\fCDefaultValue<T>\fP\fP\&. For example:
+.PP
+.PP
+.nf
+// Sets the default action for return type std::unique_ptr<Buzz> to
+// creating a new Buzz every time\&.
+DefaultValue<std::unique_ptr<Buzz>>::SetFactory(
+    [] { return std::make_unique<Buzz>(AccessLevel::kInternal); });
+
+// When this fires, the default action of MakeBuzz() will run, which
+// will return a new Buzz object\&.
+EXPECT_CALL(mock_buzzer_, MakeBuzz("hello"))\&.Times(AnyNumber());
+
+auto buzz1 = mock_buzzer_\&.MakeBuzz("hello");
+auto buzz2 = mock_buzzer_\&.MakeBuzz("hello");
+EXPECT_NE(buzz1, nullptr);
+EXPECT_NE(buzz2, nullptr);
+EXPECT_NE(buzz1, buzz2);
+
+// Resets the default action for return type std::unique_ptr<Buzz>,
+// to avoid interfere with other tests\&.
+DefaultValue<std::unique_ptr<Buzz>>::Clear();
+.fi
+.PP
+.PP
+To customize the default action for a particular method of a specific mock object, use \fC\fCON_CALL\fP\fP\&. \fCON_CALL\fP has a similar syntax to \fCEXPECT_CALL\fP, but it is used for setting default behaviors when you do not require that the mock method is called\&. See \fCKnowing When to Expect\fP for a more detailed discussion\&.
+.SH "Setting Expectations"
+.PP
+See \fC\fCEXPECT_CALL\fP\fP in the Mocking Reference\&.
+.SH "Matchers"
+.PP
+See the \fBMatchers Reference\fP\&.
+.SH "Actions"
+.PP
+See the \fBActions Reference\fP\&.
+.SH "Cardinalities"
+.PP
+See the \fC\fCTimes\fP clause\fP of \fCEXPECT_CALL\fP in the Mocking Reference\&.
+.SH "Expectation Order"
+.PP
+By default, expectations can be matched in \fIany\fP order\&. If some or all expectations must be matched in a given order, you can use the \fC\fCAfter\fP clause\fP or \fC\fCInSequence\fP clause\fP of \fCEXPECT_CALL\fP, or use an \fC\fCInSequence\fP object\fP\&.
+.SH "Verifying and Resetting a Mock"
+.PP
+gMock will verify the expectations on a mock object when it is destructed, or you can do it earlier:
+.PP
+.PP
+.nf
+using ::testing::Mock;
+\&.\&.\&.
+// Verifies and removes the expectations on mock_obj;
+// returns true if and only if successful\&.
+Mock::VerifyAndClearExpectations(&mock_obj);
+\&.\&.\&.
+// Verifies and removes the expectations on mock_obj;
+// also removes the default actions set by ON_CALL();
+// returns true if and only if successful\&.
+Mock::VerifyAndClear(&mock_obj);
+.fi
+.PP
+.PP
+Do not set new expectations after verifying and clearing a mock after its use\&. Setting expectations after code that exercises the mock has undefined behavior\&. See \fCUsing Mocks in Tests\fP for more information\&.
+.PP
+You can also tell gMock that a mock object can be leaked and doesn't need to be verified:
+.PP
+.PP
+.nf
+Mock::AllowLeak(&mock_obj);
+.fi
+.PP
+.SH "Mock Classes"
+.PP
+gMock defines a convenient mock class template
+.PP
+.PP
+.nf
+class MockFunction<R(A1, \&.\&.\&., An)> {
+ public:
+  MOCK_METHOD(R, Call, (A1, \&.\&.\&., An));
+};
+.fi
+.PP
+.PP
+See this \fCrecipe\fP for one application of it\&.
+.SH "Flags"
+.PP
+Flag   Description    \fC--gmock_catch_leaked_mocks=0\fP   Don't report leaked mock objects as failures\&.    \fC--gmock_verbose=LEVEL\fP   Sets the default verbosity level (\fCinfo\fP, \fCwarning\fP, or \fCerror\fP) of Google \fBMock\fP messages\&.   

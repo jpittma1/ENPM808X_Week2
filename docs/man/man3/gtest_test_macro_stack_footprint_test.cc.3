@@ -1,0 +1,93 @@
+.TH "build/_deps/googletest-src/googletest/test/gtest_test_macro_stack_footprint_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/gtest_test_macro_stack_footprint_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTEN_TESTS_\fP(test_case_name)"
+.br
+.ti -1c
+.RI "#define \fBHUNDRED_TESTS_\fP(test_case_name_prefix)"
+.br
+.ti -1c
+.RI "#define \fBTHOUSAND_TESTS_\fP(test_case_name_prefix)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define HUNDRED_TESTS_(test_case_name_prefix)"
+\fBValue:\fP
+.PP
+.nf
+  TEN_TESTS_(test_case_name_prefix##0)        \
+  TEN_TESTS_(test_case_name_prefix##1)        \
+  TEN_TESTS_(test_case_name_prefix##2)        \
+  TEN_TESTS_(test_case_name_prefix##3)        \
+  TEN_TESTS_(test_case_name_prefix##4)        \
+  TEN_TESTS_(test_case_name_prefix##5)        \
+  TEN_TESTS_(test_case_name_prefix##6)        \
+  TEN_TESTS_(test_case_name_prefix##7)        \
+  TEN_TESTS_(test_case_name_prefix##8)        \
+  TEN_TESTS_(test_case_name_prefix##9)
+.fi
+.PP
+Definition at line 54 of file gtest_test_macro_stack_footprint_test\&.cc\&.
+.SS "#define TEN_TESTS_(test_case_name)"
+\fBValue:\fP
+.PP
+.nf
+  TEST(test_case_name, T0) {}      \
+  TEST(test_case_name, T1) {}      \
+  TEST(test_case_name, T2) {}      \
+  TEST(test_case_name, T3) {}      \
+  TEST(test_case_name, T4) {}      \
+  TEST(test_case_name, T5) {}      \
+  TEST(test_case_name, T6) {}      \
+  TEST(test_case_name, T7) {}      \
+  TEST(test_case_name, T8) {}      \
+  TEST(test_case_name, T9) {}
+.fi
+.PP
+Definition at line 41 of file gtest_test_macro_stack_footprint_test\&.cc\&.
+.SS "#define THOUSAND_TESTS_(test_case_name_prefix)"
+\fBValue:\fP
+.PP
+.nf
+  HUNDRED_TESTS_(test_case_name_prefix##0)     \
+  HUNDRED_TESTS_(test_case_name_prefix##1)     \
+  HUNDRED_TESTS_(test_case_name_prefix##2)     \
+  HUNDRED_TESTS_(test_case_name_prefix##3)     \
+  HUNDRED_TESTS_(test_case_name_prefix##4)     \
+  HUNDRED_TESTS_(test_case_name_prefix##5)     \
+  HUNDRED_TESTS_(test_case_name_prefix##6)     \
+  HUNDRED_TESTS_(test_case_name_prefix##7)     \
+  HUNDRED_TESTS_(test_case_name_prefix##8)     \
+  HUNDRED_TESTS_(test_case_name_prefix##9)
+.fi
+.PP
+Definition at line 67 of file gtest_test_macro_stack_footprint_test\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 83 of file gtest_test_macro_stack_footprint_test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

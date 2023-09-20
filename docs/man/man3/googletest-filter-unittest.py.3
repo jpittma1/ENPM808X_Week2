@@ -1,0 +1,120 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBgoogletest\-filter\-unittest\&.GTestFilterUnitTest\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBgoogletest\-filter\-unittest\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBgoogletest\-filter\-unittest\&.SetEnvVar\fP (env_var, \fBvalue\fP)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-filter\-unittest\&.RunAndReturnOutput\fP (args=None)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-filter\-unittest\&.RunAndExtractTestList\fP (args=None)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-filter\-unittest\&.RunAndExtractDisabledBannerList\fP (args=None)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-filter\-unittest\&.InvokeWithModifiedEnv\fP (extra_env, function, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBgoogletest\-filter\-unittest\&.RunWithSharding\fP (total_shards, shard_index, command)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "bool \fBgoogletest\-filter\-unittest\&.CAN_PASS_EMPTY_ENV\fP = False"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.child\fP"
+.br
+.ti -1c
+.RI "bool \fBgoogletest\-filter\-unittest\&.CAN_UNSET_ENV\fP = False"
+.br
+.ti -1c
+.RI "bool \fBgoogletest\-filter\-unittest\&.CAN_TEST_EMPTY_FILTER\fP = CAN_PASS_EMPTY_ENV and CAN_UNSET_ENV"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.FILTER_ENV_VAR\fP = 'GTEST_FILTER'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.TOTAL_SHARDS_ENV_VAR\fP = 'GTEST_TOTAL_SHARDS'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.SHARD_INDEX_ENV_VAR\fP = 'GTEST_SHARD_INDEX'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.SHARD_STATUS_FILE_ENV_VAR\fP = 'GTEST_SHARD_STATUS_FILE'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.FILTER_FLAG\fP = 'gtest_filter'"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.ALSO_RUN_DISABLED_TESTS_FLAG\fP = 'gtest_also_run_disabled_tests'"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.COMMAND\fP = \fBgtest_test_utils\&.GetTestExecutablePath\fP('googletest\-filter\-unittest_')"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.PARAM_TEST_REGEX\fP = re\&.compile(r'/\fBParamTest\fP')"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.TEST_CASE_REGEX\fP = re\&.compile(r'^\\[\\\-+\\] \\d+ tests? from (\\w+(/\\w+)?)')"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.TEST_REGEX\fP = re\&.compile(r'^\\[\\s*RUN\\s*\\]\&.*\\\&.(\\w+(/\\w+)?)')"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.DISABLED_BANNER_REGEX\fP = re\&.compile(r'^\\[\\s*DISABLED\\s*\\] (\&.*)')"
+.br
+.ti -1c
+.RI "string \fBgoogletest\-filter\-unittest\&.LIST_TESTS_FLAG\fP = '\-\-gtest_list_tests'"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-filter\-unittest\&.SUPPORTS_DEATH_TESTS\fP"
+.br
+.ti -1c
+.RI "list \fBgoogletest\-filter\-unittest\&.PARAM_TESTS\fP"
+.br
+.ti -1c
+.RI "list \fBgoogletest\-filter\-unittest\&.DISABLED_TESTS\fP"
+.br
+.ti -1c
+.RI "list \fBgoogletest\-filter\-unittest\&.DEATH_TESTS\fP"
+.br
+.ti -1c
+.RI "tuple \fBgoogletest\-filter\-unittest\&.ACTIVE_TESTS\fP"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.param_tests_present\fP = None"
+.br
+.ti -1c
+.RI "\fBgoogletest\-filter\-unittest\&.environ\fP = os\&.environ\&.copy()"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

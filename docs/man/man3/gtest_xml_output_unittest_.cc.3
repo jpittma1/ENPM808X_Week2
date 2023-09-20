@@ -1,0 +1,270 @@
+.TH "build/_deps/googletest-src/googletest/test/gtest_xml_output_unittest_.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/gtest_xml_output_unittest_.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBSuccessfulTest\fP"
+.br
+.ti -1c
+.RI "class \fBFailedTest\fP"
+.br
+.ti -1c
+.RI "class \fBDisabledTest\fP"
+.br
+.ti -1c
+.RI "class \fBSkippedTest\fP"
+.br
+.ti -1c
+.RI "class \fBPropertyRecordingTest\fP"
+.br
+.ti -1c
+.RI "class \fBValueParamTest\fP"
+.br
+.ti -1c
+.RI "class \fBTypedTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBTypeParameterizedTestSuite< T >\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< int, long > \fBTypedTestTypes\fP"
+.br
+.ti -1c
+.RI "typedef \fBtesting::Types\fP< int, long > \fBTypeParameterizedTestSuiteTypes\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSuccessfulTest\fP, Succeeds)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBFailedTest\fP, Fails)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBDisabledTest\fP, DISABLED_test_not_run)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSkippedTest\fP, Skipped)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSkippedTest\fP, SkippedWithMessage)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSkippedTest\fP, SkippedAfterFailure)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MixedResultTest, Succeeds)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MixedResultTest, Fails)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (MixedResultTest, DISABLED_test)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (XmlQuotingTest, OutputsCData)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (InvalidCharactersTest, InvalidCharactersInMessage)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBPropertyRecordingTest\fP, OneProperty)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBPropertyRecordingTest\fP, IntValuedProperty)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBPropertyRecordingTest\fP, ThreeProperties)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBPropertyRecordingTest\fP, TwoValuesForOneKeyUsesLastValue)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NoFixtureTest, RecordProperty)"
+.br
+.ti -1c
+.RI "void \fBExternalUtilityThatCallsRecordProperty\fP (const std::string &key, int \fBvalue\fP)"
+.br
+.ti -1c
+.RI "void \fBExternalUtilityThatCallsRecordProperty\fP (const std::string &key, const std::string &\fBvalue\fP)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NoFixtureTest, ExternalUtilityThatCallsRecordIntValuedProperty)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (NoFixtureTest, ExternalUtilityThatCallsRecordStringValuedProperty)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBValueParamTest\fP, HasValueParamAttribute)"
+.br
+.ti -1c
+.RI "\fBTEST_P\fP (\fBValueParamTest\fP, AnotherTestThatHasValueParamAttribute)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TEST_SUITE_P\fP (Single, \fBValueParamTest\fP, Values(33, 42))"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE\fP (\fBTypedTest\fP, \fBTypedTestTypes\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST\fP (\fBTypedTest\fP, HasTypeParamAttribute)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_SUITE_P\fP (\fBTypeParameterizedTestSuite\fP)"
+.br
+.ti -1c
+.RI "\fBTYPED_TEST_P\fP (\fBTypeParameterizedTestSuite\fP, HasTypeParamAttribute)"
+.br
+.ti -1c
+.RI "\fBREGISTER_TYPED_TEST_SUITE_P\fP (\fBTypeParameterizedTestSuite\fP, HasTypeParamAttribute)"
+.br
+.ti -1c
+.RI "\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP (Single, \fBTypeParameterizedTestSuite\fP, \fBTypeParameterizedTestSuiteTypes\fP)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBtesting::Types\fP<int, long> \fBTypedTestTypes\fP"
+
+.PP
+Definition at line 171 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "typedef \fBtesting::Types\fP<int, long> \fBTypeParameterizedTestSuiteTypes\fP"
+
+.PP
+Definition at line 182 of file gtest_xml_output_unittest_\&.cc\&.
+.SH "Function Documentation"
+.PP 
+.SS "void ExternalUtilityThatCallsRecordProperty (const std::string & key, const std::string & value)"
+
+.PP
+Definition at line 148 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "void ExternalUtilityThatCallsRecordProperty (const std::string & key, int value)"
+
+.PP
+Definition at line 144 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "INSTANTIATE_TEST_SUITE_P (Single, \fBValueParamTest\fP, Values(33, 42))"
+
+.SS "INSTANTIATE_TYPED_TEST_SUITE_P (Single, \fBTypeParameterizedTestSuite\fP, \fBTypeParameterizedTestSuiteTypes\fP)"
+
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 186 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "REGISTER_TYPED_TEST_SUITE_P (\fBTypeParameterizedTestSuite\fP, HasTypeParamAttribute)"
+
+.SS "TEST (InvalidCharactersTest, InvalidCharactersInMessage)"
+
+.PP
+Definition at line 109 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (MixedResultTest, DISABLED_test)"
+
+.PP
+Definition at line 98 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (MixedResultTest, Fails)"
+
+.PP
+Definition at line 93 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (MixedResultTest, Succeeds)"
+
+.PP
+Definition at line 88 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (NoFixtureTest, ExternalUtilityThatCallsRecordIntValuedProperty)"
+
+.PP
+Definition at line 153 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (NoFixtureTest, ExternalUtilityThatCallsRecordStringValuedProperty)"
+
+.PP
+Definition at line 157 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (NoFixtureTest, RecordProperty)"
+
+.PP
+Definition at line 140 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST (XmlQuotingTest, OutputsCData)"
+
+.PP
+Definition at line 102 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBDisabledTest\fP, DISABLED_test_not_run)"
+
+.PP
+Definition at line 68 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBFailedTest\fP, Fails)"
+
+.PP
+Definition at line 61 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBPropertyRecordingTest\fP, IntValuedProperty)"
+
+.PP
+Definition at line 125 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBPropertyRecordingTest\fP, OneProperty)"
+
+.PP
+Definition at line 121 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBPropertyRecordingTest\fP, ThreeProperties)"
+
+.PP
+Definition at line 129 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBPropertyRecordingTest\fP, TwoValuesForOneKeyUsesLastValue)"
+
+.PP
+Definition at line 135 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBSkippedTest\fP, Skipped)"
+
+.PP
+Definition at line 75 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBSkippedTest\fP, SkippedAfterFailure)"
+
+.PP
+Definition at line 83 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBSkippedTest\fP, SkippedWithMessage)"
+
+.PP
+Definition at line 79 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_F (\fBSuccessfulTest\fP, Succeeds)"
+
+.PP
+Definition at line 53 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_P (\fBValueParamTest\fP, AnotherTestThatHasValueParamAttribute)"
+
+.PP
+Definition at line 165 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TEST_P (\fBValueParamTest\fP, HasValueParamAttribute)"
+
+.PP
+Definition at line 164 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TYPED_TEST (\fBTypedTest\fP, HasTypeParamAttribute)"
+
+.PP
+Definition at line 173 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TYPED_TEST_P (\fBTypeParameterizedTestSuite\fP, HasTypeParamAttribute)"
+
+.PP
+Definition at line 180 of file gtest_xml_output_unittest_\&.cc\&.
+.SS "TYPED_TEST_SUITE (\fBTypedTest\fP, \fBTypedTestTypes\fP)"
+
+.SS "TYPED_TEST_SUITE_P (\fBTypeParameterizedTestSuite\fP)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

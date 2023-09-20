@@ -1,0 +1,454 @@
+.TH "md_build__deps_googletest_src_docs_reference_assertions" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src_docs_reference_assertions \- Assertions Reference 
+This page lists the assertion macros provided by GoogleTest for verifying code behavior\&. To use them, include the header \fC\fBgtest/gtest\&.h\fP\fP\&.
+.PP
+The majority of the macros listed below come as a pair with an \fCEXPECT_\fP variant and an \fCASSERT_\fP variant\&. Upon failure, \fCEXPECT_\fP macros generate nonfatal failures and allow the current function to continue running, while \fCASSERT_\fP macros generate fatal failures and abort the current function\&.
+.PP
+All assertion macros support streaming a custom failure message into them with the \fC<<\fP operator, for example:
+.PP
+.PP
+.nf
+EXPECT_TRUE(my_condition) << "My condition is not true";
+.fi
+.PP
+.PP
+Anything that can be streamed to an \fCostream\fP can be streamed to an assertion macro—in particular, C strings and string objects\&. If a wide string (\fCwchar_t*\fP, \fCTCHAR*\fP in \fCUNICODE\fP mode on Windows, or \fCstd::wstring\fP) is streamed to an assertion, it will be translated to UTF-8 when printed\&.
+.SH "Explicit Success and Failure"
+.PP
+The assertions in this section generate a success or failure directly instead of testing a value or expression\&. These are useful when control flow, rather than a Boolean expression, determines the test's success or failure, as shown by the following example:
+.PP
+.PP
+.nf
+ {c++}
+switch(expression) {
+  case 1:
+    \&.\&.\&. some checks \&.\&.\&.
+  case 2:
+    \&.\&.\&. some other checks \&.\&.\&.
+  default:
+    FAIL() << "We shouldn't get here\&.";
+}
+.fi
+.PP
+.SS "SUCCEED"
+\fC\fBSUCCEED()\fP\fP
+.PP
+Generates a success\&. This \fIdoes not\fP make the overall test succeed\&. A test is considered successful only if none of its assertions fail during its execution\&.
+.PP
+The \fCSUCCEED\fP assertion is purely documentary and currently doesn't generate any user-visible output\&. However, we may add \fCSUCCEED\fP messages to GoogleTest output in the future\&.
+.SS "FAIL"
+\fC\fBFAIL()\fP\fP
+.PP
+Generates a fatal failure, which returns from the current function\&.
+.PP
+Can only be used in functions that return \fCvoid\fP\&. See \fCAssertion Placement\fP for more information\&.
+.SS "ADD_FAILURE"
+\fC\fBADD_FAILURE()\fP\fP
+.PP
+Generates a nonfatal failure, which allows the current function to continue running\&.
+.SS "ADD_FAILURE_AT"
+\fCADD_FAILURE_AT(\fP*\fCfile_path\fP*\fC,\fP*\fCline_number\fP*\fC)\fP
+.PP
+Generates a nonfatal failure at the file and line number specified\&.
+.SH "Generalized Assertion"
+.PP
+The following assertion allows \fBmatchers\fP to be used to verify values\&.
+.SS "EXPECT_THAT"
+\fCEXPECT_THAT(\fP*\fCvalue\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP \\ \fCASSERT_THAT(\fP*\fCvalue\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP
+.PP
+Verifies that *\fCvalue\fP* matches the \fBmatcher\fP *\fCmatcher\fP*\&.
+.PP
+For example, the following code verifies that the string \fCvalue1\fP starts with \fC'Hello'\fP, \fCvalue2\fP matches a regular expression, and \fCvalue3\fP is between 5 and 10:
+.PP
+.PP
+.nf
+#include <gmock/gmock\&.h>
+
+using ::testing::AllOf;
+using ::testing::Gt;
+using ::testing::Lt;
+using ::testing::MatchesRegex;
+using ::testing::StartsWith;
+
+\&.\&.\&.
+EXPECT_THAT(value1, StartsWith("Hello"));
+EXPECT_THAT(value2, MatchesRegex("Line \\d+"));
+ASSERT_THAT(value3, AllOf(Gt(5), Lt(10)));
+.fi
+.PP
+.PP
+Matchers enable assertions of this form to read like English and generate informative failure messages\&. For example, if the above assertion on \fCvalue1\fP fails, the resulting message will be similar to the following:
+.PP
+.PP
+.nf
+Value of: value1
+  Actual: "Hi, world!"
+Expected: starts with "Hello"
+.fi
+.PP
+.PP
+GoogleTest provides a built-in library of matchers—see the \fBMatchers Reference\fP\&. It is also possible to write your own matchers—see \fCWriting New Matchers Quickly\fP\&. The use of matchers makes \fCEXPECT_THAT\fP a powerful, extensible assertion\&.
+.PP
+\fIThe idea for this assertion was borrowed from Joe Walnes' Hamcrest project, which adds \fCassertThat()\fP to JUnit\&.\fP
+.SH "Boolean Conditions"
+.PP
+The following assertions test Boolean conditions\&.
+.SS "EXPECT_TRUE"
+\fCEXPECT_TRUE(\fP*\fCcondition\fP*\fC)\fP \\ \fCASSERT_TRUE(\fP*\fCcondition\fP*\fC)\fP
+.PP
+Verifies that *\fCcondition\fP* is true\&.
+.SS "EXPECT_FALSE"
+\fCEXPECT_FALSE(\fP*\fCcondition\fP*\fC)\fP \\ \fCASSERT_FALSE(\fP*\fCcondition\fP*\fC)\fP
+.PP
+Verifies that *\fCcondition\fP* is false\&.
+.SH "Binary Comparison"
+.PP
+The following assertions compare two values\&. The value arguments must be comparable by the assertion's comparison operator, otherwise a compiler error will result\&.
+.PP
+If an argument supports the \fC<<\fP operator, it will be called to print the argument when the assertion fails\&. Otherwise, GoogleTest will attempt to print them in the best way it can—see \fCTeaching GoogleTest How to Print Your Values\fP\&.
+.PP
+Arguments are always evaluated exactly once, so it's OK for the arguments to have side effects\&. However, the argument evaluation order is undefined and programs should not depend on any particular argument evaluation order\&.
+.PP
+These assertions work with both narrow and wide string objects (\fCstring\fP and \fCwstring\fP)\&.
+.PP
+See also the \fCFloating-Point Comparison\fP assertions to compare floating-point numbers and avoid problems caused by rounding\&.
+.SS "EXPECT_EQ"
+\fCEXPECT_EQ(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_EQ(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that *\fCval1\fP*\fC==\fP*\fCval2\fP*\&.
+.PP
+Does pointer equality on pointers\&. If used on two C strings, it tests if they are in the same memory location, not if they have the same value\&. Use \fC\fCEXPECT_STREQ\fP\fP to compare C strings (e\&.g\&. \fCconst char*\fP) by value\&.
+.PP
+When comparing a pointer to \fCNULL\fP, use \fCEXPECT_EQ(\fP*\fCptr\fP*\fC, nullptr)\fP instead of \fCEXPECT_EQ(\fP*\fCptr\fP*\fC, NULL)\fP\&.
+.SS "EXPECT_NE"
+\fCEXPECT_NE(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_NE(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that *\fCval1\fP*\fC!=\fP*\fCval2\fP*\&.
+.PP
+Does pointer equality on pointers\&. If used on two C strings, it tests if they are in different memory locations, not if they have different values\&. Use \fC\fCEXPECT_STRNE\fP\fP to compare C strings (e\&.g\&. \fCconst char*\fP) by value\&.
+.PP
+When comparing a pointer to \fCNULL\fP, use \fCEXPECT_NE(\fP*\fCptr\fP*\fC, nullptr)\fP instead of \fCEXPECT_NE(\fP*\fCptr\fP*\fC, NULL)\fP\&.
+.SS "EXPECT_LT"
+\fCEXPECT_LT(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_LT(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that *\fCval1\fP*\fC<\fP*\fCval2\fP*\&.
+.SS "EXPECT_LE"
+\fCEXPECT_LE(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_LE(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that *\fCval1\fP*\fC<=\fP*\fCval2\fP*\&.
+.SS "EXPECT_GT"
+\fCEXPECT_GT(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_GT(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that *\fCval1\fP*\fC>\fP*\fCval2\fP*\&.
+.SS "EXPECT_GE"
+\fCEXPECT_GE(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_GE(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that *\fCval1\fP*\fC>=\fP*\fCval2\fP*\&.
+.SH "String Comparison"
+.PP
+The following assertions compare two \fBC strings\fP\&. To compare two \fCstring\fP objects, use \fC\fCEXPECT_EQ\fP\fP or \fC\fCEXPECT_NE\fP\fP instead\&.
+.PP
+These assertions also accept wide C strings (\fCwchar_t*\fP)\&. If a comparison of two wide strings fails, their values will be printed as UTF-8 narrow strings\&.
+.PP
+To compare a C string with \fCNULL\fP, use \fCEXPECT_EQ(\fP*\fCc_string\fP*\fC, nullptr)\fP or \fCEXPECT_NE(\fP*\fCc_string\fP*\fC, nullptr)\fP\&.
+.SS "EXPECT_STREQ"
+\fCEXPECT_STREQ(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP \\ \fCASSERT_STREQ(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP
+.PP
+Verifies that the two C strings *\fCstr1\fP* and *\fCstr2\fP* have the same contents\&.
+.SS "EXPECT_STRNE"
+\fCEXPECT_STRNE(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP \\ \fCASSERT_STRNE(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP
+.PP
+Verifies that the two C strings *\fCstr1\fP* and *\fCstr2\fP* have different contents\&.
+.SS "EXPECT_STRCASEEQ"
+\fCEXPECT_STRCASEEQ(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP \\ \fCASSERT_STRCASEEQ(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP
+.PP
+Verifies that the two C strings *\fCstr1\fP* and *\fCstr2\fP* have the same contents, ignoring case\&.
+.SS "EXPECT_STRCASENE"
+\fCEXPECT_STRCASENE(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP \\ \fCASSERT_STRCASENE(\fP*\fCstr1\fP*\fC,\fP*\fCstr2\fP*\fC)\fP
+.PP
+Verifies that the two C strings *\fCstr1\fP* and *\fCstr2\fP* have different contents, ignoring case\&.
+.SH "Floating-Point Comparison"
+.PP
+The following assertions compare two floating-point values\&.
+.PP
+Due to rounding errors, it is very unlikely that two floating-point values will match exactly, so \fCEXPECT_EQ\fP is not suitable\&. In general, for floating-point comparison to make sense, the user needs to carefully choose the error bound\&.
+.PP
+GoogleTest also provides assertions that use a default error bound based on Units in the Last Place (ULPs)\&. To learn more about ULPs, see the article \fCComparing Floating Point Numbers\fP\&.
+.SS "EXPECT_FLOAT_EQ"
+\fCEXPECT_FLOAT_EQ(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_FLOAT_EQ(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that the two \fCfloat\fP values *\fCval1\fP* and *\fCval2\fP* are approximately equal, to within 4 ULPs from each other\&.
+.SS "EXPECT_DOUBLE_EQ"
+\fCEXPECT_DOUBLE_EQ(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_DOUBLE_EQ(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP
+.PP
+Verifies that the two \fCdouble\fP values *\fCval1\fP* and *\fCval2\fP* are approximately equal, to within 4 ULPs from each other\&.
+.SS "EXPECT_NEAR"
+\fCEXPECT_NEAR(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCabs_error\fP*\fC)\fP \\ \fCASSERT_NEAR(\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCabs_error\fP*\fC)\fP
+.PP
+Verifies that the difference between *\fCval1\fP* and *\fCval2\fP* does not exceed the absolute error bound *\fCabs_error\fP*\&.
+.SH "Exception Assertions"
+.PP
+The following assertions verify that a piece of code throws, or does not throw, an exception\&. Usage requires exceptions to be enabled in the build environment\&.
+.PP
+Note that the piece of code under test can be a compound statement, for example:
+.PP
+.PP
+.nf
+EXPECT_NO_THROW({
+  int n = 5;
+  DoSomething(&n);
+});
+.fi
+.PP
+.SS "EXPECT_THROW"
+\fCEXPECT_THROW(\fP*\fCstatement\fP*\fC,\fP*\fCexception_type\fP*\fC)\fP \\ \fCASSERT_THROW(\fP*\fCstatement\fP*\fC,\fP*\fCexception_type\fP*\fC)\fP
+.PP
+Verifies that *\fCstatement\fP* throws an exception of type *\fCexception_type\fP*\&.
+.SS "EXPECT_ANY_THROW"
+\fCEXPECT_ANY_THROW(\fP*\fCstatement\fP*\fC)\fP \\ \fCASSERT_ANY_THROW(\fP*\fCstatement\fP*\fC)\fP
+.PP
+Verifies that *\fCstatement\fP* throws an exception of any type\&.
+.SS "EXPECT_NO_THROW"
+\fCEXPECT_NO_THROW(\fP*\fCstatement\fP*\fC)\fP \\ \fCASSERT_NO_THROW(\fP*\fCstatement\fP*\fC)\fP
+.PP
+Verifies that *\fCstatement\fP* does not throw any exception\&.
+.SH "Predicate Assertions"
+.PP
+The following assertions enable more complex predicates to be verified while printing a more clear failure message than if \fCEXPECT_TRUE\fP were used alone\&.
+.SS "EXPECT_PRED*"
+\fCEXPECT_PRED1(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC)\fP \\ \fCEXPECT_PRED2(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCEXPECT_PRED3(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC)\fP \\ \fCEXPECT_PRED4(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC)\fP \\ \fCEXPECT_PRED5(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC,\fP*\fCval5\fP*\fC)\fP
+.PP
+\fCASSERT_PRED1(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC)\fP \\ \fCASSERT_PRED2(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_PRED3(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC)\fP \\ \fCASSERT_PRED4(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC)\fP \\ \fCASSERT_PRED5(\fP*\fCpred\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC,\fP*\fCval5\fP*\fC)\fP
+.PP
+Verifies that the predicate *\fCpred\fP* returns \fCtrue\fP when passed the given values as arguments\&.
+.PP
+The parameter *\fCpred\fP* is a function or functor that accepts as many arguments as the corresponding macro accepts values\&. If *\fCpred\fP* returns \fCtrue\fP for the given arguments, the assertion succeeds, otherwise the assertion fails\&.
+.PP
+When the assertion fails, it prints the value of each argument\&. Arguments are always evaluated exactly once\&.
+.PP
+As an example, see the following code:
+.PP
+.PP
+.nf
+// Returns true if m and n have no common divisors except 1\&.
+bool MutuallyPrime(int m, int n) { \&.\&.\&. }
+\&.\&.\&.
+const int a = 3;
+const int b = 4;
+const int c = 10;
+\&.\&.\&.
+EXPECT_PRED2(MutuallyPrime, a, b);  // Succeeds
+EXPECT_PRED2(MutuallyPrime, b, c);  // Fails
+.fi
+.PP
+.PP
+In the above example, the first assertion succeeds, and the second fails with the following message:
+.PP
+.PP
+.nf
+MutuallyPrime(b, c) is false, where
+b is 4
+c is 10
+.fi
+.PP
+.PP
+Note that if the given predicate is an overloaded function or a function template, the assertion macro might not be able to determine which version to use, and it might be necessary to explicitly specify the type of the function\&. For example, for a Boolean function \fCIsPositive()\fP overloaded to take either a single \fCint\fP or \fCdouble\fP argument, it would be necessary to write one of the following:
+.PP
+.PP
+.nf
+EXPECT_PRED1(static_cast<bool (*)(int)>(IsPositive), 5);
+EXPECT_PRED1(static_cast<bool (*)(double)>(IsPositive), 3\&.14);
+.fi
+.PP
+.PP
+Writing simply \fC\fBEXPECT_PRED1(IsPositive, 5)\fP;\fP would result in a compiler error\&. Similarly, to use a template function, specify the template arguments:
+.PP
+.PP
+.nf
+template <typename T>
+bool IsNegative(T x) {
+  return x < 0;
+}
+\&.\&.\&.
+EXPECT_PRED1(IsNegative<int>, -5);  // Must specify type for IsNegative
+.fi
+.PP
+.PP
+If a template has multiple parameters, wrap the predicate in parentheses so the macro arguments are parsed correctly:
+.PP
+.PP
+.nf
+ASSERT_PRED2((MyPredicate<int, int>), 5, 0);
+.fi
+.PP
+.SS "EXPECT_PRED_FORMAT*"
+\fCEXPECT_PRED_FORMAT1(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC)\fP \\ \fCEXPECT_PRED_FORMAT2(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCEXPECT_PRED_FORMAT3(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC)\fP \\ \fCEXPECT_PRED_FORMAT4(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC)\fP \\ \fCEXPECT_PRED_FORMAT5(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC,\fP*\fCval5\fP*\fC)\fP
+.PP
+\fCASSERT_PRED_FORMAT1(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC)\fP \\ \fCASSERT_PRED_FORMAT2(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC)\fP \\ \fCASSERT_PRED_FORMAT3(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC)\fP \\ \fCASSERT_PRED_FORMAT4(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC)\fP \\ \fCASSERT_PRED_FORMAT5(\fP*\fCpred_formatter\fP*\fC,\fP*\fCval1\fP*\fC,\fP*\fCval2\fP*\fC,\fP*\fCval3\fP*\fC,\fP*\fCval4\fP*\fC,\fP*\fCval5\fP*\fC)\fP
+.PP
+Verifies that the predicate *\fCpred_formatter\fP* succeeds when passed the given values as arguments\&.
+.PP
+The parameter *\fCpred_formatter\fP* is a \fIpredicate-formatter\fP, which is a function or functor with the signature:
+.PP
+.PP
+.nf
+testing::AssertionResult PredicateFormatter(const char* expr1,
+                                            const char* expr2,
+                                            \&.\&.\&.
+                                            const char* exprn,
+                                            T1 val1,
+                                            T2 val2,
+                                            \&.\&.\&.
+                                            Tn valn);
+.fi
+.PP
+.PP
+where *\fCval1\fP*, *\fCval2\fP*, \&.\&.\&., *\fCvaln\fP* are the values of the predicate arguments, and *\fCexpr1\fP*, *\fCexpr2\fP*, \&.\&.\&., *\fCexprn\fP* are the corresponding expressions as they appear in the source code\&. The types \fCT1\fP, \fCT2\fP, \&.\&.\&., \fCTn\fP can be either value types or reference types; if an argument has type \fCT\fP, it can be declared as either \fCT\fP or \fCconst T&\fP, whichever is appropriate\&. For more about the return type \fCtesting::AssertionResult\fP, see \fCUsing a Function That Returns an AssertionResult\fP\&.
+.PP
+As an example, see the following code:
+.PP
+.PP
+.nf
+// Returns the smallest prime common divisor of m and n,
+// or 1 when m and n are mutually prime\&.
+int SmallestPrimeCommonDivisor(int m, int n) { \&.\&.\&. }
+
+// Returns true if m and n have no common divisors except 1\&.
+bool MutuallyPrime(int m, int n) { \&.\&.\&. }
+
+// A predicate-formatter for asserting that two integers are mutually prime\&.
+testing::AssertionResult AssertMutuallyPrime(const char* m_expr,
+                                             const char* n_expr,
+                                             int m,
+                                             int n) {
+  if (MutuallyPrime(m, n)) return testing::AssertionSuccess();
+
+  return testing::AssertionFailure() << m_expr << " and " << n_expr
+      << " (" << m << " and " << n << ") are not mutually prime, "
+      << "as they have a common divisor " << SmallestPrimeCommonDivisor(m, n);
+}
+
+\&.\&.\&.
+const int a = 3;
+const int b = 4;
+const int c = 10;
+\&.\&.\&.
+EXPECT_PRED_FORMAT2(AssertMutuallyPrime, a, b);  // Succeeds
+EXPECT_PRED_FORMAT2(AssertMutuallyPrime, b, c);  // Fails
+.fi
+.PP
+.PP
+In the above example, the final assertion fails and the predicate-formatter produces the following failure message:
+.PP
+.PP
+.nf
+b and c (4 and 10) are not mutually prime, as they have a common divisor 2
+.fi
+.PP
+.SH "Windows HRESULT Assertions"
+.PP
+The following assertions test for \fCHRESULT\fP success or failure\&. For example:
+.PP
+.PP
+.nf
+CComPtr<IShellDispatch2> shell;
+ASSERT_HRESULT_SUCCEEDED(shell\&.CoCreateInstance(L"Shell\&.Application"));
+CComVariant empty;
+ASSERT_HRESULT_SUCCEEDED(shell->ShellExecute(CComBSTR(url), empty, empty, empty, empty));
+.fi
+.PP
+.PP
+The generated output contains the human-readable error message associated with the returned \fCHRESULT\fP code\&.
+.SS "EXPECT_HRESULT_SUCCEEDED"
+\fCEXPECT_HRESULT_SUCCEEDED(\fP*\fCexpression\fP*\fC)\fP \\ \fCASSERT_HRESULT_SUCCEEDED(\fP*\fCexpression\fP*\fC)\fP
+.PP
+Verifies that *\fCexpression\fP* is a success \fCHRESULT\fP\&.
+.SS "EXPECT_HRESULT_FAILED"
+\fCEXPECT_HRESULT_FAILED(\fP*\fCexpression\fP*\fC)\fP \\ \fCASSERT_HRESULT_FAILED(\fP*\fCexpression\fP*\fC)\fP
+.PP
+Verifies that *\fCexpression\fP* is a failure \fCHRESULT\fP\&.
+.SH "Death Assertions"
+.PP
+The following assertions verify that a piece of code causes the process to terminate\&. For context, see \fCDeath Tests\fP\&.
+.PP
+These assertions spawn a new process and execute the code under test in that process\&. How that happens depends on the platform and the variable \fC::testing::GTEST_FLAG(death_test_style)\fP, which is initialized from the command-line flag \fC--gtest_death_test_style\fP\&.
+.PP
+.IP "\(bu" 2
+On POSIX systems, \fCfork()\fP (or \fCclone()\fP on Linux) is used to spawn the child, after which:
+.IP "  \(bu" 4
+If the variable's value is \fC'fast'\fP, the death test statement is immediately executed\&.
+.IP "  \(bu" 4
+If the variable's value is \fC'threadsafe'\fP, the child process re-executes the unit test binary just as it was originally invoked, but with some extra flags to cause just the single death test under consideration to be run\&.
+.PP
+
+.IP "\(bu" 2
+On Windows, the child is spawned using the \fCCreateProcess()\fP API, and re-executes the binary to cause just the single death test under consideration to be run - much like the \fC'threadsafe'\fP mode on POSIX\&.
+.PP
+.PP
+Other values for the variable are illegal and will cause the death test to fail\&. Currently, the flag's default value is **\fC'fast'\fP**\&.
+.PP
+If the death test statement runs to completion without dying, the child process will nonetheless terminate, and the assertion fails\&.
+.PP
+Note that the piece of code under test can be a compound statement, for example:
+.PP
+.PP
+.nf
+EXPECT_DEATH({
+  int n = 5;
+  DoSomething(&n);
+}, "Error on line \&.* of DoSomething()");
+.fi
+.PP
+.SS "EXPECT_DEATH"
+\fCEXPECT_DEATH(\fP*\fCstatement\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP \\ \fCASSERT_DEATH(\fP*\fCstatement\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP
+.PP
+Verifies that *\fCstatement\fP* causes the process to terminate with a nonzero exit status and produces \fCstderr\fP output that matches *\fCmatcher\fP*\&.
+.PP
+The parameter *\fCmatcher\fP* is either a \fBmatcher\fP for a \fCconst std::string&\fP, or a regular expression (see \fCRegular Expression Syntax\fP)—a bare string *\fCs\fP* (with no matcher) is treated as \fC\fCContainsRegex(s)\fP\fP, \fBnot\fP \fC\fCEq(s)\fP\fP\&.
+.PP
+For example, the following code verifies that calling \fCDoSomething(42)\fP causes the process to die with an error message that contains the text \fCMy error\fP:
+.PP
+.PP
+.nf
+EXPECT_DEATH(DoSomething(42), "My error");
+.fi
+.PP
+.SS "EXPECT_DEATH_IF_SUPPORTED"
+\fCEXPECT_DEATH_IF_SUPPORTED(\fP*\fCstatement\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP \\ \fCASSERT_DEATH_IF_SUPPORTED(\fP*\fCstatement\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP
+.PP
+If death tests are supported, behaves the same as \fC\fCEXPECT_DEATH\fP\fP\&. Otherwise, verifies nothing\&.
+.SS "EXPECT_DEBUG_DEATH"
+\fCEXPECT_DEBUG_DEATH(\fP*\fCstatement\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP \\ \fCASSERT_DEBUG_DEATH(\fP*\fCstatement\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP
+.PP
+In debug mode, behaves the same as \fC\fCEXPECT_DEATH\fP\fP\&. When not in debug mode (i\&.e\&. \fCNDEBUG\fP is defined), just executes *\fCstatement\fP*\&.
+.SS "EXPECT_EXIT"
+\fCEXPECT_EXIT(\fP*\fCstatement\fP*\fC,\fP*\fCpredicate\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP \\ \fCASSERT_EXIT(\fP*\fCstatement\fP*\fC,\fP*\fCpredicate\fP*\fC,\fP*\fCmatcher\fP*\fC)\fP
+.PP
+Verifies that *\fCstatement\fP* causes the process to terminate with an exit status that satisfies *\fCpredicate\fP*, and produces \fCstderr\fP output that matches *\fCmatcher\fP*\&.
+.PP
+The parameter *\fCpredicate\fP* is a function or functor that accepts an \fCint\fP exit status and returns a \fCbool\fP\&. GoogleTest provides two predicates to handle common cases:
+.PP
+.PP
+.nf
+// Returns true if the program exited normally with the given exit status code\&.
+::testing::ExitedWithCode(exit_code);
+
+// Returns true if the program was killed by the given signal\&.
+// Not available on Windows\&.
+::testing::KilledBySignal(signal_number);
+.fi
+.PP
+.PP
+The parameter *\fCmatcher\fP* is either a \fBmatcher\fP for a \fCconst std::string&\fP, or a regular expression (see \fCRegular Expression Syntax\fP)—a bare string *\fCs\fP* (with no matcher) is treated as \fC\fCContainsRegex(s)\fP\fP, \fBnot\fP \fC\fCEq(s)\fP\fP\&.
+.PP
+For example, the following code verifies that calling \fCNormalExit()\fP causes the process to print a message containing the text \fCSuccess\fP to \fCstderr\fP and exit with exit status code 0:
+.PP
+.PP
+.nf
+EXPECT_EXIT(NormalExit(), testing::ExitedWithCode(0), "Success");
+.fi
+.PP
+ 

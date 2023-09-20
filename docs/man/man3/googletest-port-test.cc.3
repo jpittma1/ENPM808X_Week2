@@ -1,0 +1,171 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-port-test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-port-test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include <chrono>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <thread>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::Base\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::Derived\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::Castable\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ConstCastable\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ConstAndNonConstCastable\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::To\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::NoDefaultConstructor\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (IsXDigitTest, WorksForNarrowAscii)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (IsXDigitTest, ReturnsFalseForNarrowNonAscii)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (IsXDigitTest, WorksForWideAscii)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (IsXDigitTest, ReturnsFalseForWideNonAscii)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ImplicitCastTest, ConvertsPointers)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ImplicitCastTest, CanUseInheritance)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ImplicitCastTest, CanUseNonConstCastOperator)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ImplicitCastTest, CanUseConstCastOperatorOnConstValues)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ImplicitCastTest, CanSelectBetweenConstAndNonConstCasrAppropriately)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ImplicitCastTest, CanUseImplicitConstructor)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (GtestCheckSyntaxTest, BehavesLikeASingleStatement)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (GtestCheckSyntaxTest, WorksWithSwitch)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatFileLocationTest, FormatsFileLocation)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatFileLocationTest, FormatsUnknownFile)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatFileLocationTest, FormatsUknownLine)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatFileLocationTest, FormatsUknownFileAndLine)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatCompilerIndependentFileLocationTest, FormatsFileLocation)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatCompilerIndependentFileLocationTest, FormatsUknownFile)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatCompilerIndependentFileLocationTest, FormatsUknownLine)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (FormatCompilerIndependentFileLocationTest, FormatsUknownFileAndLine)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (GetThreadCountTest, ReturnsZeroWhenUnableToCountThreads)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (GtestCheckDeathTest, DiesWithCorrectOutputOnFailure)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (RegexEngineSelectionTest, SelectsCorrectRegexEngine)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (CaptureTest, CapturesStdout)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (CaptureTest, CapturesStderr)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (CaptureTest, CapturesStdoutAndStderr)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (CaptureDeathTest, CannotReenterStdoutCapture)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ThreadLocalTest, DefaultConstructorInitializesToDefaultValues)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ThreadLocalTest, SingleParamConstructorInitializesToParam)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ThreadLocalTest, ValueDefaultContructorIsNotRequiredForParamVersion)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ThreadLocalTest, GetAndPointerReturnSameValue)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST\fP (ThreadLocalTest, PointerAndConstPointerReturnSameValue)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

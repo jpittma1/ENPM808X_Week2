@@ -1,0 +1,609 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/internal/gtest-internal.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/internal/gtest-internal.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <float\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <iomanip>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\-message\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-filepath\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-string\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-type\-util\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::IgnoredValue\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::FloatingPoint< RawType >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeIdHelper< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestFactoryBase\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestFactoryImpl< TestClass >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::CodeLocation\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::SuiteApiResolver< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::DefaultNameGenerator\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::NameGeneratorSelector< Provided >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeParameterizedTest< Fixture, TestSel, Types >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeParameterizedTest< Fixture, TestSel, internal::None >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeParameterizedTestSuite< Fixture, Tests, Types >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeParameterizedTestSuite< Fixture, internal::None, Types >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ConstCharPtr\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::TrueWithString\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::Random\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::HasDebugStringAndShortDebugString< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsHashTable< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainerImpl< C, false >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainerImpl< C, true >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainer< C >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RelationToSourceReference\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RelationToSourceCopy\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::NativeArray< Element >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IndexSequence< Is >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::DoubleSequence< true, IndexSequence< I\&.\&.\&. >, sizeofT >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::DoubleSequence< false, IndexSequence< I\&.\&.\&. >, sizeofT >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::MakeIndexSequenceImpl< N >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::MakeIndexSequenceImpl< 0 >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::Ignore< size_t >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ElemFromListImpl< IndexSequence< I\&.\&.\&. > >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ElemFromList< N, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::FlatTupleConstructTag\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::FlatTupleElemBase< FlatTuple< T\&.\&.\&. >, I >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::FlatTupleBase< FlatTuple< T\&.\&.\&. >, IndexSequence< Idx\&.\&.\&. > >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::FlatTuple< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBstd::tuple_size< testing::internal::FlatTuple< Ts\&.\&.\&. > >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBproto2\fP"
+.br
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal::edit_distance\fP"
+.br
+.ti -1c
+.RI " \fBstd\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_CONCAT_TOKEN_\fP(foo,  bar)   \fBGTEST_CONCAT_TOKEN_IMPL_\fP(foo, bar)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_CONCAT_TOKEN_IMPL_\fP(foo,  bar)   foo##bar"
+.br
+.ti -1c
+.RI "#define \fBGTEST_STRINGIFY_HELPER_\fP(name, \&.\&.\&.)   #name"
+.br
+.ti -1c
+.RI "#define \fBGTEST_STRINGIFY_\fP(\&.\&.\&.)   \fBGTEST_STRINGIFY_HELPER_\fP(__VA_ARGS__, )"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REMOVE_REFERENCE_AND_CONST_\fP(T)     typename std::remove_const<typename std::remove_reference<T>::type>::type"
+.br
+.ti -1c
+.RI "#define \fBGTEST_MESSAGE_AT_\fP(file,  line,  message,  result_type)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_MESSAGE_\fP(message,  result_type)     \fBGTEST_MESSAGE_AT_\fP(__FILE__, __LINE__, message, result_type)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FATAL_FAILURE_\fP(message)     return \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kFatalFailure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_NONFATAL_FAILURE_\fP(message)     \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kNonFatalFailure)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_SUCCESS_\fP(message)     \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kSuccess)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_SKIP_\fP(message)     return \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kSkip)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_\fP(statement)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_THROW_CATCH_STD_EXCEPTION_\fP(statement,  expected_exception)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_THROW_\fP(statement,  expected_exception,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_NO_THROW_CATCH_STD_EXCEPTION_\fP()"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_NO_THROW_\fP(statement,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_ANY_THROW_\fP(statement,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_BOOLEAN_\fP(expression,  text,  actual,  expected,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_NO_FATAL_FAILURE_\fP(statement,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_CLASS_NAME_\fP(test_suite_name,  test_name)     test_suite_name##_##test_name##_Test"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_\fP(test_suite_name,  test_name,  parent_class,  parent_id)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef FloatingPoint< float > \fBtesting::internal::Float\fP"
+.br
+.ti -1c
+.RI "typedef FloatingPoint< double > \fBtesting::internal::Double\fP"
+.br
+.ti -1c
+.RI "typedef const void * \fBtesting::internal::TypeId\fP"
+.br
+.ti -1c
+.RI "using \fBtesting::internal::SetUpTestSuiteFunc\fP = void(*)()"
+.br
+.ti -1c
+.RI "using \fBtesting::internal::TearDownTestSuiteFunc\fP = void(*)()"
+.br
+.ti -1c
+.RI "using \fBtesting::internal::SetUpTearDownSuiteFuncType\fP = void(*)()"
+.br
+.ti -1c
+.RI "using \fBtesting::internal::TypedTestCasePState\fP = TypedTestSuitePState"
+.br
+.ti -1c
+.RI "typedef int \fBtesting::internal::IsContainer\fP"
+.br
+.ti -1c
+.RI "typedef char \fBtesting::internal::IsNotContainer\fP"
+.br
+.ti -1c
+.RI "template<size_t N> using \fBtesting::internal::MakeIndexSequence\fP = typename MakeIndexSequenceImpl< N >::type"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. T> using \fBtesting::internal::IndexSequenceFor\fP = typename MakeIndexSequence< sizeof\&.\&.\&.(T)>::type"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtesting::internal::edit_distance::EditType\fP { \fBtesting::internal::edit_distance::kMatch\fP, \fBtesting::internal::edit_distance::kAdd\fP, \fBtesting::internal::edit_distance::kRemove\fP, \fBtesting::internal::edit_distance::kReplace\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > ::std::string \fBtesting::PrintToString\fP (const T &\fBvalue\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::AppendUserMessage\fP (const std::string &gtest_msg, const Message &user_msg)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (const std::vector< size_t > &left, const std::vector< size_t > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (const std::vector< std::string > &left, const std::vector< std::string > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::edit_distance::CreateUnifiedDiff\fP (const std::vector< std::string > &left, const std::vector< std::string > &right, size_t context=2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::EqFailure\fP (const char *expected_expression, const char *actual_expression, const std::string &expected_value, const std::string &actual_value, bool ignoring_case)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetBoolAssertionFailureMessage\fP (const AssertionResult &assertion_result, const char *expression_text, const char *actual_predicate_value, const char *expected_predicate_value)"
+.br
+.ti -1c
+.RI "template<typename T > TypeId \fBtesting::internal::GetTypeId\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TypeId \fBtesting::internal::GetTestTypeId\fP ()"
+.br
+.ti -1c
+.RI "SetUpTearDownSuiteFuncType \fBtesting::internal::GetNotDefaultOrNull\fP (SetUpTearDownSuiteFuncType a, SetUpTearDownSuiteFuncType def)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TestInfo * \fBtesting::internal::MakeAndRegisterTestInfo\fP (const char *test_suite_name, const char *name, const char *type_param, const char *value_param, CodeLocation code_location, TypeId fixture_class_id, SetUpTestSuiteFunc set_up_tc, TearDownTestSuiteFunc tear_down_tc, TestFactoryBase *factory)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::SkipPrefix\fP (const char *prefix, const char **pstr)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_DISABLE_MSC_WARNINGS_PUSH_\fP (4251) class \fBGTEST_API_\fP TypedTestSuitePState"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_DISABLE_MSC_WARNINGS_POP_\fP () inline const char *SkipComma(const char *str)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::internal::GetPrefixUntilComma\fP (const char *str)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::SplitString\fP (const ::std::string &str, char delimiter, ::std::vector<::std::string > *dest)"
+.br
+.ti -1c
+.RI "template<typename NameGenerator > void \fBtesting::internal::GenerateNamesRecursively\fP (internal::None, std::vector< std::string > *, int)"
+.br
+.ti -1c
+.RI "template<typename NameGenerator , typename Types > void \fBtesting::internal::GenerateNamesRecursively\fP (Types, std::vector< std::string > *result, int \fBi\fP)"
+.br
+.ti -1c
+.RI "template<typename NameGenerator , typename Types > std::vector< std::string > \fBtesting::internal::GenerateNames\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::RegisterTypeParameterizedTestSuite\fP (const char *test_suite_name, CodeLocation code_location)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::RegisterTypeParameterizedTestSuiteInstantiation\fP (const char *case_name)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetCurrentOsStackTraceExceptTop\fP (int skip_count)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::AlwaysTrue\fP ()"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::AlwaysFalse\fP ()"
+.br
+.ti -1c
+.RI "template<class C , class Iterator  = decltype(::std::declval<const C&>()\&.begin()), class  = decltype(::std::declval<const C&>()\&.end()), class  = decltype(++::std::declval<Iterator&>()), class  = decltype(*::std::declval<Iterator>()), class  = typename C::const_iterator> IsContainer \fBtesting::internal::IsContainerTest\fP (int)"
+.br
+.ti -1c
+.RI "template<class C > IsNotContainer \fBtesting::internal::IsContainerTest\fP (long)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > bool \fBtesting::internal::ArrayEq\fP (const T *lhs, size_t size, const U *rhs)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > bool \fBtesting::internal::ArrayEq\fP (const T &lhs, const U &rhs)"
+.br
+.ti -1c
+.RI "template<typename T , typename U , size_t N> bool \fBtesting::internal::ArrayEq\fP (const T(&lhs)[N], const U(&rhs)[N])"
+.br
+.ti -1c
+.RI "template<typename Iter , typename Element > Iter \fBtesting::internal::ArrayAwareFind\fP (Iter begin, Iter end, const Element &elem)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > void \fBtesting::internal::CopyArray\fP (const T *from, size_t size, U *to)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > void \fBtesting::internal::CopyArray\fP (const T &from, U *to)"
+.br
+.ti -1c
+.RI "template<typename T , typename U , size_t N> void \fBtesting::internal::CopyArray\fP (const T(&from)[N], U(*to)[N])"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_INTERNAL_DEPRECATED\fP ('INSTANTIATE_TEST_CASE_P is deprecated, please use ' '\fBINSTANTIATE_TEST_SUITE_P\fP') const expr bool InstantiateTestCase_P_IsDeprecated()"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_INTERNAL_DEPRECATED\fP ('TYPED_TEST_CASE_P is deprecated, please use ' '\fBTYPED_TEST_SUITE_P\fP') const expr bool TypedTestCase_P_IsDeprecated()"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_INTERNAL_DEPRECATED\fP ('TYPED_TEST_CASE is deprecated, please use ' '\fBTYPED_TEST_SUITE\fP') const expr bool TypedTestCaseIsDeprecated()"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_INTERNAL_DEPRECATED\fP ('REGISTER_TYPED_TEST_CASE_P is deprecated, please use ' '\fBREGISTER_TYPED_TEST_SUITE_P\fP') const expr bool RegisterTypedTestCase_P_IsDeprecated()"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_INTERNAL_DEPRECATED\fP ('INSTANTIATE_TYPED_TEST_CASE_P is deprecated, please use ' '\fBINSTANTIATE_TYPED_TEST_SUITE_P\fP') const expr bool InstantiateTypedTestCase_P_IsDeprecated()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_API_\fP const char \fBtesting::internal::kStackTraceMarker\fP [] = '\\nStack trace:\\n'"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_CONCAT_TOKEN_(foo, bar)   \fBGTEST_CONCAT_TOKEN_IMPL_\fP(foo, bar)"
+
+.PP
+Definition at line 83 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_CONCAT_TOKEN_IMPL_(foo, bar)   foo##bar"
+
+.PP
+Definition at line 84 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_FATAL_FAILURE_(message)     return \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kFatalFailure)"
+
+.PP
+Definition at line 1335 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_MESSAGE_(message, result_type)     \fBGTEST_MESSAGE_AT_\fP(__FILE__, __LINE__, message, result_type)"
+
+.PP
+Definition at line 1332 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_MESSAGE_AT_(file, line, message, result_type)"
+\fBValue:\fP
+.PP
+.nf
+  ::testing::internal::AssertHelper(result_type, file, line, message) = \
+      ::testing::Message()
+.fi
+.PP
+Definition at line 1328 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_NONFATAL_FAILURE_(message)     \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kNonFatalFailure)"
+
+.PP
+Definition at line 1338 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_REMOVE_REFERENCE_AND_CONST_(T)     typename std::remove_const<typename std::remove_reference<T>::type>::type"
+
+.PP
+Definition at line 874 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_SKIP_(message)     return \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kSkip)"
+
+.PP
+Definition at line 1344 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_STRINGIFY_( \&.\&.\&.)   \fBGTEST_STRINGIFY_HELPER_\fP(__VA_ARGS__, )"
+
+.PP
+Definition at line 96 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_STRINGIFY_HELPER_(name,  \&.\&.\&.)   #name"
+
+.PP
+Definition at line 95 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_SUCCESS_(message)     \fBGTEST_MESSAGE_\fP(message, ::testing::TestPartResult::kSuccess)"
+
+.PP
+Definition at line 1341 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement)"
+\fBValue:\fP
+.PP
+.nf
+  if (::testing::internal::AlwaysTrue()) {                        \
+    statement;                                                    \
+  } else                     /* NOLINT */                         \
+    static_assert(true, "")
+.fi
+.PP
+Definition at line 1352 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_(test_suite_name, test_name, parent_class, parent_id)"
+
+.PP
+Definition at line 1521 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_ANY_THROW_(statement, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                      \
+  if (::testing::internal::AlwaysTrue()) {                           \
+    bool gtest_caught_any = false;                                   \
+    try {                                                            \
+      GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement);     \
+    } catch (\&.\&.\&.) {                                                  \
+      gtest_caught_any = true;                                       \
+    }                                                                \
+    if (!gtest_caught_any) {                                         \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testanythrow_, __LINE__); \
+    }                                                                \
+  } else                                                             \\
+    GTEST_CONCAT_TOKEN_(gtest_label_testanythrow_, __LINE__)         \
+        : fail("Expected: " #statement                               \
+               " throws an exception\&.\n"                             \
+               "  Actual: it doesn't\&.")
+.fi
+.PP
+Definition at line 1469 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_BOOLEAN_(expression, text, actual, expected, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                       \
+  if (const ::testing::AssertionResult gtest_ar_ =                    \
+          ::testing::AssertionResult(expression))                     \
+    ;                                                                 \
+  else                                                                \
+    fail(::testing::internal::GetBoolAssertionFailureMessage(         \
+             gtest_ar_, text, #actual, #expected)                     \
+             \&.c_str())
+.fi
+.PP
+Definition at line 1490 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)     test_suite_name##_##test_name##_Test"
+
+.PP
+Definition at line 1517 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_NO_FATAL_FAILURE_(statement, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                     \
+  if (::testing::internal::AlwaysTrue()) {                          \
+    const ::testing::internal::HasNewFatalFailureHelper             \
+        gtest_fatal_failure_checker;                                \
+    GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement);      \
+    if (gtest_fatal_failure_checker\&.has_new_fatal_failure()) {      \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testnofatal_, __LINE__); \
+    }                                                               \
+  } else /* NOLINT */                                               \
+    GTEST_CONCAT_TOKEN_(gtest_label_testnofatal_, __LINE__)         \
+        : fail("Expected: " #statement                              \
+               " doesn't generate new fatal "                       \
+               "failures in the current thread\&.\n"                  \
+               "  Actual: it does\&.")
+.fi
+.PP
+Definition at line 1500 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_NO_THROW_(statement, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                          \
+  if (::testing::internal::TrueWithString gtest_msg{}) {                 \
+    try {                                                                \
+      GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement);         \
+    }                                                                    \
+    GTEST_TEST_NO_THROW_CATCH_STD_EXCEPTION_()                           \
+    catch (\&.\&.\&.) {                                                        \
+      gtest_msg\&.value = "it throws\&.";                                    \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testnothrow_, __LINE__);      \
+    }                                                                    \
+  } else                                                                 \\
+    GTEST_CONCAT_TOKEN_(gtest_label_testnothrow_, __LINE__)              \
+        : fail(("Expected: " #statement " doesn't throw an exception\&.\n" \
+                "  Actual: " +                                           \
+                gtest_msg\&.value)                                         \
+                   \&.c_str())
+.fi
+.PP
+Definition at line 1451 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_NO_THROW_CATCH_STD_EXCEPTION_()"
+
+.PP
+Definition at line 1447 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_THROW_(statement, expected_exception, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_                                             \
+  if (::testing::internal::TrueWithString gtest_msg{}) {                    \
+    bool gtest_caught_expected = false;                                     \
+    try {                                                                   \
+      GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement);            \
+    } catch (expected_exception const&) {                                   \
+      gtest_caught_expected = true;                                         \
+    }                                                                       \
+    GTEST_TEST_THROW_CATCH_STD_EXCEPTION_(statement, expected_exception)    \
+    catch (\&.\&.\&.) {                                                           \
+      gtest_msg\&.value = "Expected: " #statement                             \
+                        " throws an exception of type " #expected_exception \
+                        "\&.\n  Actual: it throws a different type\&.";         \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testthrow_, __LINE__);           \
+    }                                                                       \
+    if (!gtest_caught_expected) {                                           \
+      gtest_msg\&.value = "Expected: " #statement                             \
+                        " throws an exception of type " #expected_exception \
+                        "\&.\n  Actual: it throws nothing\&.";                  \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testthrow_, __LINE__);           \
+    }                                                                       \
+  } else /*NOLINT*/                                                         \
+    GTEST_CONCAT_TOKEN_(gtest_label_testthrow_, __LINE__)                   \
+        : fail(gtest_msg\&.value\&.c_str())
+.fi
+.PP
+Definition at line 1407 of file gtest\-internal\&.h\&.
+.SS "#define GTEST_TEST_THROW_CATCH_STD_EXCEPTION_(statement, expected_exception)"
+
+.PP
+Definition at line 1403 of file gtest\-internal\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

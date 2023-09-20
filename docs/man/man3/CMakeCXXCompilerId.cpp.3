@@ -1,0 +1,187 @@
+.TH "build/CMakeFiles/3.22.1/CompilerIdCXX/CMakeCXXCompilerId.cpp" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/CMakeFiles/3.22.1/CompilerIdCXX/CMakeCXXCompilerId.cpp
+.SH SYNOPSIS
+.br
+.PP
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__has_include\fP(\fBx\fP)   0"
+.br
+.ti -1c
+.RI "#define \fBCOMPILER_ID\fP   ''"
+.br
+.ti -1c
+.RI "#define \fBSTRINGIFY_HELPER\fP(X)   #X"
+.br
+.ti -1c
+.RI "#define \fBSTRINGIFY\fP(X)   \fBSTRINGIFY_HELPER\fP(X)"
+.br
+.ti -1c
+.RI "#define \fBPLATFORM_ID\fP"
+.br
+.ti -1c
+.RI "#define \fBARCHITECTURE_ID\fP"
+.br
+.ti -1c
+.RI "#define \fBDEC\fP(n)"
+.br
+.ti -1c
+.RI "#define \fBHEX\fP(n)"
+.br
+.ti -1c
+.RI "#define \fBCXX_STD\fP   __cplusplus"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP (int argc, char *argv[])"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "char const  * \fBinfo_compiler\fP = 'INFO' ':' 'compiler[' COMPILER_ID ']'"
+.br
+.ti -1c
+.RI "char const  * \fBinfo_platform\fP = 'INFO' ':' 'platform[' PLATFORM_ID ']'"
+.br
+.ti -1c
+.RI "char const  * \fBinfo_arch\fP = 'INFO' ':' 'arch[' ARCHITECTURE_ID ']'"
+.br
+.ti -1c
+.RI "const char * \fBinfo_language_standard_default\fP"
+.br
+.ti -1c
+.RI "const char * \fBinfo_language_extensions_default\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __has_include(\fBx\fP)   0"
+
+.PP
+Definition at line 11 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define ARCHITECTURE_ID"
+
+.PP
+Definition at line 637 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define COMPILER_ID   ''"
+
+.PP
+Definition at line 381 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define CXX_STD   __cplusplus"
+
+.PP
+Definition at line 735 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define DEC(n)"
+\fBValue:\fP
+.PP
+.nf
+  ('0' + (((n) / 10000000)%10)), \
+  ('0' + (((n) / 1000000)%10)),  \
+  ('0' + (((n) / 100000)%10)),   \
+  ('0' + (((n) / 10000)%10)),    \
+  ('0' + (((n) / 1000)%10)),     \
+  ('0' + (((n) / 100)%10)),      \
+  ('0' + (((n) / 10)%10)),       \
+  ('0' +  ((n) % 10))
+.fi
+.PP
+Definition at line 641 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define HEX(n)"
+\fBValue:\fP
+.PP
+.nf
+  ('0' + ((n)>>28 & 0xF)), \
+  ('0' + ((n)>>24 & 0xF)), \
+  ('0' + ((n)>>20 & 0xF)), \
+  ('0' + ((n)>>16 & 0xF)), \
+  ('0' + ((n)>>12 & 0xF)), \
+  ('0' + ((n)>>8  & 0xF)), \
+  ('0' + ((n)>>4  & 0xF)), \
+  ('0' + ((n)     & 0xF))
+.fi
+.PP
+Definition at line 652 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define PLATFORM_ID"
+
+.PP
+Definition at line 509 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define STRINGIFY(X)   \fBSTRINGIFY_HELPER\fP(X)"
+
+.PP
+Definition at line 402 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "#define STRINGIFY_HELPER(X)   #X"
+
+.PP
+Definition at line 401 of file CMakeCXXCompilerId\&.cpp\&.
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char * argv[])"
+
+.PP
+Definition at line 767 of file CMakeCXXCompilerId\&.cpp\&.
+.SH "Variable Documentation"
+.PP 
+.SS "char const* info_arch = 'INFO' ':' 'arch[' ARCHITECTURE_ID ']'"
+
+.PP
+Definition at line 718 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "char const* info_compiler = 'INFO' ':' 'compiler[' COMPILER_ID ']'"
+
+.PP
+Definition at line 388 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "const char* info_language_extensions_default"
+\fBInitial value:\fP
+.PP
+.nf
+= "INFO" ":" "extensions_default["
+
+
+
+
+
+
+  "OFF"
+
+"]"
+.fi
+.PP
+Definition at line 754 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "const char* info_language_standard_default"
+\fBInitial value:\fP
+.PP
+.nf
+= "INFO" ":" "standard_default["
+
+
+
+
+
+
+
+
+
+
+
+  "98"
+
+"]"
+.fi
+.PP
+Definition at line 738 of file CMakeCXXCompilerId\&.cpp\&.
+.SS "char const* info_platform = 'INFO' ':' 'platform[' PLATFORM_ID ']'"
+
+.PP
+Definition at line 717 of file CMakeCXXCompilerId\&.cpp\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

@@ -1,0 +1,87 @@
+.TH "Mock" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Mock
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <gmock_link_test\&.h>\fP
+.PP
+Inherits \fBInterface\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMock\fP ()=default"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD0\fP (DoThis, void())"
+.br
+.ti -1c
+.RI "\fBMock\fP ()=default"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBVoidFromString\fP, void(char *str))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBStringFromString\fP, char *(char *str))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBIntFromString\fP, int(char *str))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBIntRefFromString\fP, int &(char *str))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBVoidFromFunc\fP, void(void(*func)(char *str)))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBVoidFromIntRef\fP, void(int &n))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBVoidFromFloat\fP, void(float n))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBVoidFromDouble\fP, void(double n))"
+.br
+.ti -1c
+.RI "\fBMOCK_METHOD1\fP (\fBVoidFromVector\fP, void(const std::vector< int > &v))"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 41 of file gmock\-nice\-strict_test\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Mock::Mock ()\fC [default]\fP"
+
+.SS "Mock::Mock ()\fC [default]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "Mock::MOCK_METHOD0 (DoThis, void())"
+
+.SS "Mock::MOCK_METHOD1 (\fBIntFromString\fP, int(char *str))"
+
+.SS "Mock::MOCK_METHOD1 (\fBIntRefFromString\fP, int &char *str)"
+
+.SS "Mock::MOCK_METHOD1 (\fBStringFromString\fP, char *char *str)"
+
+.SS "Mock::MOCK_METHOD1 (\fBVoidFromDouble\fP, void(double n))"
+
+.SS "Mock::MOCK_METHOD1 (\fBVoidFromFloat\fP, void(float n))"
+
+.SS "Mock::MOCK_METHOD1 (\fBVoidFromFunc\fP, void(void(*func)(char *str)))"
+
+.SS "Mock::MOCK_METHOD1 (\fBVoidFromIntRef\fP, void(int &n))"
+
+.SS "Mock::MOCK_METHOD1 (\fBVoidFromString\fP, void(char *str))"
+
+.SS "Mock::MOCK_METHOD1 (\fBVoidFromVector\fP, void(const std::vector< int > &v))"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

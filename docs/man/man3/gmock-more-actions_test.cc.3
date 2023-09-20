@@ -1,0 +1,595 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock-more-actions_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock-more-actions_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/gmock\-more\-actions\&.h'\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <iterator>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <tuple>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::gmock_more_actions_test::UnaryFunctor\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_more_actions_test::SumOf5Functor\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_more_actions_test::SumOf6Functor\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_more_actions_test::Foo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_more_actions_test::DeletionTester\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_more_actions_test::TenArgConstructorClass\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_more_actions_test::BoolResetter\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_more_actions_test::GiantTemplate< T1, T2, T3, k4, k5, k6, T7, T8, T9 >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::gmock_more_actions_test\fP"
+.br
+.ti -1c
+.RI " \fBtesting::gmock_more_actions_test::action_test\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "short \fBtesting::gmock_more_actions_test::Short\fP (short n)"
+.br
+.ti -1c
+.RI "char \fBtesting::gmock_more_actions_test::Char\fP (char \fBch\fP)"
+.br
+.ti -1c
+.RI "int \fBtesting::gmock_more_actions_test::Nullary\fP ()"
+.br
+.ti -1c
+.RI "bool \fBtesting::gmock_more_actions_test::Unary\fP (int \fBx\fP)"
+.br
+.ti -1c
+.RI "bool \fBtesting::gmock_more_actions_test::ByConstRef\fP (const std::string &s)"
+.br
+.ti -1c
+.RI "bool \fBtesting::gmock_more_actions_test::ReferencesGlobalDouble\fP (const double &\fBx\fP)"
+.br
+.ti -1c
+.RI "const char * \fBtesting::gmock_more_actions_test::Binary\fP (const char *input, short n)"
+.br
+.ti -1c
+.RI "int \fBtesting::gmock_more_actions_test::Ternary\fP (int \fBx\fP, char \fBy\fP, short \fBz\fP)"
+.br
+.ti -1c
+.RI "int \fBtesting::gmock_more_actions_test::SumOf4\fP (int a, int b, int c, int d)"
+.br
+.ti -1c
+.RI "int \fBtesting::gmock_more_actions_test::SumOfFirst2\fP (int a, int b, Unused, Unused)"
+.br
+.ti -1c
+.RI "int \fBtesting::gmock_more_actions_test::SumOf5\fP (int a, int b, int c, int d, int e)"
+.br
+.ti -1c
+.RI "int \fBtesting::gmock_more_actions_test::SumOf6\fP (int a, int b, int c, int d, int e, int f)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::gmock_more_actions_test::Concat7\fP (const char *s1, const char *s2, const char *s3, const char *s4, const char *s5, const char *s6, const char *s7)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::gmock_more_actions_test::Concat8\fP (const char *s1, const char *s2, const char *s3, const char *s4, const char *s5, const char *s6, const char *s7, const char *s8)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::gmock_more_actions_test::Concat9\fP (const char *s1, const char *s2, const char *s3, const char *s4, const char *s5, const char *s6, const char *s7, const char *s8, const char *s9)"
+.br
+.ti -1c
+.RI "std::string \fBtesting::gmock_more_actions_test::Concat10\fP (const char *s1, const char *s2, const char *s3, const char *s4, const char *s5, const char *s6, const char *s7, const char *s8, const char *s9, const char *s10)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, Nullary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, Unary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, Binary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, Ternary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes4Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes5Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes6Arguments)"
+.br
+.ti -1c
+.RI "const char * \fBtesting::gmock_more_actions_test::CharPtr\fP (const char *s)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes7Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes8Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes9Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionThatTakes10Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionWithUnusedParameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, MethodWithUnusedParameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, Functor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeTest, FunctionWithCompatibleType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, Nullary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, Unary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, Binary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, Ternary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes4Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes5Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes6Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes7Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes8Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes9Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodThatTakes10Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeMethodTest, MethodWithCompatibleType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (WithoutArgsTest, NoArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (WithArgTest, OneArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ReturnArgActionTest, WorksForOneArgIntArg0)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ReturnArgActionTest, WorksForMultiArgBoolArg0)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ReturnArgActionTest, WorksForMultiArgStringArg2)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ReturnArgActionTest, WorksForNonConstRefArg0)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SaveArgActionTest, WorksForSameType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SaveArgActionTest, WorksForCompatibleType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SaveArgPointeeActionTest, WorksForSameType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SaveArgPointeeActionTest, WorksForCompatibleType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArgRefereeActionTest, WorksForSameType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArgRefereeActionTest, WorksForCompatibleType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArgRefereeActionTest, WorksWithExtraArguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DeleteArgActionTest, OneArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DeleteArgActionTest, TenArgs)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArrayArgumentTest, SetsTheNthArray)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArrayArgumentTest, SetsTheNthArrayWithEmptyRange)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArrayArgumentTest, SetsTheNthArrayWithConvertibleType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (SetArrayArgumentTest, SetsTheNthArrayWithIteratorArgument)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ReturnPointeeTest, Works)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function0)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Functor1)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function5)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Functor5)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function6)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Functor6)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function7)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function8)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function9)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, Function10)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, ByPointerFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, FunctionWithCStringLiteral)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, ByConstReferenceFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (InvokeArgumentTest, ByExplicitConstReferenceFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, TwoActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, ThreeActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, FourActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, FiveActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, SixActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, SevenActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, EightActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, NineActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, TenActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, NoArgs)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, MoveOnlyArgs)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (DoAllTest, ImplicitlyConvertsActionArguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (Return5)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, WorksWhenNotReferencingArguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (IncrementArg1)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, WorksWhenReturningVoid)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (IncrementArg2)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, CanReferenceArgumentType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (Sum2)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, CanReferenceArgumentTuple)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (InvokeDummy)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, CanReferenceMockFunctionType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (InvokeDummy2)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, CanReferenceMockFunctionReturnType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (ReturnAddrOfConstBoolReferenceArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, WorksForConstReferenceArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (ReturnAddrOfIntReferenceArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, WorksForNonConstReferenceArg)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::action_test::ACTION\fP (Sum)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, WorksInNamespace)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (PlusTwo)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, WorksForDifferentArgumentNumbers)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P\fP (Plus, n)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPMacroTest, DefinesParameterizedAction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P\fP (TypedPlus, n)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPMacroTest, CanReferenceArgumentAndParameterTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPMacroTest, WorksInCompatibleMockFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (OverloadedAction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P\fP (OverloadedAction, default_value)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P2\fP (OverloadedAction, true_value, false_value)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionMacroTest, CanDefineOverloadedActions)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P3\fP (Plus, m, n, k)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor3Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P4\fP (Plus, p0, p1, p2, p3)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor4Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P5\fP (Plus, p0, p1, p2, p3, p4)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor5Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P6\fP (Plus, p0, p1, p2, p3, p4, p5)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor6Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P7\fP (Plus, p0, p1, p2, p3, p4, p5, p6)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor7Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P8\fP (Plus, p0, p1, p2, p3, p4, p5, p6, p7)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor8Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P9\fP (Plus, p0, p1, p2, p3, p4, p5, p6, p7, p8)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor9Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P10\fP (Plus, p0, p1, p2, p3, p4, p5, p6, p7, p8, last_param)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, WorksFor10Parameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P2\fP (PadArgument, prefix, suffix)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, SimpleTypePromotion)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P3\fP (ConcatImpl, a, b, c)"
+.br
+.ti -1c
+.RI "template<typename T1 , typename T2 > ConcatImplActionP3< std::string, T1, T2 > \fBtesting::gmock_more_actions_test::Concat\fP (const std::string &a, T1 b, T2 c)"
+.br
+.ti -1c
+.RI "template<typename T1 , typename T2 > ConcatImplActionP3< T1, int, T2 > \fBtesting::gmock_more_actions_test::Concat\fP (T1 a, int b, T2 c)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, CanPartiallyRestrictParameterTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (DoFoo)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P\fP (DoFoo, \fBp\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P2\fP (DoFoo, p0, p1)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, TypesAreCorrect)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P\fP (Plus1, \fBx\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P2\fP (Plus2, \fBx\fP, \fBy\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P3\fP (Plus3, \fBx\fP, \fBy\fP, \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P10\fP (Plus10, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionPnMacroTest, CanExplicitlyInstantiateWithReferenceTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (CreateNew, HAS_1_TEMPLATE_PARAMS(typename, T), AND_0_VALUE_PARAMS())"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, WorksWithoutValueParam)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (CreateNew, HAS_1_TEMPLATE_PARAMS(typename, T), AND_1_VALUE_PARAMS(a0))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, WorksWithValueParams)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (MyDeleteArg, HAS_1_TEMPLATE_PARAMS(int, k), AND_0_VALUE_PARAMS())"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, WorksForIntegralTemplateParams)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (ReturnSmartPointer, HAS_1_TEMPLATE_PARAMS(template< typename Pointee > class, Pointer), AND_1_VALUE_PARAMS(pointee))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, WorksForTemplateTemplateParameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (ReturnGiant, HAS_10_TEMPLATE_PARAMS(typename, T1, typename, T2, typename, T3, int, k4, bool, k5, unsigned int, k6, class, T7, class, T8, class, T9, template< typename T > class, T10), AND_1_VALUE_PARAMS(\fBvalue\fP))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, WorksFor10TemplateParameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (ReturnSum, HAS_1_TEMPLATE_PARAMS(typename, Number), AND_10_VALUE_PARAMS(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, WorksFor10ValueParameters)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION\fP (ReturnSum)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_P\fP (ReturnSum, \fBx\fP)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (ReturnSum, HAS_1_TEMPLATE_PARAMS(typename, Number), AND_2_VALUE_PARAMS(v1, v2))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (ReturnSum, HAS_1_TEMPLATE_PARAMS(typename, Number), AND_3_VALUE_PARAMS(v1, v2, v3))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::ACTION_TEMPLATE\fP (ReturnSum, HAS_2_TEMPLATE_PARAMS(typename, Number, int, k), AND_4_VALUE_PARAMS(v1, v2, v3, v4))"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_more_actions_test::TEST\fP (ActionTemplateTest, CanBeOverloadedOnNumberOfValueParameters)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "bool \fBtesting::gmock_more_actions_test::g_done\fP = false"
+.br
+.ti -1c
+.RI "const double \fBtesting::gmock_more_actions_test::g_double\fP = 0"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

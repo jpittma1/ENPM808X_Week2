@@ -1,0 +1,86 @@
+.TH "build/_deps/googletest-src/googlemock/include/gmock/gmock-spec-builders.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/include/gmock/gmock-spec-builders.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cstdint>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gmock/gmock\-actions\&.h'\fP
+.br
+\fC#include 'gmock/gmock\-cardinalities\&.h'\fP
+.br
+\fC#include 'gmock/gmock\-matchers\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-internal\-utils\&.h'\fP
+.br
+\fC#include 'gmock/internal/gmock\-port\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGMOCK_ON_CALL_IMPL_\fP(mock_expr,  Setter,  call)"
+.br
+.ti -1c
+.RI "#define \fBON_CALL\fP(obj,  call)     \fBGMOCK_ON_CALL_IMPL_\fP(obj, InternalDefaultActionSetAt, call)"
+.br
+.ti -1c
+.RI "#define \fBEXPECT_CALL\fP(obj,  call)     \fBGMOCK_ON_CALL_IMPL_\fP(obj, InternalExpectedAt, call)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGTEST_DISABLE_MSC_WARNINGS_PUSH_\fP (4251) namespace testing"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define EXPECT_CALL(obj, call)     \fBGMOCK_ON_CALL_IMPL_\fP(obj, InternalExpectedAt, call)"
+
+.SS "#define GMOCK_ON_CALL_IMPL_(mock_expr, Setter, call)"
+\fBValue:\fP
+.PP
+.nf
+  ((mock_expr)\&.gmock_##call)(::testing::internal::GetWithoutMatchers(), \
+                             nullptr)                                   \
+      \&.Setter(__FILE__, __LINE__, #mock_expr, #call)
+.fi
+.SS "#define ON_CALL(obj, call)     \fBGMOCK_ON_CALL_IMPL_\fP(obj, InternalDefaultActionSetAt, call)"
+
+.SH "Function Documentation"
+.PP 
+.SS "GTEST_DISABLE_MSC_WARNINGS_PUSH_ (4251 GMOCK_MAYBE_5046_)"
+
+.PP
+Definition at line 87 of file gmock\-spec\-builders\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

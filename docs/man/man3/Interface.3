@@ -1,0 +1,77 @@
+.TH "Interface" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Interface
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <gmock_link_test\&.h>\fP
+.PP
+Inherited by \fBMock\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~Interface\fP ()=default"
+.br
+.ti -1c
+.RI "virtual void \fBVoidFromString\fP (char *str)=0"
+.br
+.ti -1c
+.RI "virtual char * \fBStringFromString\fP (char *str)=0"
+.br
+.ti -1c
+.RI "virtual int \fBIntFromString\fP (char *str)=0"
+.br
+.ti -1c
+.RI "virtual int & \fBIntRefFromString\fP (char *str)=0"
+.br
+.ti -1c
+.RI "virtual void \fBVoidFromFunc\fP (void(*func)(char *str))=0"
+.br
+.ti -1c
+.RI "virtual void \fBVoidFromIntRef\fP (int &n)=0"
+.br
+.ti -1c
+.RI "virtual void \fBVoidFromFloat\fP (float n)=0"
+.br
+.ti -1c
+.RI "virtual void \fBVoidFromDouble\fP (double n)=0"
+.br
+.ti -1c
+.RI "virtual void \fBVoidFromVector\fP (const std::vector< int > &v)=0"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 195 of file gmock_link_test\&.h\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual Interface::~Interface ()\fC [virtual]\fP, \fC [default]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual int Interface::IntFromString (char * str)\fC [pure virtual]\fP"
+
+.SS "virtual int& Interface::IntRefFromString (char * str)\fC [pure virtual]\fP"
+
+.SS "virtual char* Interface::StringFromString (char * str)\fC [pure virtual]\fP"
+
+.SS "virtual void Interface::VoidFromDouble (double n)\fC [pure virtual]\fP"
+
+.SS "virtual void Interface::VoidFromFloat (float n)\fC [pure virtual]\fP"
+
+.SS "virtual void Interface::VoidFromFunc (void(*)(char *str) func)\fC [pure virtual]\fP"
+
+.SS "virtual void Interface::VoidFromIntRef (int & n)\fC [pure virtual]\fP"
+
+.SS "virtual void Interface::VoidFromString (char * str)\fC [pure virtual]\fP"
+
+.SS "virtual void Interface::VoidFromVector (const std::vector< int > & v)\fC [pure virtual]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

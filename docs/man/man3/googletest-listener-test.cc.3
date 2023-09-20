@@ -1,0 +1,85 @@
+.TH "build/_deps/googletest-src/googletest/test/googletest-listener-test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/test/googletest-listener-test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'gtest/internal/custom/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::EventRecordingListener\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::EventRecordingListener2\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::EnvironmentInvocationCatcher\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ListenerTest\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::internal::TEST_F\fP (ListenerTest, DoesFoo)"
+.br
+.ti -1c
+.RI "\fBtesting::internal::TEST_F\fP (ListenerTest, DoesBar)"
+.br
+.ti -1c
+.RI "void \fBVerifyResults\fP (const std::vector< std::string > &data, const char *const *expected_data, size_t expected_data_size)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "std::vector< std::string > * \fBg_events\fP = nullptr"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Definition at line 262 of file googletest\-listener\-test\&.cc\&.
+.SS "void VerifyResults (const std::vector< std::string > & data, const char *const * expected_data, size_t expected_data_size)"
+
+.PP
+Definition at line 239 of file googletest\-listener\-test\&.cc\&.
+.SH "Variable Documentation"
+.PP 
+.SS "std::vector<std::string>* g_events = nullptr"
+
+.PP
+Definition at line 46 of file googletest\-listener\-test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

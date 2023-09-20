@@ -1,0 +1,403 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock_link_test.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock_link_test.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include <errno\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBInterface\fP"
+.br
+.ti -1c
+.RI "class \fBMock\fP"
+.br
+.ti -1c
+.RI "class \fBInvokeHelper\fP"
+.br
+.ti -1c
+.RI "class \fBFieldHelper\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestReturnVoid)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestReturn)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestReturnNull)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestReturnRef)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestAssign)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestSetArgPointee)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestSetArrayArgument)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestSetErrnoAndReturn)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestInvoke)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestInvokeWithoutArgs)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestInvokeArgument)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestWithArg)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestWithArgs)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestWithoutArgs)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestDoAll)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestDoDefault)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestIgnoreResult)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestActionMacro)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestActionPMacro)"
+.br
+.ti -1c
+.RI "\fBGTEST_DISABLE_MSC_WARNINGS_POP_\fP () \fBTEST\fP(\fBLinkTest\fP"
+.br
+.ti -1c
+.RI "\fBWillOnce\fP (ReturnEqualsEitherOf('one', 'two'))"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherAnything)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherA)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatchersEq)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatchersRelations)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherNotNull)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherIsNull)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherRef)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherTypedEq)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatchersFloatingPoint)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherContainsRegex)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherMatchesRegex)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatchersSubstrings)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatchersStringEquality)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherElementsAre)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherElementsAreArray)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherIsSubsetOf)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherIsSupersetOf)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherContainerEq)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherField)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherProperty)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherResultOf)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherPointee)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherTruly)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherAllOf)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherAnyOf)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherNot)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (\fBLinkTest\fP, TestMatcherCast)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBTestActionP2Macro\fP"
+.br
+.ti -1c
+.RI "char \fBch\fP = '\fBx\fP'"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "GTEST_DISABLE_MSC_WARNINGS_POP_ ()"
+
+.SS "TEST (\fBLinkTest\fP, TestActionMacro)"
+
+.PP
+Definition at line 433 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestActionPMacro)"
+
+.PP
+Definition at line 445 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestAssign)"
+
+.PP
+Definition at line 281 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestDoAll)"
+
+.PP
+Definition at line 384 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestDoDefault)"
+
+.PP
+Definition at line 394 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestIgnoreResult)"
+
+.PP
+Definition at line 404 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestInvoke)"
+
+.PP
+Definition at line 324 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestInvokeArgument)"
+
+.PP
+Definition at line 349 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestInvokeWithoutArgs)"
+
+.PP
+Definition at line 336 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherA)"
+
+.PP
+Definition at line 478 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherAllOf)"
+
+.PP
+Definition at line 661 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherAnyOf)"
+
+.PP
+Definition at line 667 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherAnything)"
+
+.PP
+Definition at line 471 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherCast)"
+
+.PP
+Definition at line 679 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherContainerEq)"
+
+.PP
+Definition at line 611 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherContainsRegex)"
+
+.PP
+Definition at line 548 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherElementsAre)"
+
+.PP
+Definition at line 580 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherElementsAreArray)"
+
+.PP
+Definition at line 587 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherField)"
+
+.PP
+Definition at line 619 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherIsNull)"
+
+.PP
+Definition at line 512 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherIsSubsetOf)"
+
+.PP
+Definition at line 595 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherIsSupersetOf)"
+
+.PP
+Definition at line 603 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherMatchesRegex)"
+
+.PP
+Definition at line 555 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherNot)"
+
+.PP
+Definition at line 673 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherNotNull)"
+
+.PP
+Definition at line 505 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherPointee)"
+
+.PP
+Definition at line 647 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherProperty)"
+
+.PP
+Definition at line 630 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherRef)"
+
+.PP
+Definition at line 519 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherResultOf)"
+
+.PP
+Definition at line 641 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatchersEq)"
+
+.PP
+Definition at line 485 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatchersFloatingPoint)"
+
+.PP
+Definition at line 536 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatchersRelations)"
+
+.PP
+Definition at line 494 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatchersStringEquality)"
+
+.PP
+Definition at line 571 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatchersSubstrings)"
+
+.PP
+Definition at line 562 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherTruly)"
+
+.PP
+Definition at line 655 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestMatcherTypedEq)"
+
+.PP
+Definition at line 527 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestReturn)"
+
+.PP
+Definition at line 255 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestReturnNull)"
+
+.PP
+Definition at line 264 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestReturnRef)"
+
+.PP
+Definition at line 272 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestReturnVoid)"
+
+.PP
+Definition at line 247 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestSetArgPointee)"
+
+.PP
+Definition at line 290 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestSetArrayArgument)"
+
+.PP
+Definition at line 299 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestSetErrnoAndReturn)"
+
+.PP
+Definition at line 312 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestWithArg)"
+
+.PP
+Definition at line 358 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestWithArgs)"
+
+.PP
+Definition at line 367 of file gmock_link_test\&.h\&.
+.SS "TEST (\fBLinkTest\fP, TestWithoutArgs)"
+
+.PP
+Definition at line 376 of file gmock_link_test\&.h\&.
+.SS "WillOnce (ReturnEqualsEitherOf('one', 'two'))"
+
+.SH "Variable Documentation"
+.PP 
+.SS "mock IntFromString& ch = '\fBx\fP'"
+
+.PP
+Definition at line 463 of file gmock_link_test\&.h\&.
+.SS "TestActionP2Macro"
+\fBInitial value:\fP
+.PP
+.nf
+{
+  Mock mock
+.fi
+.PP
+Definition at line 461 of file gmock_link_test\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

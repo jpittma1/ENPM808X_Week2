@@ -1,0 +1,72 @@
+.TH "SequenceTestingListener" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SequenceTestingListener
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBtesting::EmptyTestEventListener\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSequenceTestingListener\fP (std::vector< std::string > *vector, const char *id)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBOnTestProgramStart\fP (const \fBUnitTest\fP &) override"
+.br
+.ti -1c
+.RI "void \fBOnTestProgramEnd\fP (const \fBUnitTest\fP &) override"
+.br
+.ti -1c
+.RI "void \fBOnTestIterationStart\fP (const \fBUnitTest\fP &, int) override"
+.br
+.ti -1c
+.RI "void \fBOnTestIterationEnd\fP (const \fBUnitTest\fP &, int) override"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 6884 of file gtest_unittest\&.cc\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SequenceTestingListener::SequenceTestingListener (std::vector< std::string > * vector, const char * id)\fC [inline]\fP"
+
+.PP
+Definition at line 6886 of file gtest_unittest\&.cc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void SequenceTestingListener::OnTestIterationEnd (const \fBUnitTest\fP &, int)\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::EmptyTestEventListener\fP\&.
+.PP
+Definition at line 6903 of file gtest_unittest\&.cc\&.
+.SS "void SequenceTestingListener::OnTestIterationStart (const \fBUnitTest\fP &, int)\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::EmptyTestEventListener\fP\&.
+.PP
+Definition at line 6898 of file gtest_unittest\&.cc\&.
+.SS "void SequenceTestingListener::OnTestProgramEnd (const \fBUnitTest\fP &)\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::EmptyTestEventListener\fP\&.
+.PP
+Definition at line 6894 of file gtest_unittest\&.cc\&.
+.SS "void SequenceTestingListener::OnTestProgramStart (const \fBUnitTest\fP &)\fC [inline]\fP, \fC [override]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::EmptyTestEventListener\fP\&.
+.PP
+Definition at line 6890 of file gtest_unittest\&.cc\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

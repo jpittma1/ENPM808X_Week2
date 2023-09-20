@@ -1,0 +1,320 @@
+.TH "build/_deps/googletest-src/googlemock/test/gmock-function-mocker_test.cc" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googlemock/test/gmock-function-mocker_test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmock/gmock\-function\-mocker\&.h'\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include 'gmock/gmock\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::TemplatedCopyable< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::FooInterface\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::MockFoo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::LegacyMockFoo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::MockB\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::LegacyMockB\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::ExpectCallTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::StackInterface< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::MockStack< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::LegacyMockStack< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::TemplateMockTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::MockOverloadedOnArgNumber\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::LegacyMockOverloadedOnArgNumber\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::OverloadedMockMethodTest< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::MockOverloadedOnConstness\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::gmock_function_mocker_test::MockMethodMockFunctionSignatureTest< F >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::AlternateCallable< F >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::MockMethodSizes0\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::MockMethodSizes1\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::MockMethodSizes2\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::MockMethodSizes3\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::MockMethodSizes4\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::LegacyMockMethodSizes0\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::LegacyMockMethodSizes1\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::LegacyMockMethodSizes2\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::LegacyMockMethodSizes3\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::LegacyMockMethodSizes4\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::gmock_function_mocker_test::MockMethodNoexceptSpecifier\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::gmock_function_mocker_test\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBMY_MOCK_METHODS1_\fP"
+.br
+.ti -1c
+.RI "#define \fBLEGACY_MY_MOCK_METHODS1_\fP"
+.br
+.ti -1c
+.RI "#define \fBMY_MOCK_METHODS2_\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBtesting::gmock_function_mocker_test::FunctionMockerTestTypes\fP = () template< class T > class FunctionMockerTest ::\fBtesting::Types\fP< \fBMockFoo\fP, LegacyMockFoo >"
+.br
+.ti -1c
+.RI "using \fBtesting::gmock_function_mocker_test::ExpectCallTestTypes\fP = ::\fBtesting::Types\fP< MockB, LegacyMockB >"
+.br
+.ti -1c
+.RI "using \fBtesting::gmock_function_mocker_test::TemplateMockTestTypes\fP = ::\fBtesting::Types\fP< MockStack< int >, LegacyMockStack< int > >"
+.br
+.ti -1c
+.RI "using \fBtesting::gmock_function_mocker_test::OverloadedMockMethodTestTypes\fP = ::\fBtesting::Types\fP< MockOverloadedOnArgNumber, LegacyMockOverloadedOnArgNumber >"
+.br
+.ti -1c
+.RI "using \fBtesting::gmock_function_mocker_test::MockMethodMockFunctionSignatureTypes\fP = Types< void(), int(), void(int), int(int), int(bool, int), int(bool, char, int, int, int, int, int, char, int, bool)>"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST_SUITE\fP (FunctionMockerTest, FunctionMockerTestTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksVoidFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksNullaryFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksUnaryFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksBinaryFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksDecimalFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksFunctionWithNonConstReferenceArgument)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksFunctionWithConstReferenceArgument)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksFunctionWithConstArgument)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksFunctionsOverloadedOnArgumentNumber)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksFunctionsOverloadedOnArgumentType)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksFunctionsOverloadedOnConstnessOfThis)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksReturnTypeWithComma)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (FunctionMockerTest, MocksTypeWithTemplatedCopyCtor)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (FunctionMockerTest, RefQualified)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST_SUITE\fP (ExpectCallTest, ExpectCallTestTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (ExpectCallTest, UnmentionedFunctionCanBeCalledAnyNumberOfTimes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST_SUITE\fP (TemplateMockTest, TemplateMockTestTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (TemplateMockTest, Works)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (TemplateMockTest, MethodWithCommaInReturnTypeWorks)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST_SUITE\fP (OverloadedMockMethodTest, OverloadedMockMethodTestTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (OverloadedMockMethodTest, CanOverloadOnArgNumberInMacroBody)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodOverloadedMockMethodTest, CanOverloadOnConstnessInMacroBody)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, WorksForVoidNullary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, WorksForNonVoidNullary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, WorksForVoidUnary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, WorksForNonVoidBinary)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, WorksFor10Arguments)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, AsStdFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, AsStdFunctionReturnsReference)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, AsStdFunctionWithReferenceParameter)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST_SUITE\fP (MockMethodMockFunctionSignatureTest, MockMethodMockFunctionSignatureTypes)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (MockMethodMockFunctionSignatureTest, IsMockFunctionTemplateArgumentDeducedForRawSignature)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (MockMethodMockFunctionSignatureTest, IsMockFunctionTemplateArgumentDeducedForStdFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (MockMethodMockFunctionSignatureTest, IsMockFunctionCallMethodSignatureTheSameForRawSignatureAndStdFunction)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (MockMethodMockFunctionSignatureTest, IsMockFunctionTemplateArgumentDeducedForAlternateCallable)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TYPED_TEST\fP (MockMethodMockFunctionSignatureTest, IsMockFunctionCallMethodSignatureTheSameForAlternateCallable)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, MockMethodSizeOverhead)"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, EnsureNoUnusedMemberFunction)"
+.br
+.ti -1c
+.RI "void \fBtesting::gmock_function_mocker_test::hasTwoParams\fP (int, int)"
+.br
+.ti -1c
+.RI "void \fBtesting::gmock_function_mocker_test::MaybeThrows\fP ()"
+.br
+.ti -1c
+.RI "void \fBtesting::gmock_function_mocker_test::DoesntThrow\fP () noexcept"
+.br
+.ti -1c
+.RI "\fBtesting::gmock_function_mocker_test::TEST\fP (MockMethodMockFunctionTest, NoexceptSpecifierPreserved)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define LEGACY_MY_MOCK_METHODS1_"
+\fBValue:\fP
+.PP
+.nf
+  MOCK_METHOD0(Overloaded, void());           \
+  MOCK_CONST_METHOD1(Overloaded, int(int n)); \
+  MOCK_METHOD2(Overloaded, bool(bool f, int n))
+.fi
+.PP
+Definition at line 707 of file gmock\-function\-mocker_test\&.cc\&.
+.SS "#define MY_MOCK_METHODS1_"
+\fBValue:\fP
+.PP
+.nf
+  MOCK_METHOD(void, Overloaded, ());            \
+  MOCK_METHOD(int, Overloaded, (int), (const)); \
+  MOCK_METHOD(bool, Overloaded, (bool f, int n))
+.fi
+.PP
+Definition at line 702 of file gmock\-function\-mocker_test\&.cc\&.
+.SS "#define MY_MOCK_METHODS2_"
+\fBValue:\fP
+.PP
+.nf
+  MOCK_CONST_METHOD1(Overloaded, int(int n)); \
+  MOCK_METHOD1(Overloaded, int(int n))
+.fi
+.PP
+Definition at line 755 of file gmock\-function\-mocker_test\&.cc\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.

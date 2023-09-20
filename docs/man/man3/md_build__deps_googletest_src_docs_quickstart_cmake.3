@@ -1,0 +1,144 @@
+.TH "md_build__deps_googletest_src_docs_quickstart_cmake" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_build__deps_googletest_src_docs_quickstart_cmake \- Quickstart: Building with CMake 
+This tutorial aims to get you up and running with GoogleTest using CMake\&. If you're using GoogleTest for the first time or need a refresher, we recommend this tutorial as a starting point\&. If your project uses Bazel, see the \fBQuickstart for Bazel\fP instead\&.
+.SH "Prerequisites"
+.PP
+To complete this tutorial, you'll need:
+.PP
+.IP "\(bu" 2
+A compatible operating system (e\&.g\&. Linux, macOS, Windows)\&.
+.IP "\(bu" 2
+A compatible C++ compiler that supports at least C++14\&.
+.IP "\(bu" 2
+\fCCMake\fP and a compatible build tool for building the project\&.
+.IP "  \(bu" 4
+Compatible build tools include \fCMake\fP, \fCNinja\fP, and others - see \fCCMake Generators\fP for more information\&.
+.PP
+
+.PP
+.PP
+See \fBSupported Platforms\fP for more information about platforms compatible with GoogleTest\&.
+.PP
+If you don't already have CMake installed, see the \fCCMake installation guide\fP\&.
+.PP
+{: \&.callout \&.note} Note: The terminal commands in this tutorial show a Unix shell prompt, but the commands work on the Windows command line as well\&.
+.SH "Set up a project"
+.PP
+CMake uses a file named \fCCMakeLists\&.txt\fP to configure the build system for a project\&. You'll use this file to set up your project and declare a dependency on GoogleTest\&.
+.PP
+First, create a directory for your project:
+.PP
+.PP
+.nf
+$ mkdir my_project && cd my_project
+.fi
+.PP
+.PP
+Next, you'll create the \fCCMakeLists\&.txt\fP file and declare a dependency on GoogleTest\&. There are many ways to express dependencies in the CMake ecosystem; in this quickstart, you'll use the \fC\fCFetchContent\fP CMake module\fP\&. To do this, in your project directory (\fCmy_project\fP), create a file named \fCCMakeLists\&.txt\fP with the following contents:
+.PP
+.PP
+.nf
+cmake_minimum_required(VERSION 3\&.14)
+project(my_project)
+
+# GoogleTest requires at least C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github\&.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395\&.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+.fi
+.PP
+.PP
+The above configuration declares a dependency on GoogleTest which is downloaded from GitHub\&. In the above example, \fC03597a01ee50ed33e9dfd640b249b4be3799d395\fP is the Git commit hash of the GoogleTest version to use; we recommend updating the hash often to point to the latest version\&.
+.PP
+For more information about how to create \fCCMakeLists\&.txt\fP files, see the \fCCMake Tutorial\fP\&.
+.SH "Create and run a binary"
+.PP
+With GoogleTest declared as a dependency, you can use GoogleTest code within your own project\&.
+.PP
+As an example, create a file named \fChello_test\&.cc\fP in your \fCmy_project\fP directory with the following contents:
+.PP
+.PP
+.nf
+#include <gtest/gtest\&.h>
+
+// Demonstrate some basic assertions\&.
+TEST(HelloTest, BasicAssertions) {
+  // Expect two strings not to be equal\&.
+  EXPECT_STRNE("hello", "world");
+  // Expect equality\&.
+  EXPECT_EQ(7 * 6, 42);
+}
+.fi
+.PP
+.PP
+GoogleTest provides \fCassertions\fP that you use to test the behavior of your code\&. The above sample includes the main GoogleTest header file and demonstrates some basic assertions\&.
+.PP
+To build the code, add the following to the end of your \fCCMakeLists\&.txt\fP file:
+.PP
+.PP
+.nf
+enable_testing()
+
+add_executable(
+  hello_test
+  hello_test\&.cc
+)
+target_link_libraries(
+  hello_test
+  GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(hello_test)
+.fi
+.PP
+.PP
+The above configuration enables testing in CMake, declares the C++ test binary you want to build (\fChello_test\fP), and links it to GoogleTest (\fCgtest_main\fP)\&. The last two lines enable CMake's test runner to discover the tests included in the binary, using the \fC\fCGoogleTest\fP CMake module\fP\&.
+.PP
+Now you can build and run your test:
+.PP
+.PP
+.nf
+
+\fBmy_project$ cmake -S \&. -B build\fP
+-- The C compiler identification is GNU 10\&.2\&.1
+-- The CXX compiler identification is GNU 10\&.2\&.1
+\&.\&.\&.
+-- Build files have been written to: \&.\&.\&./my_project/build
+
+\fBmy_project$ cmake --build build\fP
+Scanning dependencies of target gtest
+\&.\&.\&.
+[100%] Built target gmock_main
+
+\fBmy_project$ cd build && ctest\fP
+Test project \&.\&.\&./my_project/build
+    Start 1: HelloTest\&.BasicAssertions
+1/1 Test #1: HelloTest\&.BasicAssertions \&.\&.\&.\&.\&.\&.\&.\&.   Passed    0\&.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0\&.01 sec
+.fi
+.PP
+.PP
+Congratulations! You've successfully built and run a test binary using GoogleTest\&.
+.SH "Next steps"
+.PP
+.IP "\(bu" 2
+\fBCheck out the Primer\fP to start learning how to write simple tests\&.
+.IP "\(bu" 2
+\fBSee the code samples\fP for more examples showing how to use a variety of GoogleTest features\&. 
+.PP
+

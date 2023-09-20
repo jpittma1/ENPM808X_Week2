@@ -1,0 +1,109 @@
+.TH "build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h" 3 "Tue Sep 12 2023" "Week2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <typeinfo>\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtesting::internal::None\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::TemplateSel< Tmpl >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::TemplateSel< Tmpl >::Bind< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::Templates< Head_, Tail_ >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::Templates< Head_ >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::Types< Head_, Tail_ >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::Types< Head_ >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ProxyTypeList< Ts >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::is_proxy_type_list< typename >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::is_proxy_type_list< ProxyTypeList< Ts\&.\&.\&. > >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::GenerateTypeList< T >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_TEMPLATE_\fP"
+.br
+.ti -1c
+.RI "#define \fBGTEST_BIND_\fP(TmplSel,  T)   TmplSel::template Bind<T>::type"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "template<typename\&.\&.\&. Ts> using \fBtesting::Types\fP = internal::ProxyTypeList< Ts\&.\&.\&. >"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBtesting::internal::CanonicalizeForStdLibVersioning\fP (std::string s)"
+.br
+.ti -1c
+.RI "template<typename T > std::string \fBtesting::internal::GetTypeName\fP ()"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_BIND_(TmplSel, T)   TmplSel::template Bind<T>::type"
+
+.PP
+Definition at line 160 of file gtest\-type\-util\&.h\&.
+.SS "#define GTEST_TEMPLATE_"
+\fBValue:\fP
+.PP
+.nf
+  template <typename T> \
+  class
+.fi
+.PP
+Definition at line 140 of file gtest\-type\-util\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Week2 from the source code\&.
