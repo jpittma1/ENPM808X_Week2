@@ -2,6 +2,16 @@
 // UMD-CP PMRO ENPM808X Fall 2024
 // Problem 1-1 (Software Engineering 3.10)
 
+/**
+ * @file main.cpp
+ * @author Jerry Pittman, Jr. (jpittma1@umd.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2023-09-26
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include "gradebook.hpp"
 #include <gradebook.hpp>
 
